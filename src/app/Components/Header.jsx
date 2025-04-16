@@ -15,7 +15,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("")
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const searchRef = useRef(null)
 
@@ -28,9 +28,12 @@ export default function Header() {
     { text: "Laptop bag", category: "Bags" },
   ]
 
+  // Fix for hydration mismatch with theme - needs to be in a separate useEffect
   useEffect(() => {
     setMounted(true)
+  }, [])
 
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
@@ -60,6 +63,15 @@ export default function Header() {
     setShowSuggestions(false)
   }
 
+  // Define common link class for reuse
+  const navLinkClass = "relative text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group";
+  const navLinkSpanClass = "absolute inset-x-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left";
+
+  // Function to toggle theme
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  }
+
   return (
     <header
       className={cn(
@@ -74,23 +86,28 @@ export default function Header() {
             <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">SHOPIFY</span>
           </Link>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Individual links instead of using map */}
           <nav className="hidden md:flex items-center space-x-8">
-            {["Home", "Shop", "Categories", "About", "Contact"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}
-                className="relative text-sm font-medium text-foreground/80 hover:text-foreground transition-colors group"
-              >
-                {item}
-                <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
-              </Link>
-            ))}
+            <Link href="/home" className={navLinkClass}>
+              Home
+              <span className={navLinkSpanClass}></span>
+            </Link>
+            <Link href="/shop" className={navLinkClass}>
+              Shop
+              <span className={navLinkSpanClass}></span>
+            </Link>
+            <Link href="/categories" className={navLinkClass}>
+              Categories
+              <span className={navLinkSpanClass}></span>
+            </Link>
+            <Link href="/about" className={navLinkClass}>
+              About
+              <span className={navLinkSpanClass}></span>
+            </Link>
+            <Link href="/contact" className={navLinkClass}>
+              Contact
+              <span className={navLinkSpanClass}></span>
+            </Link>
           </nav>
 
           {/* Search Bar - Desktop */}
@@ -129,22 +146,28 @@ export default function Header() {
             )}
           </div>
 
-          {/* Right Side Icons */}
+          {/* Right Side Icons including mobile menu button */}
           <div className="flex items-center space-x-2 md:space-x-4">
-            {/* Theme Toggle */}
+            {/* Mobile menu button - Moved to be aligned with other icons */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden rounded-full"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </Button>
+
+            {/* Theme Toggle - Simplified to direct button for reliability */}
             {mounted && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full" 
+                onClick={toggleTheme}
+              >
+                {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </Button>
             )}
 
             {/* Wishlist - Hidden on mobile */}
@@ -195,18 +218,43 @@ export default function Header() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             </div>
 
-            {/* Mobile Navigation */}
+            {/* Mobile Navigation - Individual links instead of map */}
             <nav className="flex flex-col space-y-1">
-              {["Home", "Shop", "Categories", "About", "Contact"].map((item) => (
-                <Link
-                  key={item}
-                  href={`/${item.toLowerCase()}`}
-                  className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item}
-                </Link>
-              ))}
+              <Link
+                href="/home"
+                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                href="/shop"
+                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Shop
+              </Link>
+              <Link
+                href="/categories"
+                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Categories
+              </Link>
+              <Link
+                href="/about"
+                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
             </nav>
 
             <div className="flex space-x-2 pt-2">

@@ -1,6 +1,9 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import { ThemeProvider } from "next-themes";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -19,12 +22,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-           <Toaster/>
+      
+        <ThemeProvider
+         attribute="class" 
+         defaultTheme="system" 
+         enableSystem
+         disableTransitionOnChange>
+            <Header/>
+          {children}
+          <Toaster/>
+          <Footer/>
+        </ThemeProvider >
+          
       </body>
     </html>
   );

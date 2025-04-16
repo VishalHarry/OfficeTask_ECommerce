@@ -4,11 +4,11 @@ import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
-
+import { useRouter } from "next/navigation"
 export default function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
-
+const router=useRouter();
   const slides = [
     {
       image: "https://img.freepik.com/premium-photo/top-view-online-shopping-concept-with-credit-card-smart-phone-computer-isolated-office-yellow-table-background_315337-3591.jpg?w=1380",
@@ -72,14 +72,14 @@ export default function HeroSection() {
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">{slide.title}</h1>
             <p className="text-lg md:text-xl max-w-2xl mb-8 text-white/90">{slide.subtitle}</p>
-            <Button size="lg" className="rounded-full text-lg px-8 group">
+            <Button size="lg" className="rounded-full text-lg px-8 group" onClick={()=>{router.push("/product")}}>
               {slide.cta}
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
         ))}
       </div>
-
+    
       {/* Slide Indicators */}
       <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-30">
         {slides.map((_, index) => (

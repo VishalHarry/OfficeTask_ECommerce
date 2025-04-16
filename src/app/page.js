@@ -10,12 +10,13 @@ import NewsletterSection from "./Components/NewsletterSection";
 
 
 export default function Home() {
+  
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
      
       <div className="min-h-screen flex flex-col">
    
-        <Header />
+        
         <main className="flex-grow">
           <HeroSection/>
           <LiveDealBanner/>
@@ -26,7 +27,7 @@ export default function Home() {
            <NewsletterSection/>
           </div>
         </main>
-        <Footer />
+      
         
       </div>
     </ThemeProvider>
