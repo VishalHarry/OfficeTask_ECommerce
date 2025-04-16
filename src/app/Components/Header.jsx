@@ -88,18 +88,15 @@ export default function Header() {
 
           {/* Desktop Navigation - Individual links instead of using map */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/home" className={navLinkClass}>
+            <Link href="/" className={navLinkClass}>
               Home
               <span className={navLinkSpanClass}></span>
             </Link>
-            <Link href="/shop" className={navLinkClass}>
+            <Link href="/product" className={navLinkClass}>
               Shop
               <span className={navLinkSpanClass}></span>
             </Link>
-            <Link href="/categories" className={navLinkClass}>
-              Categories
-              <span className={navLinkSpanClass}></span>
-            </Link>
+            
             <Link href="/about" className={navLinkClass}>
               About
               <span className={navLinkSpanClass}></span>
