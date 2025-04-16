@@ -11,19 +11,19 @@ export default function HeroSection() {
 
   const slides = [
     {
-      image: "/placeholder.svg?height=1080&width=1920",
+      image: "https://img.freepik.com/premium-photo/top-view-online-shopping-concept-with-credit-card-smart-phone-computer-isolated-office-yellow-table-background_315337-3591.jpg?w=1380",
       title: "Discover Your Style",
       subtitle: "Premium quality products with free worldwide shipping and returns",
       cta: "Explore Collection",
     },
     {
-      image: "/placeholder.svg?height=1080&width=1920",
+      image: "https://img.freepik.com/free-photo/shopping-concept-close-up-portrait-young-beautiful-attractive-redhair-girl-smiling-looking-camera_1258-132679.jpg?t=st=1744770149~exp=1744773749~hmac=3493f5fdb13fe720b7c32b23b0519b6ce60c065c0dbd5151cee0fbc9bd84bf27&w=1380",
       title: "Summer Essentials",
       subtitle: "Beat the heat with our curated selection of summer must-haves",
       cta: "Shop Now",
     },
     {
-      image: "/placeholder.svg?height=1080&width=1920",
+      image: "https://img.freepik.com/premium-photo/world-sale-internet-sales-concept-supermarket-cart-with-earth-globe-blue-background-world-trade-delivery-purchases_90380-743.jpg?w=1380",
       title: "New Arrivals",
       subtitle: "Be the first to experience our latest products and designs",
       cta: "View New Items",

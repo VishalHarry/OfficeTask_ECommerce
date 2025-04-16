@@ -17,7 +17,7 @@ const products = [
     name: "Premium Wireless Headphones",
     price: 199.99,
     rating: 4.8,
-    image: "/placeholder.svg?height=400&width=400",
+    image: "https://cdn.mos.cms.futurecdn.net/fsDKHB3ZyNJK6zMpDDBenB-970-80.jpg.webp",
     trending: true,
     stock: 15,
     description:
@@ -28,7 +28,7 @@ const products = [
     name: "Smart Fitness Watch",
     price: 149.99,
     rating: 4.5,
-    image: "/placeholder.svg?height=400&width=400",
+    image: "https://imgs.search.brave.com/2RvVS9HqJ1feCf_ZkP7nGqVfxdas_bUv2kIjiyV8Ovo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NjErMHE5bFhhbEwu/anBn",
     trending: true,
     stock: 2,
     description:
@@ -39,7 +39,7 @@ const products = [
     name: "Leather Laptop Bag",
     price: 89.99,
     rating: 4.7,
-    image: "/placeholder.svg?height=400&width=400",
+    image: "https://imgs.search.brave.com/LarxboZktNH9fRU-hE3nbjn5gf4tm_H1ciovXkUw-vA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzEwcjc0TVAyakwu/anBn",
     trending: false,
     stock: 8,
     description: "Stylish and durable leather laptop bag with multiple compartments for all your essentials.",
@@ -49,7 +49,7 @@ const products = [
     name: "Portable Bluetooth Speaker",
     price: 79.99,
     rating: 4.6,
-    image: "/placeholder.svg?height=400&width=400",
+    image: "https://imgs.search.brave.com/GWppExAVo_olUPPkMrvKsHtxidXFgvyasZWwGUNP7ww/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pNS53/YWxtYXJ0aW1hZ2Vz/LmNvbS9zZW8vVklM/SU5JQ0UtQmx1ZXRv/b3RoLVNwZWFrZXIt/UG9ydGFibGUtSVBY/Ny1XYXRlcnByb29m/LVdpcmVsZXNzLU91/dGRvb3ItU3BlYWtl/ci1UV1MtUGFpcmlu/Zy0xMkgtUGxheXRp/bWUtQmxhY2tfYTJh/NGFkYTYtNjZkNS00/NmU0LWJmZDgtNzAy/OGI5YWEyZWRhLjRj/NWQ1ZDg4MWU5Y2M1/OGI0MWU1N2U2NDZk/ODg5YzE5LmpwZWc_/b2RuSGVpZ2h0PTY0/MCZvZG5XaWR0aD02/NDAmb2RuQmc9RkZG/RkZG",
     trending: true,
     stock: 1,
     description:
@@ -60,7 +60,7 @@ const products = [
     name: "Minimalist Desk Lamp",
     price: 59.99,
     rating: 4.4,
-    image: "/placeholder.svg?height=400&width=400",
+    image: "https://imgs.search.brave.com/14X1I5U5xNYXe96x_0d-hfHysYg-rwHthcWHKtf_VEQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzI3MzQyODg4L3Iv/aWwvMGNhNGRkLzU0/OTE4MTQyNDEvaWxf/NjAweDYwMC41NDkx/ODE0MjQxX3MxcDEu/anBn",
     trending: false,
     stock: 12,
     description: "Modern desk lamp with adjustable brightness and color temperature. USB charging port included.",
@@ -102,7 +102,7 @@ export default function FeaturedProducts() {
     //   title: "Added to cart",
     //   description: `${product.name} has been added to your cart.`,
     // })
-    toast.success("Item Added to cart  `${product.name}`")
+    toast.success(`Item Added to cart ${product.name}`)
   }
 
   const handleAddToWishlist = (e, product) => {
@@ -174,7 +174,7 @@ export default function FeaturedProducts() {
                 <div className="bg-background rounded-lg border border-border overflow-hidden group cursor-pointer h-full flex flex-col">
                   <div className="relative h-64 overflow-hidden">
                     <Image
-                      src={product.image || "/placeholder.svg"}
+                      src={product.image}
                       alt={product.name}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -271,11 +271,11 @@ export default function FeaturedProducts() {
                 </div>
 
                 <div className="space-y-2">
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={(e) => handleAddToCart(e, selectedProduct)}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Add to Cart
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={(e) => handleAddToWishlist(e, selectedProduct)}>
                     <Heart className="mr-2 h-4 w-4" />
                     Add to Wishlist
                   </Button>
