@@ -23,7 +23,7 @@ const SalesPopup = () => {
     }, 7000); // change popup every 7 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fakePurchases.length]);
 
   const { name, city, time } = fakePurchases[currentIndex];
 

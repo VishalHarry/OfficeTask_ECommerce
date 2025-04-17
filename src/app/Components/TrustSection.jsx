@@ -26,7 +26,7 @@ const trustItems = [
   {
     icon: Clock,
     title: "24/7 Support",
-    description: "We're always here to help",
+    description: "We&apos;re always here to help",
     gradient: "from-green-500 to-emerald-400",
   },
 ]
@@ -36,31 +36,33 @@ export default function TrustSection() {
   const sectionRef = useRef(null)
 
   useEffect(() => {
+    const section = sectionRef.current; // ✅ Save current ref value to a variable
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          // Stagger the animation of each item
           trustItems.forEach((_, index) => {
             setTimeout(() => {
-              setVisibleItems((prev) => [...prev, index])
-            }, index * 200)
-          })
-          observer.disconnect()
+              setVisibleItems((prev) => [...prev, index]);
+            }, index * 200);
+          });
+          observer.disconnect();
         }
       },
-      { threshold: 0.1 },
-    )
+      { threshold: 0.1 }
+    );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+    if (section) {
+      observer.observe(section);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.disconnect()
+      if (section) {
+        observer.disconnect(); // ✅ Use saved value instead of possibly stale ref
       }
-    }
-  }, [])
+    };
+  }, []);
+
 
   return (
     <section ref={sectionRef} className="rounded-xl overflow-hidden">

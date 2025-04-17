@@ -17,9 +17,9 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/10 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">We're Redefining Online Shopping</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">We&apos;re Redefining Online Shopping</h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-            At EDUKAN, we're passionate about delivering exceptional products and experiences that make everyday life
+            At EDUKAN, we&apos;re passionate about delivering exceptional products and experiences that make everyday life
             better.
           </p>
           <Link
@@ -44,12 +44,12 @@ export default function AboutPage() {
                 serving customers worldwide.
               </p>
               <p className="text-muted-foreground mb-6">
-                Our journey hasn't always been easy, but our commitment to quality, innovation, and customer
-                satisfaction has never wavered. We've learned, adapted, and evolved to become the company we are today.
+                Our journey hasn&apos;t always been easy, but our commitment to quality, innovation, and customer
+                satisfaction has never wavered. We&apos;ve learned, adapted, and evolved to become the company we are today.
               </p>
               <p className="text-muted-foreground">
                 As we continue to grow, we remain dedicated to our core values and the customers who have supported us
-                along the way. We're excited about the future and the opportunity to keep serving you better.
+                along the way. We&apos;re excited about the future and the opportunity to keep serving you better.
               </p>
             </div>
             <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
@@ -70,7 +70,7 @@ export default function AboutPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Our Mission & Values</h2>
             <p className="text-muted-foreground max-w-3xl mx-auto">
-              We're guided by a set of principles that define who we are and how we operate. These values shape our
+              We&apos;re guided by a set of principles that define who we are and how we operate. These values shape our
               decisions, influence our actions, and drive our commitment to excellence.
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function AboutPage() {
               <h3 className="text-xl font-semibold mb-4">Customer First</h3>
               <p className="text-muted-foreground">
                 We believe in putting our customers at the center of everything we do. Your satisfaction is our top
-                priority, and we're committed to exceeding your expectations at every turn.
+                priority, and we&apos;re committed to exceeding your expectations at every turn.
               </p>
             </div>
 
@@ -93,8 +93,8 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Quality & Innovation</h3>
               <p className="text-muted-foreground">
-                We're dedicated to offering high-quality products and continuously innovating to improve our offerings.
-                We never settle for "good enough" when we can strive for excellence.
+                We&apos;re dedicated to offering high-quality products and continuously innovating to improve our offerings.
+                We never settle for good enough when we can strive for excellence.
               </p>
             </div>
 
@@ -104,7 +104,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Sustainability</h3>
               <p className="text-muted-foreground">
-                We're committed to sustainable practices throughout our business. From eco-friendly packaging to
+                We&apos;re committed to sustainable practices throughout our business. From eco-friendly packaging to
                 responsible sourcing, we strive to minimize our environmental impact and create a better future.
               </p>
             </div>
@@ -168,8 +168,8 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Join Our Journey</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            We're always looking for talented individuals to join our team. If you're passionate about e-commerce and
-            want to make a difference, we'd love to hear from you.
+            We&apos;re always looking for talented individuals to join our team. If you&apos;re passionate about e-commerce and
+            want to make a difference, we&apos;d love to hear from you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

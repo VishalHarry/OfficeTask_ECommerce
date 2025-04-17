@@ -47,7 +47,7 @@ export default function ProductGrid({ products, isLoading }) {
           {products.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <h3 className="text-xl font-semibold mb-2">No products found</h3>
-              <p className="text-muted-foreground">Try adjusting your filters to find what you're looking for.</p>
+              <p className="text-muted-foreground">Try adjusting your filters to find what you&apos;re looking for.</p>
             </div>
           ) : (
             <>

@@ -58,7 +58,7 @@ export default function CategoryGrid() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold">Shop by Category</h2>
-          <p className="text-muted-foreground mt-1">Find exactly what you're looking for</p>
+          <p className="text-muted-foreground mt-1">Find exactly what you&apos;re looking for</p>
         </div>
       </div>
 
