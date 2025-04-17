@@ -12,7 +12,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center mb-4">
               <Mountain className="h-6 w-6 mr-2" />
               <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
-                SHOPIFY
+              EDUKAN
               </span>
             </Link>
             <p className="text-muted-foreground max-w-xs">
@@ -87,7 +87,7 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-2">Customer Support</h3>
             <p className="text-muted-foreground mb-2">Need help? Contact our support team</p>
             <Link href="mailto:support@shopify.com" className="text-primary hover:underline">
-              support@shopify.com
+              support@edukan.com
             </Link>
           </div>
         </div>

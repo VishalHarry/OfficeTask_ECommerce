@@ -83,7 +83,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="font-bold text-xl transition-transform hover:translate-y-[-2px] flex items-center">
-            <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">SHOPIFY</span>
+            <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">EDUKAN</span>
           </Link>
 
           {/* Desktop Navigation - Individual links instead of using map */}

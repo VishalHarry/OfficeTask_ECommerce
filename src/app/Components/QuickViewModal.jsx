@@ -7,6 +7,7 @@ import Image from "next/image"
 import { Star, X, Heart, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import {toast} from "sonner"
 
 export default function ProductQuickView({ product, isOpen, onClose }) {
 
@@ -34,6 +35,7 @@ export default function ProductQuickView({ product, isOpen, onClose }) {
     //   title: "Added to cart",
     //   description: `${product.name} has been added to your cart.`,
     // })
+    toast.success(`${product.name} has been added to your cart.`)
   }
 
   const handleAddToWishlist = () => {
@@ -41,6 +43,7 @@ export default function ProductQuickView({ product, isOpen, onClose }) {
     //   title: "Added to wishlist",
     //   description: `${product.name} has been added to your wishlist.`,
     // })
+    toast.success(`${product.name} has been added to your wishlist.`)
   }
 
   const renderStars = (rating) => {

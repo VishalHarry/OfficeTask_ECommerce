@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 // import { useToast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
+import {toast} from "sonner"
 
 export default function ProductCard({ product, onQuickView }) {
   const [isHovered, setIsHovered] = useState(false)
@@ -19,6 +20,7 @@ export default function ProductCard({ product, onQuickView }) {
     //   title: "Added to cart",
     //   description: `${product.name} has been added to your cart.`,
     // })
+    toast.success(`${product.name} has been added to your cart.`)
   }
 
   const handleToggleWishlist = (e) => {
@@ -28,6 +30,7 @@ export default function ProductCard({ product, onQuickView }) {
     //   title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
     //   description: `${product.name} has been ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
     // })
+    toast.success(`${product.name} has been ${isWishlisted ? "removed from" : "added to"} your wishlist.`)
   }
 
   const renderStars = (rating) => {
