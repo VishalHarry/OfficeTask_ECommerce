@@ -96,7 +96,7 @@ export default function Header() {
               Shop
               <span className={navLinkSpanClass}></span>
             </Link>
-            
+
             <Link href="/about" className={navLinkClass}>
               About
               <span className={navLinkSpanClass}></span>
@@ -146,9 +146,9 @@ export default function Header() {
           {/* Right Side Icons including mobile menu button */}
           <div className="flex items-center space-x-2 md:space-x-4">
             {/* Mobile menu button - Moved to be aligned with other icons */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="md:hidden rounded-full"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -157,10 +157,10 @@ export default function Header() {
 
             {/* Theme Toggle - Simplified to direct button for reliability */}
             {mounted && (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="rounded-full" 
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full"
                 onClick={toggleTheme}
               >
                 {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -189,12 +189,12 @@ export default function Header() {
             </Button>
 
             {/* Login/Signup */}
-            <Button
-              size="sm"
-              className="rounded-full hidden md:flex bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
+            <Link
+              href="/login"
+              className="rounded-full hidden md:flex bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 px-4 py-2 text-sm items-center justify-center"
             >
               Login / Signup
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
@@ -266,9 +266,11 @@ export default function Header() {
             </div>
 
             {/* Login/Signup Button */}
-            <Button className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+            <Link 
+            href="/"
+            className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
               Login / Signup
-            </Button>
+            </Link>
           </div>
         </div>
       )}
