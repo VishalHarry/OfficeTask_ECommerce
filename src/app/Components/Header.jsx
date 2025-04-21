@@ -184,9 +184,15 @@ export default function Header() {
             </Button>
 
             {/* User Account - Hidden on mobile */}
-            <Button variant="ghost" size="icon" className="rounded-full hidden md:flex">
+            <Link
+              href="/admin"
+              variant="ghost"
+              size="icon"
+              className="hidden md:flex items-center justify-center rounded-full"
+            >
               <User size={20} />
-            </Button>
+            </Link>
+
 
             {/* Login/Signup */}
             <Link
@@ -259,16 +265,20 @@ export default function Header() {
                 <Heart size={16} className="mr-2" />
                 Wishlist
               </Button>
-              <Button variant="outline" size="sm" className="flex-1 rounded-lg">
+              <Link
+                href="/admin"
+                className="flex items-center flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm shadow-sm hover:bg-accent hover:text-accent-foreground"
+              >
                 <User size={16} className="mr-2" />
                 Account
-              </Button>
+              </Link>
+
             </div>
 
             {/* Login/Signup Button */}
-            <Link 
-            href="/"
-            className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+            <Link
+              href="/"
+              className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
               Login / Signup
             </Link>
           </div>
