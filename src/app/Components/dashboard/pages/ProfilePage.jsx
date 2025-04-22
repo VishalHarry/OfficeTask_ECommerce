@@ -59,6 +59,7 @@ export default function ProfilePage() {
     e.preventDefault()
     // Save profile changes
     setIsEditingProfile(false)
+    
   }
 
   const handlePasswordSubmit = (e) => {
