@@ -1,161 +1,214 @@
 "use client"
 
 import { useState } from "react"
-import { Check, ShoppingBag, Truck, Tag, CreditCard, Trash2, Bell } from "lucide-react"
+import { Bell, ShoppingBag, CreditCard, AlertCircle, Check } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 
 export default function NotificationsPage() {
-  // Mock notifications data
   const [notifications, setNotifications] = useState([
     {
       id: 1,
       type: "order",
-      title: "Your order has been shipped",
-      message: "Order #12345 has been shipped and is on its way to you.",
-      time: "2 hours ago",
+      title: "Order #12345 has shipped",
+      message: "Your order has been shipped and will arrive in 2-3 business days.",
+      date: "2023-06-15T10:30:00",
       isRead: false,
-      icon: Truck,
     },
     {
       id: 2,
-      type: "promo",
-      title: "Flash Sale: 50% OFF",
-      message: "Don't miss our 24-hour flash sale with up to 50% off on selected items.",
-      time: "1 day ago",
-      isRead: false,
-      icon: Tag,
+      type: "payment",
+      title: "Payment successful",
+      message: "Your payment of $149.99 has been processed successfully.",
+      date: "2023-06-14T15:45:00",
+      isRead: true,
     },
     {
       id: 3,
-      type: "order",
-      title: "Order Delivered",
-      message: "Your order #12344 has been delivered. Enjoy your purchase!",
-      time: "3 days ago",
-      isRead: true,
-      icon: ShoppingBag,
+      type: "alert",
+      title: "Security alert",
+      message: "We detected a login from a new device. Please verify if this was you.",
+      date: "2023-06-13T08:20:00",
+      isRead: false,
     },
     {
       id: 4,
-      type: "payment",
-      title: "Payment Successful",
-      message: "Your payment of $89.97 was successfully processed.",
-      time: "1 week ago",
+      type: "order",
+      title: "Order #12344 delivered",
+      message: "Your order has been delivered. Enjoy your purchase!",
+      date: "2023-06-10T14:15:00",
       isRead: true,
-      icon: CreditCard,
+    },
+    {
+      id: 5,
+      type: "alert",
+      title: "Password changed",
+      message: "Your account password was changed successfully.",
+      date: "2023-06-08T11:30:00",
+      isRead: true,
     },
   ])
 
-  const markAsRead = (notificationId) => {
+  const [confirmClearDialog, setConfirmClearDialog] = useState(false)
+  const [selectedNotification, setSelectedNotification] = useState(null)
+
+  const handleMarkAsRead = (id) => {
     setNotifications(
-      notifications.map((notification) =>
-        notification.id === notificationId ? { ...notification, isRead: true } : notification,
-      ),
+      notifications.map((notification) => (notification.id === id ? { ...notification, isRead: true } : notification)),
     )
   }
 
-  const markAllAsRead = () => {
+  const handleMarkAllAsRead = () => {
     setNotifications(notifications.map((notification) => ({ ...notification, isRead: true })))
   }
 
-  const deleteNotification = (notificationId) => {
-    setNotifications(notifications.filter((notification) => notification.id !== notificationId))
+  const handleClearAll = () => {
+    setConfirmClearDialog(true)
   }
 
-  const clearAllNotifications = () => {
+  const confirmClear = () => {
     setNotifications([])
+    setConfirmClearDialog(false)
   }
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length
+  const handleViewNotification = (notification) => {
+    setSelectedNotification(notification)
+    if (!notification.isRead) {
+      handleMarkAsRead(notification.id)
+    }
+  }
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    }).format(date)
+  }
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case "order":
+        return <ShoppingBag className="h-5 w-5 text-blue-500" />
+      case "payment":
+        return <CreditCard className="h-5 w-5 text-green-500" />
+      case "alert":
+        return <AlertCircle className="h-5 w-5 text-red-500" />
+      default:
+        return <Bell className="h-5 w-5 text-gray-500" />
+    }
+  }
+
+  const unreadCount = notifications.filter((notification) => !notification.isRead).length
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center">
-              <h2 className="text-xl font-semibold">Notifications</h2>
-              {unreadCount > 0 && (
-                <span className="ml-2 px-2 py-0.5 bg-primary text-white text-xs rounded-full">{unreadCount} new</span>
-              )}
-            </div>
-
-            <div className="flex space-x-2">
-              {unreadCount > 0 && (
-                <button onClick={markAllAsRead} className="text-sm text-primary hover:underline flex items-center">
-                  <Check size={14} className="mr-1" />
-                  Mark all as read
-                </button>
-              )}
-              {notifications.length > 0 && (
-                <button
-                  onClick={clearAllNotifications}
-                  className="text-sm text-gray-600 hover:text-red-500 hover:underline flex items-center"
-                >
-                  <Trash2 size={14} className="mr-1" />
-                  Clear all
-                </button>
-              )}
-            </div>
-          </div>
-
-          {notifications.length > 0 ? (
-            <div className="space-y-4">
-              {notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`border rounded-lg p-4 transition-colors ${
-                    notification.isRead ? "border-gray-200" : "border-primary bg-primary/5"
-                  }`}
-                >
-                  <div className="flex">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
-                        notification.isRead ? "bg-gray-100 text-gray-500" : "bg-primary/10 text-primary"
-                      }`}
-                    >
-                      <notification.icon size={20} />
-                    </div>
-
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium">{notification.title}</h3>
-                        <span className="text-xs text-gray-500">{notification.time}</span>
-                      </div>
-                      <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
-
-                      <div className="flex justify-end mt-2 space-x-2">
-                        {!notification.isRead && (
-                          <button
-                            onClick={() => markAsRead(notification.id)}
-                            className="text-xs text-primary hover:underline flex items-center"
-                          >
-                            <Check size={12} className="mr-1" />
-                            Mark as read
-                          </button>
-                        )}
-                        <button
-                          onClick={() => deleteNotification(notification.id)}
-                          className="text-xs text-gray-500 hover:text-red-500 hover:underline flex items-center"
-                        >
-                          <Trash2 size={12} className="mr-1" />
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                <Bell size={24} className="text-gray-400" />
-              </div>
-              <h3 className="text-lg font-medium mb-2">No notifications</h3>
-              <p className="text-gray-500">You're all caught up! Check back later for new updates.</p>
-            </div>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold">Notifications</h1>
+          {unreadCount > 0 && (
+            <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">{unreadCount}</span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {unreadCount > 0 && (
+            <Button variant="outline" size="sm" onClick={handleMarkAllAsRead}>
+              Mark all as read
+            </Button>
+          )}
+          {notifications.length > 0 && (
+            <Button variant="outline" size="sm" onClick={handleClearAll}>
+              Clear all
+            </Button>
           )}
         </div>
       </div>
+
+      {notifications.length === 0 ? (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+          <div className="flex justify-center mb-4">
+            <Bell className="h-12 w-12 text-gray-300" />
+          </div>
+          <h2 className="text-xl font-semibold mb-2">No notifications</h2>
+          <p className="text-gray-600">You're all caught up!</p>
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div className="divide-y divide-gray-200">
+            {notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`p-4 hover:bg-gray-50 transition-colors cursor-pointer flex items-start gap-3 ${
+                  !notification.isRead ? "bg-blue-50/50" : ""
+                }`}
+                onClick={() => handleViewNotification(notification)}
+              >
+                <div className="mt-1">{getNotificationIcon(notification.type)}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className={`font-medium ${!notification.isRead ? "font-semibold" : ""}`}>
+                      {notification.title}
+                    </h3>
+                    <span className="text-xs text-gray-500 whitespace-nowrap">{formatDate(notification.date)}</span>
+                  </div>
+                  <p className="text-sm text-gray-600 line-clamp-2">{notification.message}</p>
+                </div>
+                {!notification.isRead && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleMarkAsRead(notification.id)
+                    }}
+                    className="p-1 hover:bg-gray-200 rounded-full"
+                    aria-label="Mark as read"
+                  >
+                    <Check className="h-4 w-4 text-gray-500" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Notification Detail Modal */}
+      <Dialog open={!!selectedNotification} onOpenChange={(open) => !open && setSelectedNotification(null)}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {selectedNotification && getNotificationIcon(selectedNotification.type)}
+              {selectedNotification?.title}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-gray-600 mb-4">{selectedNotification?.message}</p>
+            <p className="text-xs text-gray-500">{selectedNotification && formatDate(selectedNotification.date)}</p>
+          </div>
+          <DialogFooter>
+            <Button onClick={() => setSelectedNotification(null)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Clear All Confirmation Dialog */}
+      <Dialog open={confirmClearDialog} onOpenChange={setConfirmClearDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Clear All Notifications</DialogTitle>
+          </DialogHeader>
+          <p className="py-4">Are you sure you want to clear all notifications? This action cannot be undone.</p>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmClearDialog(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmClear}>
+              Yes, clear all
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

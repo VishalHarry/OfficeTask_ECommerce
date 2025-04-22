@@ -1,131 +1,193 @@
 "use client"
 
 import { useState } from "react"
-import { Heart, ShoppingCart, Trash2 } from "lucide-react"
+import { Heart, ShoppingCart, Eye } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 
 export default function WishlistPage() {
-  // Mock wishlist data
   const [wishlistItems, setWishlistItems] = useState([
     {
       id: 1,
-      name: "Premium Cotton T-Shirt",
-      price: 29.99,
+      name: "Premium Leather Jacket",
+      price: 199.99,
       image: "/placeholder.svg?height=200&width=200",
-      color: "Black",
-      size: "M",
+      category: "Outerwear",
+      inStock: true,
     },
     {
       id: 2,
-      name: "Designer Slim Fit Jeans",
-      price: 69.99,
+      name: "Wireless Noise-Cancelling Headphones",
+      price: 149.99,
       image: "/placeholder.svg?height=200&width=200",
-      color: "Blue",
-      size: "32",
+      category: "Electronics",
+      inStock: true,
     },
     {
       id: 3,
-      name: "Lightweight Running Shoes",
-      price: 89.97,
+      name: "Organic Cotton T-Shirt",
+      price: 29.99,
       image: "/placeholder.svg?height=200&width=200",
-      color: "Gray/Red",
-      size: "10",
+      category: "Clothing",
+      inStock: false,
     },
     {
       id: 4,
-      name: "Wireless Bluetooth Headphones",
-      price: 129.99,
+      name: "Smart Watch Series 5",
+      price: 299.99,
       image: "/placeholder.svg?height=200&width=200",
-      color: "Black",
-      size: "One Size",
+      category: "Electronics",
+      inStock: true,
     },
   ])
 
-  const removeFromWishlist = (itemId) => {
-    setWishlistItems(wishlistItems.filter((item) => item.id !== itemId))
+  const [confirmationDialog, setConfirmationDialog] = useState({
+    isOpen: false,
+    itemId: null,
+  })
+
+  const [quickViewItem, setQuickViewItem] = useState(null)
+
+  const handleRemoveItem = (id) => {
+    setConfirmationDialog({
+      isOpen: true,
+      itemId: id,
+    })
   }
 
-  const addToCart = (itemId) => {
-    // Add to cart logic would go here
-    console.log(`Added item ${itemId} to cart`)
-    // Optionally remove from wishlist
-    // removeFromWishlist(itemId);
+  const confirmRemove = () => {
+    if (confirmationDialog.itemId) {
+      setWishlistItems(wishlistItems.filter((item) => item.id !== confirmationDialog.itemId))
+      setConfirmationDialog({ isOpen: false, itemId: null })
+    }
+  }
+
+  const handleQuickView = (item) => {
+    setQuickViewItem(item)
   }
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">My Wishlist</h2>
-            <span className="text-gray-500">{wishlistItems.length} items</span>
-          </div>
-
-          {wishlistItems.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {wishlistItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow group"
-                >
-                  <div className="relative h-48 bg-gray-100">
-                    <img
-                      src={item.image || "/placeholder.svg"}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <button
-                      onClick={() => removeFromWishlist(item.id)}
-                      className="absolute top-2 right-2 p-1.5 bg-white rounded-full text-gray-500 hover:text-red-500 transition-colors"
-                      aria-label="Remove from wishlist"
-                    >
-                      <Heart size={18} fill="currentColor" />
-                    </button>
-                  </div>
-
-                  <div className="p-4">
-                    <h3 className="font-medium mb-1 line-clamp-1">{item.name}</h3>
-                    <div className="text-sm text-gray-600 mb-2">
-                      {item.color && <span>{item.color}</span>}
-                      {item.color && item.size && <span> • </span>}
-                      {item.size && <span>Size {item.size}</span>}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold">${item.price.toFixed(2)}</span>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => removeFromWishlist(item.id)}
-                          className="p-1.5 text-gray-500 hover:text-red-500 transition-colors"
-                          aria-label="Remove"
-                        >
-                          <Trash2 size={18} />
-                        </button>
-                        <button
-                          onClick={() => addToCart(item.id)}
-                          className="p-1.5 text-primary hover:text-primary-dark transition-colors"
-                          aria-label="Add to cart"
-                        >
-                          <ShoppingCart size={18} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                <Heart size={24} className="text-gray-400" />
-              </div>
-              <h3 className="text-lg font-medium mb-2">Your wishlist is empty</h3>
-              <p className="text-gray-500 mb-6">Items added to your wishlist will appear here</p>
-              <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-                Continue Shopping
-              </button>
-            </div>
-          )}
-        </div>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">My Wishlist</h1>
+        <p className="text-gray-600">{wishlistItems.length} items</p>
       </div>
+
+      {wishlistItems.length === 0 ? (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+          <div className="flex justify-center mb-4">
+            <Heart className="h-12 w-12 text-gray-300" />
+          </div>
+          <h2 className="text-xl font-semibold mb-2">Your wishlist is empty</h2>
+          <p className="text-gray-600 mb-6">Items added to your wishlist will appear here</p>
+          <Button>Continue Shopping</Button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {wishlistItems.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+            >
+              <div className="relative">
+                <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-full h-48 object-cover" />
+                <div className="absolute top-3 right-3 flex space-x-2">
+                  <button
+                    onClick={() => handleRemoveItem(item.id)}
+                    className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-100 transition-colors"
+                    aria-label="Remove from wishlist"
+                  >
+                    <Heart className="h-5 w-5 text-red-500 fill-red-500" />
+                  </button>
+                  <button
+                    onClick={() => handleQuickView(item)}
+                    className="p-2 bg-white rounded-full shadow-sm hover:bg-gray-100 transition-colors"
+                    aria-label="Quick view"
+                  >
+                    <Eye className="h-5 w-5 text-gray-600" />
+                  </button>
+                </div>
+                {!item.inStock && (
+                  <div className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                    Out of Stock
+                  </div>
+                )}
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold mb-1">{item.name}</h3>
+                <p className="text-gray-600 text-sm mb-2">{item.category}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold">${item.price.toFixed(2)}</p>
+                  <Button size="sm" disabled={!item.inStock} className="flex items-center gap-1">
+                    <ShoppingCart className="h-4 w-4" />
+                    <span>Add to Cart</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      <Dialog
+        open={confirmationDialog.isOpen}
+        onOpenChange={(open) => setConfirmationDialog({ ...confirmationDialog, isOpen: open })}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Remove from Wishlist</DialogTitle>
+          </DialogHeader>
+          <p className="py-4">Are you sure you want to remove this item from your wishlist?</p>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmationDialog({ isOpen: false, itemId: null })}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmRemove}>
+              Yes, remove
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Quick View Modal */}
+      {quickViewItem && (
+        <Dialog open={!!quickViewItem} onOpenChange={(open) => !open && setQuickViewItem(null)}>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Product Details</DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <img
+                  src={quickViewItem.image || "/placeholder.svg"}
+                  alt={quickViewItem.name}
+                  className="w-full h-auto object-cover rounded-md"
+                />
+              </div>
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold">{quickViewItem.name}</h2>
+                <p className="text-gray-600">{quickViewItem.category}</p>
+                <p className="text-xl font-bold">${quickViewItem.price.toFixed(2)}</p>
+                <div className="flex items-center space-x-2">
+                  <div
+                    className={`w-3 h-3 rounded-full ${quickViewItem.inStock ? "bg-green-500" : "bg-red-500"}`}
+                  ></div>
+                  <p>{quickViewItem.inStock ? "In Stock" : "Out of Stock"}</p>
+                </div>
+                <div className="pt-4 space-y-2">
+                  <Button className="w-full" disabled={!quickViewItem.inStock}>
+                    Add to Cart
+                  </Button>
+                  <Button variant="outline" className="w-full" onClick={() => handleRemoveItem(quickViewItem.id)}>
+                    Remove from Wishlist
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }

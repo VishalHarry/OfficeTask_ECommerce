@@ -2,12 +2,25 @@
 
 import { useState } from "react"
 import { Camera, Edit, Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import ConfirmationDialog from "../../ConfirmationDialog"
 
 export default function ProfilePage() {
   const [isEditingProfile, setIsEditingProfile] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isAddingAddress, setIsAddingAddress] = useState(false)
   const [isEditingAddress, setIsEditingAddress] = useState(false)
+  const [showDeleteAddressConfirm, setShowDeleteAddressConfirm] = useState(false)
+  const [addressToDelete, setAddressToDelete] = useState(null)
 
   // Mock user data
   const [userData, setUserData] = useState({
@@ -61,6 +74,26 @@ export default function ProfilePage() {
     setIsEditingAddress(false)
   }
 
+  const confirmDeleteAddress = (addressId) => {
+    setAddressToDelete(addressId)
+    setShowDeleteAddressConfirm(true)
+  }
+
+  const deleteAddress = () => {
+    if (addressToDelete) {
+      setUserData({
+        ...userData,
+        addresses: userData.addresses.filter((address) => address.id !== addressToDelete),
+      })
+      setAddressToDelete(null)
+    }
+  }
+
+  const preventPaste = (e) => {
+    e.preventDefault()
+    return false
+  }
+
   return (
     <div className="space-y-6">
       {/* Profile Information Card */}
@@ -100,13 +133,14 @@ export default function ProfilePage() {
             <p className="text-gray-600">{userData.email}</p>
             <p className="text-gray-600">{userData.phone}</p>
 
-            <button
+            <Button
               onClick={() => setIsEditingProfile(true)}
-              className="mt-3 inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+              variant="outline"
+              className="mt-3 inline-flex items-center"
             >
               <Edit size={16} className="mr-2" />
               Edit Profile
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -116,13 +150,15 @@ export default function ProfilePage() {
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Shipping Addresses</h3>
-            <button
+            <Button
               onClick={() => setIsAddingAddress(true)}
-              className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+              variant="outline"
+              size="sm"
+              className="inline-flex items-center"
             >
               <Plus size={16} className="mr-1" />
               Add Address
-            </button>
+            </Button>
           </div>
 
           <div className="space-y-4">
@@ -135,13 +171,15 @@ export default function ProfilePage() {
                 )}
                 <div className="flex justify-between">
                   <h4 className="font-medium">{address.type}</h4>
-                  <button
+                  <Button
                     onClick={() => setIsEditingAddress(true)}
-                    className="text-primary hover:underline text-sm flex items-center"
+                    variant="ghost"
+                    size="sm"
+                    className="text-primary hover:text-primary-dark"
                   >
                     <Edit size={14} className="mr-1" />
                     Edit
-                  </button>
+                  </Button>
                 </div>
                 <p className="text-gray-600 mt-1">
                   {address.street}
@@ -163,218 +201,183 @@ export default function ProfilePage() {
           <p className="text-gray-600 mb-4">
             Secure your account with a strong password. We recommend changing your password periodically.
           </p>
-          <button
-            onClick={() => setIsChangingPassword(true)}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-          >
-            Change Password
-          </button>
+          <Button onClick={() => setIsChangingPassword(true)}>Change Password</Button>
         </div>
       </div>
 
       {/* Edit Profile Modal */}
-      {isEditingProfile && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">Edit Profile</h3>
-            <form onSubmit={handleProfileSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    defaultValue={userData.name}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                  <input
-                    type="email"
-                    defaultValue={userData.email}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                  <input
-                    type="tel"
-                    defaultValue={userData.phone}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
+      <Dialog open={isEditingProfile} onOpenChange={setIsEditingProfile}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogDescription>Update your personal information below.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleProfileSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <label htmlFor="name" className="text-sm font-medium">
+                  Full Name
+                </label>
+                <Input id="name" defaultValue={userData.name} className="w-full" />
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setIsEditingProfile(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  Save Changes
-                </button>
+              <div className="grid gap-2">
+                <label htmlFor="email" className="text-sm font-medium">
+                  Email Address
+                </label>
+                <Input id="email" type="email" defaultValue={userData.email} className="w-full" />
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+              <div className="grid gap-2">
+                <label htmlFor="phone" className="text-sm font-medium">
+                  Phone Number
+                </label>
+                <Input id="phone" type="tel" defaultValue={userData.phone} className="w-full" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit">Save changes</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Change Password Modal */}
-      {isChangingPassword && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">Change Password</h3>
-            <form onSubmit={handlePasswordSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-                  <input
-                    type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-                  <input
-                    type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-                  <input
-                    type="password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
+      <Dialog open={isChangingPassword} onOpenChange={setIsChangingPassword}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Change Password</DialogTitle>
+            <DialogDescription>Enter your current password and a new password below.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handlePasswordSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <label htmlFor="current-password" className="text-sm font-medium">
+                  Current Password
+                </label>
+                <Input id="current-password" type="password" className="w-full" />
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setIsChangingPassword(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  Update Password
-                </button>
+              <div className="grid gap-2">
+                <label htmlFor="new-password" className="text-sm font-medium">
+                  New Password
+                </label>
+                <Input id="new-password" type="password" className="w-full" />
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+              <div className="grid gap-2">
+                <label htmlFor="confirm-password" className="text-sm font-medium">
+                  Confirm New Password
+                </label>
+                <Input id="confirm-password" type="password" className="w-full" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="submit">Update Password</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* Add/Edit Address Modal */}
-      {(isAddingAddress || isEditingAddress) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">{isAddingAddress ? "Add New Address" : "Edit Address"}</h3>
-            <form onSubmit={handleAddressSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Address Type</label>
+      <Dialog
+        open={isAddingAddress || isEditingAddress}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsAddingAddress(false)
+            setIsEditingAddress(false)
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-[525px]">
+          <DialogHeader>
+            <DialogTitle>{isAddingAddress ? "Add New Address" : "Edit Address"}</DialogTitle>
+            <DialogDescription>Fill in the address details below.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleAddressSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <label htmlFor="address-type" className="text-sm font-medium">
+                  Address Type
+                </label>
+                <select
+                  id="address-type"
+                  defaultValue={isEditingAddress ? "Home" : ""}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                >
+                  <option value="">Select Type</option>
+                  <option value="Home">Home</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div className="grid gap-2">
+                <label htmlFor="street" className="text-sm font-medium">
+                  Street Address
+                </label>
+                <Input id="street" defaultValue={isEditingAddress ? "123 Main Street" : ""} className="w-full" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <label htmlFor="city" className="text-sm font-medium">
+                    City
+                  </label>
+                  <Input id="city" defaultValue={isEditingAddress ? "New York" : ""} className="w-full" />
+                </div>
+                <div className="grid gap-2">
+                  <label htmlFor="state" className="text-sm font-medium">
+                    State/Province
+                  </label>
+                  <Input id="state" defaultValue={isEditingAddress ? "NY" : ""} className="w-full" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <label htmlFor="zip" className="text-sm font-medium">
+                    ZIP/Postal Code
+                  </label>
+                  <Input id="zip" defaultValue={isEditingAddress ? "10001" : ""} className="w-full" />
+                </div>
+                <div className="grid gap-2">
+                  <label htmlFor="country" className="text-sm font-medium">
+                    Country
+                  </label>
                   <select
-                    defaultValue={isEditingAddress ? "Home" : ""}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    id="country"
+                    defaultValue={isEditingAddress ? "US" : ""}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   >
-                    <option value="">Select Type</option>
-                    <option value="Home">Home</option>
-                    <option value="Work">Work</option>
-                    <option value="Other">Other</option>
+                    <option value="">Select Country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="AU">Australia</option>
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
-                  <input
-                    type="text"
-                    defaultValue={isEditingAddress ? "123 Main Street" : ""}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "New York" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">State/Province</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "NY" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">ZIP/Postal Code</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "10001" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                    <select
-                      defaultValue={isEditingAddress ? "US" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    >
-                      <option value="">Select Country</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="AU">Australia</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="default-address"
-                    defaultChecked={isEditingAddress}
-                    className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                  />
-                  <label htmlFor="default-address" className="ml-2 text-sm text-gray-700">
-                    Set as default address
-                  </label>
-                </div>
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsAddingAddress(false)
-                    setIsEditingAddress(false)
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  {isAddingAddress ? "Add Address" : "Save Changes"}
-                </button>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="default-address"
+                  defaultChecked={isEditingAddress}
+                  className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                />
+                <label htmlFor="default-address" className="ml-2 text-sm text-gray-700">
+                  Set as default address
+                </label>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+            </div>
+            <DialogFooter>
+              <Button type="submit">{isAddingAddress ? "Add Address" : "Save Changes"}</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Address Confirmation */}
+      <ConfirmationDialog
+        isOpen={showDeleteAddressConfirm}
+        onClose={() => setShowDeleteAddressConfirm(false)}
+        onConfirm={deleteAddress}
+        title="Delete Address"
+        description="Are you sure you want to delete this address? This action cannot be undone."
+      />
     </div>
   )
 }

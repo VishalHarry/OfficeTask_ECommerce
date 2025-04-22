@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react"
+import ConfirmationDialog from "../../ConfirmationDialog"
+
 
 export default function CartPage() {
   // Mock cart data
@@ -35,14 +37,30 @@ export default function CartPage() {
     },
   ])
 
+  const [itemToRemove, setItemToRemove] = useState(null)
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false)
+  // const { toast } = useToast()
+
   const updateQuantity = (itemId, newQuantity) => {
     if (newQuantity < 1) return
 
     setCartItems(cartItems.map((item) => (item.id === itemId ? { ...item, quantity: newQuantity } : item)))
   }
 
-  const removeItem = (itemId) => {
-    setCartItems(cartItems.filter((item) => item.id !== itemId))
+  const confirmRemoveItem = (itemId) => {
+    setItemToRemove(itemId)
+    setShowRemoveConfirm(true)
+  }
+
+  const removeItem = () => {
+    if (itemToRemove) {
+      setCartItems(cartItems.filter((item) => item.id !== itemToRemove))
+      // toast({
+      //   title: "Item removed",
+      //   description: "The item has been removed from your cart.",
+      // })
+      setItemToRemove(null)
+    }
   }
 
   // Calculate totals
@@ -110,7 +128,7 @@ export default function CartPage() {
 
                           {/* Remove Button */}
                           <button
-                            onClick={() => removeItem(item.id)}
+                            onClick={() => confirmRemoveItem(item.id)}
                             className="text-gray-500 hover:text-red-500 transition-colors flex items-center"
                           >
                             <Trash2 size={16} className="mr-1" />
@@ -135,7 +153,7 @@ export default function CartPage() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Shipping</span>
-                      <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
+                      <span>{shipping === 0 ? "Free" : `${shipping.toFixed(2)}`}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Tax</span>
@@ -171,6 +189,16 @@ export default function CartPage() {
           )}
         </div>
       </div>
+
+      {/* Remove from Cart Confirmation */}
+      <ConfirmationDialog
+        isOpen={showRemoveConfirm}
+        onClose={() => setShowRemoveConfirm(false)}
+        onConfirm={removeItem}
+        title="Remove from Cart"
+        description="Are you sure you want to remove this item from your cart?"
+        confirmText="Yes, remove"
+      />
     </div>
   )
 }

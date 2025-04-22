@@ -2,6 +2,16 @@
 
 import { useState } from "react"
 import { AlertTriangle } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 export default function AccountSettingsPage() {
   // Mock settings data
@@ -20,6 +30,7 @@ export default function AccountSettingsPage() {
   })
 
   const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false)
+  const [deactivateConfirmText, setDeactivateConfirmText] = useState("")
 
   const handleToggle = (category, setting) => {
     setSettings({
@@ -35,6 +46,12 @@ export default function AccountSettingsPage() {
     // Account deactivation logic would go here
     console.log("Account deactivated")
     setIsDeactivateModalOpen(false)
+    setDeactivateConfirmText("")
+  }
+
+  const preventPaste = (e) => {
+    e.preventDefault()
+    return false
   }
 
   return (
@@ -183,56 +200,53 @@ export default function AccountSettingsPage() {
             Deactivating your account will remove your personal information from our site. This action cannot be undone.
           </p>
 
-          <button
-            onClick={() => setIsDeactivateModalOpen(true)}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-          >
+          <Button onClick={() => setIsDeactivateModalOpen(true)} variant="destructive">
             Deactivate Account
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Deactivate Account Modal */}
-      {isDeactivateModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <div className="flex items-center mb-4 text-red-600">
-              <AlertTriangle size={24} className="mr-2" />
-              <h3 className="text-lg font-semibold">Deactivate Account</h3>
+      <Dialog open={isDeactivateModalOpen} onOpenChange={setIsDeactivateModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <div className="flex items-center gap-2 text-red-600">
+              <AlertTriangle size={20} />
+              <DialogTitle>Deactivate Account</DialogTitle>
             </div>
-
-            <p className="text-gray-600 mb-4">
+            <DialogDescription>
               Are you sure you want to deactivate your account? All of your data will be permanently removed. This
               action cannot be undone.
-            </p>
+            </DialogDescription>
+          </DialogHeader>
 
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Please type "DEACTIVATE" to confirm
-              </label>
-              <input
-                type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
-              />
-            </div>
-
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setIsDeactivateModalOpen(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeactivateAccount}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                Deactivate
-              </button>
-            </div>
+          <div className="py-4">
+            <label htmlFor="confirm-deactivate" className="block text-sm font-medium mb-1">
+              Please type "DEACTIVATE" to confirm
+            </label>
+            <Input
+              id="confirm-deactivate"
+              value={deactivateConfirmText}
+              onChange={(e) => setDeactivateConfirmText(e.target.value)}
+              onPaste={preventPaste}
+              className="w-full"
+            />
           </div>
-        </div>
-      )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeactivateModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeactivateAccount}
+              disabled={deactivateConfirmText !== "DEACTIVATE"}
+            >
+              Deactivate
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -1,97 +1,72 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Edit, Trash2, CreditCard, Wallet, Check } from "lucide-react"
+import { Plus, Edit2, Trash2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function ShippingPaymentPage() {
-  // Mock shipping addresses
   const [addresses, setAddresses] = useState([
     {
       id: 1,
-      type: "Home",
       name: "John Doe",
-      street: "123 Main Street",
+      address: "123 Main St",
       city: "New York",
       state: "NY",
       zip: "10001",
       country: "United States",
+      phone: "(555) 123-4567",
       isDefault: true,
     },
     {
       id: 2,
-      type: "Work",
       name: "John Doe",
-      street: "456 Office Park",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94107",
+      address: "456 Park Ave",
+      city: "Boston",
+      state: "MA",
+      zip: "02108",
       country: "United States",
+      phone: "(555) 987-6543",
       isDefault: false,
     },
   ])
 
-  // Mock payment methods
-  const [paymentMethods, setPaymentMethods] = useState([
-    {
-      id: 1,
-      type: "Credit Card",
-      cardType: "Visa",
-      last4: "4242",
-      expiry: "04/25",
-      isDefault: true,
-    },
-    {
-      id: 2,
-      type: "PayPal",
-      email: "john@example.com",
-      isDefault: false,
-    },
-  ])
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
+  const [currentAddress, setCurrentAddress] = useState(null)
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState({ isOpen: false, addressId: null })
 
-  // Modal states
-  const [isAddingAddress, setIsAddingAddress] = useState(false)
-  const [isEditingAddress, setIsEditingAddress] = useState(null)
-  const [isAddingPayment, setIsAddingPayment] = useState(false)
-  const [isEditingPayment, setIsEditingPayment] = useState(null)
+  const handleAddAddress = () => {
+    setCurrentAddress(null)
+    setIsAddressModalOpen(true)
+  }
 
-  const handleAddressSubmit = (e) => {
+  const handleEditAddress = (address) => {
+    setCurrentAddress(address)
+    setIsAddressModalOpen(true)
+  }
+
+  const handleDeleteAddress = (id) => {
+    setConfirmDeleteDialog({ isOpen: true, addressId: id })
+  }
+
+  const confirmDeleteAddress = () => {
+    if (confirmDeleteDialog.addressId) {
+      setAddresses(addresses.filter((address) => address.id !== confirmDeleteDialog.addressId))
+      setConfirmDeleteDialog({ isOpen: false, addressId: null })
+    }
+  }
+
+  const handleSaveAddress = (e) => {
     e.preventDefault()
-    // Add/edit address logic
-    setIsAddingAddress(false)
-    setIsEditingAddress(null)
+    // Form handling logic would go here
+    setIsAddressModalOpen(false)
   }
 
-  const handlePaymentSubmit = (e) => {
+  const preventPaste = (e) => {
     e.preventDefault()
-    // Add/edit payment logic
-    setIsAddingPayment(false)
-    setIsEditingPayment(null)
-  }
-
-  const setDefaultAddress = (addressId) => {
-    setAddresses(
-      addresses.map((address) => ({
-        ...address,
-        isDefault: address.id === addressId,
-      })),
-    )
-  }
-
-  const setDefaultPayment = (paymentId) => {
-    setPaymentMethods(
-      paymentMethods.map((payment) => ({
-        ...payment,
-        isDefault: payment.id === paymentId,
-      })),
-    )
-  }
-
-  const deleteAddress = (addressId) => {
-    setAddresses(addresses.filter((address) => address.id !== addressId))
-  }
-
-  const deletePayment = (paymentId) => {
-    setPaymentMethods(paymentMethods.filter((payment) => payment.id !== paymentId))
+    return false
   }
 
   return (
@@ -99,357 +74,144 @@ export default function ShippingPaymentPage() {
       {/* Shipping Addresses */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold">Shipping Addresses</h2>
-            <button
-              onClick={() => setIsAddingAddress(true)}
-              className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-            >
-              <Plus size={16} className="mr-1" />
-              Add Address
-            </button>
+            <Button onClick={handleAddAddress} size="sm" className="flex items-center gap-1">
+              <Plus className="h-4 w-4" />
+              <span>Add Address</span>
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
             {addresses.map((address) => (
               <div
                 key={address.id}
-                className={`border rounded-lg p-4 relative ${
-                  address.isDefault ? "border-primary bg-primary/5" : "border-gray-200"
-                }`}
+                className={`border ${address.isDefault ? "border-primary" : "border-gray-200"} rounded-lg p-4 relative`}
               >
                 {address.isDefault && (
-                  <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-0.5 rounded-full">
-                    Default
-                  </span>
+                  <div className="absolute top-4 right-4 bg-primary text-white text-xs px-2 py-1 rounded">Default</div>
                 )}
-
-                <div className="mb-2">
-                  <h3 className="font-medium">{address.type}</h3>
-                  <p className="text-sm text-gray-600">{address.name}</p>
-                </div>
-
-                <div className="text-sm text-gray-600 mb-4">
-                  <p>{address.street}</p>
-                  <p>
-                    {address.city}, {address.state} {address.zip}
-                  </p>
-                  <p>{address.country}</p>
-                </div>
-
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setIsEditingAddress(address.id)}
-                    className="text-sm text-gray-600 hover:text-primary transition-colors flex items-center"
-                  >
-                    <Edit size={14} className="mr-1" />
-                    Edit
-                  </button>
-                  {!address.isDefault && (
-                    <>
-                      <button
-                        onClick={() => setDefaultAddress(address.id)}
-                        className="text-sm text-gray-600 hover:text-primary transition-colors flex items-center"
-                      >
-                        <Check size={14} className="mr-1" />
-                        Set as Default
-                      </button>
-                      <button
-                        onClick={() => deleteAddress(address.id)}
-                        className="text-sm text-gray-600 hover:text-red-500 transition-colors flex items-center"
-                      >
-                        <Trash2 size={14} className="mr-1" />
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Payment Methods */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">Payment Methods</h2>
-            <button
-              onClick={() => setIsAddingPayment(true)}
-              className="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-            >
-              <Plus size={16} className="mr-1" />
-              Add Payment Method
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {paymentMethods.map((payment) => (
-              <div
-                key={payment.id}
-                className={`border rounded-lg p-4 relative ${
-                  payment.isDefault ? "border-primary bg-primary/5" : "border-gray-200"
-                }`}
-              >
-                {payment.isDefault && (
-                  <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-0.5 rounded-full">
-                    Default
-                  </span>
-                )}
-
-                <div className="flex items-center mb-3">
-                  {payment.type === "Credit Card" ? (
-                    <CreditCard size={20} className="mr-2 text-gray-600" />
-                  ) : (
-                    <Wallet size={20} className="mr-2 text-gray-600" />
-                  )}
-                  <h3 className="font-medium">{payment.type}</h3>
-                </div>
-
-                <div className="text-sm text-gray-600 mb-4">
-                  {payment.type === "Credit Card" && (
-                    <>
-                      <p>
-                        {payment.cardType} •••• {payment.last4}
-                      </p>
-                      <p>Expires {payment.expiry}</p>
-                    </>
-                  )}
-                  {payment.type === "PayPal" && <p>{payment.email}</p>}
-                </div>
-
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setIsEditingPayment(payment.id)}
-                    className="text-sm text-gray-600 hover:text-primary transition-colors flex items-center"
-                  >
-                    <Edit size={14} className="mr-1" />
-                    Edit
-                  </button>
-                  {!payment.isDefault && (
-                    <>
-                      <button
-                        onClick={() => setDefaultPayment(payment.id)}
-                        className="text-sm text-gray-600 hover:text-primary transition-colors flex items-center"
-                      >
-                        <Check size={14} className="mr-1" />
-                        Set as Default
-                      </button>
-                      <button
-                        onClick={() => deletePayment(payment.id)}
-                        className="text-sm text-gray-600 hover:text-red-500 transition-colors flex items-center"
-                      >
-                        <Trash2 size={14} className="mr-1" />
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Add/Edit Address Modal */}
-      {(isAddingAddress || isEditingAddress) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">{isAddingAddress ? "Add New Address" : "Edit Address"}</h3>
-            <form onSubmit={handleAddressSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Address Type</label>
-                  <select
-                    defaultValue={isEditingAddress ? "Home" : ""}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  >
-                    <option value="">Select Type</option>
-                    <option value="Home">Home</option>
-                    <option value="Work">Work</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                  <input
-                    type="text"
-                    defaultValue="John Doe"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
-                  <input
-                    type="text"
-                    defaultValue={isEditingAddress ? "123 Main Street" : ""}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "New York" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+                  <div className="mb-3 sm:mb-0">
+                    <p className="font-semibold">{address.name}</p>
+                    <p className="text-gray-600 text-sm">{address.address}</p>
+                    <p className="text-gray-600 text-sm">
+                      {address.city}, {address.state} {address.zip}
+                    </p>
+                    <p className="text-gray-600 text-sm">{address.country}</p>
+                    <p className="text-gray-600 text-sm">{address.phone}</p>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">State/Province</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "NY" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">ZIP/Postal Code</label>
-                    <input
-                      type="text"
-                      defaultValue={isEditingAddress ? "10001" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                    <select
-                      defaultValue={isEditingAddress ? "US" : ""}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEditAddress(address)}
+                      className="flex items-center gap-1"
                     >
-                      <option value="">Select Country</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="UK">United Kingdom</option>
-                      <option value="AU">Australia</option>
-                    </select>
+                      <Edit2 className="h-4 w-4" />
+                      <span>Edit</span>
+                    </Button>
+                    {!address.isDefault && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDeleteAddress(address.id)}
+                        className="flex items-center gap-1 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span>Delete</span>
+                      </Button>
+                    )}
                   </div>
                 </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="default-address"
-                    className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                  />
-                  <label htmlFor="default-address" className="ml-2 text-sm text-gray-700">
-                    Set as default address
-                  </label>
-                </div>
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsAddingAddress(false)
-                    setIsEditingAddress(null)
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  {isAddingAddress ? "Add Address" : "Save Changes"}
-                </button>
-              </div>
-            </form>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
-      {/* Add/Edit Payment Modal */}
-      {(isAddingPayment || isEditingPayment) && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">
-              {isAddingPayment ? "Add Payment Method" : "Edit Payment Method"}
-            </h3>
-            <form onSubmit={handlePaymentSubmit}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Type</label>
-                  <select
-                    defaultValue="credit-card"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  >
-                    <option value="credit-card">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                  </select>
+      {/* Address Modal */}
+      <Dialog open={isAddressModalOpen} onOpenChange={setIsAddressModalOpen}>
+        <DialogContent className="sm:max-w-[550px]">
+          <DialogHeader>
+            <DialogTitle>{currentAddress ? "Edit Address" : "Add New Address"}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSaveAddress}>
+            <div className="grid grid-cols-1 gap-4 py-4">
+              <div className="grid grid-cols-1 gap-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input id="name" defaultValue={currentAddress?.name || ""} onPaste={preventPaste} required />
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                <Label htmlFor="address">Street Address</Label>
+                <Input id="address" defaultValue={currentAddress?.address || ""} onPaste={preventPaste} required />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="city">City</Label>
+                  <Input id="city" defaultValue={currentAddress?.city || ""} onPaste={preventPaste} required />
                 </div>
-
-                {/* Credit Card Fields */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Expiration Date</label>
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">CVV</label>
-                    <input
-                      type="text"
-                      placeholder="123"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Cardholder Name</label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="default-payment"
-                    className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                  />
-                  <label htmlFor="default-payment" className="ml-2 text-sm text-gray-700">
-                    Set as default payment method
-                  </label>
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="state">State/Province</Label>
+                  <Input id="state" defaultValue={currentAddress?.state || ""} onPaste={preventPaste} required />
                 </div>
               </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsAddingPayment(false)
-                    setIsEditingPayment(null)
-                  }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                >
-                  {isAddingPayment ? "Add Payment Method" : "Save Changes"}
-                </button>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="zip">ZIP/Postal Code</Label>
+                  <Input id="zip" defaultValue={currentAddress?.zip || ""} onPaste={preventPaste} required />
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  <Label htmlFor="country">Country</Label>
+                  <Input id="country" defaultValue={currentAddress?.country || ""} onPaste={preventPaste} required />
+                </div>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
+              <div className="grid grid-cols-1 gap-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input id="phone" defaultValue={currentAddress?.phone || ""} onPaste={preventPaste} required />
+              </div>
+              <div className="flex items-center space-x-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="default-address"
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                  defaultChecked={currentAddress?.isDefault || false}
+                />
+                <Label htmlFor="default-address" className="text-sm font-normal">
+                  Set as default shipping address
+                </Label>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setIsAddressModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Save Address</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={confirmDeleteDialog.isOpen}
+        onOpenChange={(open) => setConfirmDeleteDialog({ ...confirmDeleteDialog, isOpen: open })}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Delete Address</DialogTitle>
+          </DialogHeader>
+          <p className="py-4">Are you sure you want to delete this address? This action cannot be undone.</p>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmDeleteDialog({ isOpen: false, addressId: null })}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={confirmDeleteAddress}>
+              Yes, delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
