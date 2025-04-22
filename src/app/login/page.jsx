@@ -1,12 +1,13 @@
-// src/app/login/page.jsx (Server Component)
-
-import LoginForms from "../Components/LoginForms";
-
 
 export const metadata = {
   title: "Login | EDUKAN",
   description: "Login to your account to access your orders, wishlist, and more.",
 };
+
+
+import LoginForms from "../Components/LoginForms";
+
+
 
 export default function LoginPage() {
   return (

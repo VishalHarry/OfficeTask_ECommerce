@@ -1,12 +1,12 @@
 import { ThemeProvider } from "next-themes";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
 import HeroSection from "./Components/HeroSection";
 import LiveDealBanner from "./Components/LiveDealBanner";
 import FeaturedProducts from "./Components/FeaturedProducts";
 import CategoryGrid from "./Components/CategoryGrid";
 import TrustSection from "./Components/TrustSection";
 import NewsletterSection from "./Components/NewsletterSection";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 
 export default function Home() {
@@ -18,6 +18,7 @@ export default function Home() {
    
         
         <main className="flex-grow">
+          <Header/>
           <HeroSection/>
           <LiveDealBanner/>
           <div className="container mx-auto px-4 py-12 space-y-24">
@@ -25,6 +26,7 @@ export default function Home() {
            <CategoryGrid/>
            <TrustSection/>
            <NewsletterSection/>
+           <Footer/>
           </div>
         </main>
       
