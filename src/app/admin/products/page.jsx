@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Filter, Edit, Trash2, X, Upload, Check, AlertTriangle } from "lucide-react"
+import { Search, Plus, Filter, Edit, Trash2, X, Upload, Check, AlertTriangle, Eye } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // Sample product data
@@ -14,6 +14,8 @@ const initialProducts = [
     stock: 50,
     category: "Electronics",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 2,
@@ -23,6 +25,8 @@ const initialProducts = [
     stock: 42,
     category: "Electronics",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 3,
@@ -32,6 +36,8 @@ const initialProducts = [
     stock: 38,
     category: "Accessories",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 4,
@@ -41,6 +47,8 @@ const initialProducts = [
     stock: 0,
     category: "Electronics",
     status: "inactive",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 5,
@@ -50,6 +58,8 @@ const initialProducts = [
     stock: 27,
     category: "Home",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 6,
@@ -59,6 +69,8 @@ const initialProducts = [
     stock: 120,
     category: "Clothing",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 7,
@@ -68,6 +80,8 @@ const initialProducts = [
     stock: 85,
     category: "Accessories",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 8,
@@ -77,6 +91,8 @@ const initialProducts = [
     stock: 3,
     category: "Electronics",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 9,
@@ -86,6 +102,8 @@ const initialProducts = [
     stock: 0,
     category: "Furniture",
     status: "inactive",
+    images: [null, null, null, null],
+    attributes: [],
   },
   {
     id: 10,
@@ -95,6 +113,8 @@ const initialProducts = [
     stock: 42,
     category: "Home",
     status: "active",
+    images: [null, null, null, null],
+    attributes: [],
   },
 ]
 
@@ -112,12 +132,19 @@ export default function ProductsPage() {
     price: "",
     stock: "",
     category: "Electronics",
+    customCategory: "",
     description: "",
+    attributes: [],
+    images: [null, null, null, null],
     image: null,
   })
   const [showFilters, setShowFilters] = useState(false)
   const [priceRange, setPriceRange] = useState([0, 300])
   const [stockFilter, setStockFilter] = useState("all") // all, in-stock, out-of-stock
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [productToDelete, setProductToDelete] = useState(null)
+  const [showProductView, setShowProductView] = useState(false)
+  const [viewProduct, setViewProduct] = useState(null)
 
   // Filter products based on search term, category, and other filters
   const filteredProducts = products.filter((product) => {
@@ -150,7 +177,10 @@ export default function ProductsPage() {
       price: "",
       stock: "",
       category: "Electronics",
+      customCategory: "",
       description: "",
+      attributes: [],
+      images: [null, null, null, null],
       image: null,
     })
     setShowAddForm(false)
@@ -177,20 +207,76 @@ export default function ProductsPage() {
     )
   }
 
-  const handleImageChange = (e) => {
-    // In a real app, you would handle file upload to a server
-    // For this demo, we'll just use a placeholder
+  const handleAddAttribute = (attribute) => {
     if (editingProduct) {
       setEditingProduct({
         ...editingProduct,
-        image: "/placeholder.svg?height=80&width=80&text=New+Image",
+        attributes: [...(editingProduct.attributes || []), attribute],
       })
     } else {
       setNewProduct({
         ...newProduct,
-        image: "/placeholder.svg?height=80&width=80&text=New+Image",
+        attributes: [...newProduct.attributes, attribute],
       })
     }
+  }
+
+  const handleRemoveAttribute = (index) => {
+    if (editingProduct) {
+      const newAttributes = [...(editingProduct.attributes || [])]
+      newAttributes.splice(index, 1)
+      setEditingProduct({
+        ...editingProduct,
+        attributes: newAttributes,
+      })
+    } else {
+      const newAttributes = [...newProduct.attributes]
+      newAttributes.splice(index, 1)
+      setNewProduct({
+        ...newProduct,
+        attributes: newAttributes,
+      })
+    }
+  }
+
+  const handleImageChange = (e, index) => {
+    // In a real app, you would handle file upload to a server
+    // For this demo, we'll just use a placeholder
+    if (editingProduct) {
+      const newImages = [...(editingProduct.images || [null, null, null, null])]
+      newImages[index] = "/placeholder.svg?height=80&width=80&text=New+Image"
+      setEditingProduct({
+        ...editingProduct,
+        images: newImages,
+      })
+    } else {
+      const newImages = [...newProduct.images]
+      newImages[index] = "/placeholder.svg?height=80&width=80&text=New+Image"
+      setNewProduct({
+        ...newProduct,
+        images: newImages,
+      })
+    }
+  }
+
+  const confirmDelete = () => {
+    if (productToDelete) {
+      handleDeleteProduct(productToDelete)
+      setShowDeleteConfirm(false)
+      setProductToDelete(null)
+    }
+  }
+
+  // Modify the delete handler to show confirmation first
+  const handleDeleteClick = (id) => {
+    setProductToDelete(id)
+    setShowDeleteConfirm(true)
+  }
+
+  // Add function to view product details
+  const handleViewProduct = (product) => {
+    setViewProduct(product)
+    setShowProductView(true)
   }
 
   return (
@@ -365,14 +451,23 @@ export default function ProductsPage() {
                   <td className="py-3 px-4">
                     <div className="flex items-center space-x-2">
                       <button
+                        onClick={() => handleViewProduct(product)}
+                        className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
+                        title="View Details"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
                         onClick={() => setEditingProduct(product)}
                         className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
+                        title="Edit Product"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => handleDeleteProduct(product.id)}
+                        onClick={() => handleDeleteClick(product.id)}
                         className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
+                        title="Delete Product"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -384,6 +479,7 @@ export default function ProductsPage() {
                             ? "text-green-500 hover:text-green-600"
                             : "text-red-500 hover:text-red-600",
                         )}
+                        title={product.status === "active" ? "Active" : "Inactive"}
                       >
                         {product.status === "active" ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
                       </button>
@@ -490,25 +586,88 @@ export default function ProductsPage() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="category" className="text-sm font-medium">
+                    Category
+                  </label>
+                  <select
+                    id="category"
+                    required
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    value={newProduct.category}
+                    onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                  >
+                    {categories
+                      .filter((c) => c !== "All Categories")
+                      .map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="customCategory" className="text-sm font-medium">
+                    Custom Category
+                  </label>
+                  <input
+                    id="customCategory"
+                    type="text"
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    value={newProduct.customCategory}
+                    onChange={(e) => setNewProduct({ ...newProduct, customCategory: e.target.value })}
+                    placeholder="Enter if category not listed"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <label htmlFor="category" className="text-sm font-medium">
-                  Category
-                </label>
-                <select
-                  id="category"
-                  required
-                  className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  value={newProduct.category}
-                  onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-                >
-                  {categories
-                    .filter((c) => c !== "All Categories")
-                    .map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                </select>
+                <label className="text-sm font-medium">Product Attributes</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {newProduct.attributes.map((attr, idx) => (
+                    <div key={idx} className="flex items-center bg-muted px-2 py-1 rounded-md">
+                      <span className="text-xs mr-1">{attr}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAttribute(idx)}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    id="attribute"
+                    className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    placeholder="Add attribute (e.g., 'Waterproof', 'Wireless')"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault()
+                        if (e.target.value.trim()) {
+                          handleAddAttribute(e.target.value.trim())
+                          e.target.value = ""
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-muted text-sm font-medium rounded-md hover:bg-muted/80"
+                    onClick={(e) => {
+                      const input = document.getElementById("attribute")
+                      if (input.value.trim()) {
+                        handleAddAttribute(input.value.trim())
+                        input.value = ""
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -525,28 +684,41 @@ export default function ProductsPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Product Image</label>
-                <div className="flex items-center justify-center border-2 border-dashed border-border rounded-md p-6">
-                  <div className="text-center">
-                    <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <div className="mt-2">
-                      <label
-                        htmlFor="file-upload"
-                        className="cursor-pointer rounded-md font-medium text-primary hover:text-primary/90"
-                      >
-                        <span>Upload a file</span>
-                        <input
-                          id="file-upload"
-                          name="file-upload"
-                          type="file"
-                          accept="image/*"
-                          className="sr-only"
-                          onChange={handleImageChange}
-                        />
-                      </label>
-                      <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF up to 10MB</p>
+                <label className="text-sm font-medium">Product Images</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {newProduct.images.map((img, idx) => (
+                    <div key={idx} className="border-2 border-dashed border-border rounded-md p-2">
+                      <div className="aspect-square relative bg-muted rounded-md overflow-hidden">
+                        {img ? (
+                          <img
+                            src={img || "/placeholder.svg"}
+                            alt={`Product image ${idx + 1}`}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <Upload className="h-8 w-8 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-2 text-center">
+                        <label
+                          htmlFor={`file-upload-${idx}`}
+                          className="cursor-pointer text-xs font-medium text-primary hover:text-primary/90"
+                        >
+                          {img ? "Change" : "Upload"}
+                          <input
+                            id={`file-upload-${idx}`}
+                            name={`file-upload-${idx}`}
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            onChange={(e) => handleImageChange(e, idx)}
+                          />
+                        </label>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -627,54 +799,139 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="edit-category" className="text-sm font-medium">
-                  Category
-                </label>
-                <select
-                  id="edit-category"
-                  required
-                  className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                  value={editingProduct.category}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
-                >
-                  {categories
-                    .filter((c) => c !== "All Categories")
-                    .map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label htmlFor="edit-category" className="text-sm font-medium">
+                    Category
+                  </label>
+                  <select
+                    id="edit-category"
+                    required
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    value={editingProduct.category}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                  >
+                    {categories
+                      .filter((c) => c !== "All Categories")
+                      .map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="edit-customCategory" className="text-sm font-medium">
+                    Custom Category
+                  </label>
+                  <input
+                    id="edit-customCategory"
+                    type="text"
+                    className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    value={editingProduct.customCategory || ""}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, customCategory: e.target.value })}
+                    placeholder="Enter if category not listed"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium">Product Image</label>
-                <div className="flex items-center space-x-4">
-                  <div className="w-20 h-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                    <img
-                      src={editingProduct.image || "/placeholder.svg"}
-                      alt={editingProduct.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="edit-file-upload"
-                      className="cursor-pointer rounded-md font-medium text-primary hover:text-primary/90"
-                    >
-                      <span>Change image</span>
-                      <input
-                        id="edit-file-upload"
-                        name="edit-file-upload"
-                        type="file"
-                        accept="image/*"
-                        className="sr-only"
-                        onChange={handleImageChange}
-                      />
-                    </label>
-                    <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF up to 10MB</p>
-                  </div>
+                <label className="text-sm font-medium">Product Attributes</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {(editingProduct.attributes || []).map((attr, idx) => (
+                    <div key={idx} className="flex items-center bg-muted px-2 py-1 rounded-md">
+                      <span className="text-xs mr-1">{attr}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAttribute(idx)}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    id="edit-attribute"
+                    className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    placeholder="Add attribute (e.g., 'Waterproof', 'Wireless')"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault()
+                        if (e.target.value.trim()) {
+                          handleAddAttribute(e.target.value.trim())
+                          e.target.value = ""
+                        }
+                      }
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-muted text-sm font-medium rounded-md hover:bg-muted/80"
+                    onClick={(e) => {
+                      const input = document.getElementById("edit-attribute")
+                      if (input.value.trim()) {
+                        handleAddAttribute(input.value.trim())
+                        input.value = ""
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="edit-description" className="text-sm font-medium">
+                  Description
+                </label>
+                <textarea
+                  id="edit-description"
+                  rows={4}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  value={editingProduct.description || ""}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+                ></textarea>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Product Images</label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {(editingProduct.images || [null, null, null, null]).map((img, idx) => (
+                    <div key={idx} className="border-2 border-dashed border-border rounded-md p-2">
+                      <div className="aspect-square relative bg-muted rounded-md overflow-hidden">
+                        {img ? (
+                          <img
+                            src={img || "/placeholder.svg"}
+                            alt={`Product image ${idx + 1}`}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <Upload className="h-8 w-8 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-2 text-center">
+                        <label
+                          htmlFor={`edit-file-upload-${idx}`}
+                          className="cursor-pointer text-xs font-medium text-primary hover:text-primary/90"
+                        >
+                          {img ? "Change" : "Upload"}
+                          <input
+                            id={`edit-file-upload-${idx}`}
+                            name={`edit-file-upload-${idx}`}
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            onChange={(e) => handleImageChange(e, idx)}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -694,6 +951,120 @@ export default function ProductsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-background border border-border rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
+            <p className="mb-6">Are you sure you want to delete this product? This action cannot be undone.</p>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                className="px-4 py-2 border border-input bg-background text-sm font-medium rounded-md shadow-sm hover:bg-muted"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showProductView && viewProduct && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-background border border-border rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto">
+            <div className="flex items-center justify-between p-6 border-b border-border">
+              <h3 className="text-lg font-semibold">Product Details</h3>
+              <button onClick={() => setShowProductView(false)} className="p-1 rounded-full hover:bg-muted">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <div className="aspect-square relative rounded-md overflow-hidden bg-muted mb-4">
+                    <img
+                      src={viewProduct.image || "/placeholder.svg"}
+                      alt={viewProduct.name}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  {viewProduct.images && viewProduct.images.length > 0 && (
+                    <div className="grid grid-cols-4 gap-2">
+                      {viewProduct.images.map(
+                        (img, idx) =>
+                          img && (
+                            <div key={idx} className="aspect-square relative rounded-md overflow-hidden bg-muted">
+                              <img
+                                src={img || "/placeholder.svg"}
+                                alt={`Product view ${idx + 1}`}
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          ),
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-4">
+                  <h2 className="text-xl font-bold">{viewProduct.name}</h2>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold">₹{viewProduct.price?.toFixed(2)}</span>
+                    <span
+                      className={cn(
+                        "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium",
+                        viewProduct.status === "active"
+                          ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                          : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
+                      )}
+                    >
+                      {viewProduct.status === "active" ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Category</h3>
+                    <p>{viewProduct.category}</p>
+                    {viewProduct.customCategory && (
+                      <p className="text-sm text-muted-foreground mt-1">Custom: {viewProduct.customCategory}</p>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Stock</h3>
+                    <p>{viewProduct.stock} units</p>
+                  </div>
+                  {viewProduct.attributes && viewProduct.attributes.length > 0 && (
+                    <div>
+                      <h3 className="text-sm font-medium text-muted-foreground mb-1">Attributes</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {viewProduct.attributes.map((attr, idx) => (
+                          <span key={idx} className="px-2 py-1 bg-muted rounded-md text-xs">
+                            {attr}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Description</h3>
+                    <p className="text-sm">{viewProduct.description || "No description available."}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end p-6 border-t border-border">
+              <button
+                onClick={() => setShowProductView(false)}
+                className="px-4 py-2 border border-input bg-background text-sm font-medium rounded-md shadow-sm hover:bg-muted"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

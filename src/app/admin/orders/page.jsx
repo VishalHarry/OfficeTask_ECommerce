@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Download, Eye, MoreHorizontal, FileText, Printer, X } from "lucide-react"
+import { Search, Download, Eye, FileText, Printer, X, CheckCircle, Tag } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // Sample orders data
@@ -273,6 +273,10 @@ export default function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState(null)
   const [showOrderDetails, setShowOrderDetails] = useState(false)
 
+  // Add state for order status update
+  const [orderStatusUpdate, setOrderStatusUpdate] = useState(null)
+  const [showStatusConfirm, setShowStatusConfirm] = useState(false)
+
   // Filter orders based on search term and status
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
@@ -291,6 +295,20 @@ export default function OrdersPage() {
   const handleDownloadInvoice = (orderId) => {
     // In a real app, this would generate and download a PDF invoice
     console.log(`Downloading invoice for order ${orderId}`)
+  }
+
+  // Add function to handle order status update
+  const handleUpdateOrderStatus = (orderId, newStatus) => {
+    setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: newStatus } : order)))
+    setShowStatusConfirm(false)
+    setOrderStatusUpdate(null)
+  }
+
+  // Add function to handle print order
+  const handlePrintOrder = (order) => {
+    // In a real app, this would open a print dialog with formatted order details
+    console.log(`Printing order ${order.id}`)
+    window.print()
   }
 
   return (
@@ -386,27 +404,35 @@ export default function OrdersPage() {
                       >
                         <FileText className="h-4 w-4" />
                       </button>
-                      <div className="relative group">
-                        <button className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </button>
-                        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-background border border-border hidden group-hover:block z-10">
-                          <div className="py-1" role="menu" aria-orientation="vertical">
-                            <button className="block w-full text-left px-4 py-2 text-sm hover:bg-muted" role="menuitem">
-                              Mark as Shipped
-                            </button>
-                            <button className="block w-full text-left px-4 py-2 text-sm hover:bg-muted" role="menuitem">
-                              Mark as Completed
-                            </button>
-                            <button
-                              className="block w-full text-left px-4 py-2 text-sm hover:bg-muted text-red-600"
-                              role="menuitem"
-                            >
-                              Cancel Order
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <button
+                        onClick={() => handlePrintOrder(order)}
+                        className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
+                        title="Print Order"
+                      >
+                        <Printer className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          setOrderStatusUpdate({ id: order.id, currentStatus: order.status, newStatus: "completed" })
+                          setShowStatusConfirm(true)
+                        }}
+                        className={cn(
+                          "p-1 rounded-md hover:bg-muted",
+                          order.status === "completed"
+                            ? "text-green-500"
+                            : "text-muted-foreground hover:text-foreground",
+                        )}
+                        title="Mark as Completed"
+                        disabled={order.status === "completed" || order.status === "cancelled"}
+                      >
+                        <CheckCircle className="h-4 w-4" />
+                      </button>
+                      <button
+                        className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground"
+                        title="Add Tag"
+                      >
+                        <Tag className="h-4 w-4" />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -573,19 +599,63 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4 border-t border-border">
+              <div className="flex justify-end p-6 border-t border-border">
                 <button
                   onClick={() => handleDownloadInvoice(selectedOrder.id)}
-                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted"
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted mr-2"
                 >
                   <FileText className="mr-2 h-4 w-4" />
                   Download Invoice
                 </button>
-                <button className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted">
+                <button
+                  onClick={() => handlePrintOrder(selectedOrder)}
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted mr-2"
+                >
                   <Printer className="mr-2 h-4 w-4" />
                   Print
                 </button>
+                {selectedOrder.status !== "completed" && selectedOrder.status !== "cancelled" && (
+                  <button
+                    onClick={() => {
+                      setOrderStatusUpdate({
+                        id: selectedOrder.id,
+                        currentStatus: selectedOrder.status,
+                        newStatus: "completed",
+                      })
+                      setShowStatusConfirm(true)
+                      setShowOrderDetails(false)
+                    }}
+                    className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-green-700"
+                  >
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Mark as Completed
+                  </button>
+                )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showStatusConfirm && orderStatusUpdate && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-background border border-border rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold mb-4">Update Order Status</h3>
+            <p className="mb-6">
+              Are you sure you want to mark order {orderStatusUpdate.id} as completed? This action cannot be undone.
+            </p>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={() => setShowStatusConfirm(false)}
+                className="px-4 py-2 border border-input bg-background text-sm font-medium rounded-md shadow-sm hover:bg-muted"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleUpdateOrderStatus(orderStatusUpdate.id, "completed")}
+                className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-green-700"
+              >
+                Mark as Completed
+              </button>
             </div>
           </div>
         </div>

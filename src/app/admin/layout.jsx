@@ -125,7 +125,7 @@ export default function AdminLayout({ children }) {
                     <span className="font-semibold text-primary">JS</span>
                   </div>
                   <div>
-                    <div className="font-medium">John Smith</div>
+                    <div className="font-medium">Vishal Tomar</div>
                     <div className="text-xs text-muted-foreground">Store Admin</div>
                   </div>
                 </div>
@@ -163,7 +163,7 @@ export default function AdminLayout({ children }) {
                   <>
                     <div className="flex items-center space-x-2">
                       <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
-                        SHOPIFY
+                        EDUKAN
                       </span>
                       <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">Admin</span>
                     </div>
@@ -209,7 +209,7 @@ export default function AdminLayout({ children }) {
                         <span className="font-semibold text-primary">JS</span>
                       </div>
                       <div>
-                        <div className="font-medium">John Smith</div>
+                        <div className="font-medium">Vishal Tomar</div>
                         <div className="text-xs text-muted-foreground">Store Admin</div>
                       </div>
                     </div>
@@ -264,9 +264,9 @@ export default function AdminLayout({ children }) {
                 )}
                 <div className="hidden md:flex items-center space-x-2">
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="font-semibold text-xs text-primary">JS</span>
+                    <span className="font-semibold text-xs text-primary">VT</span>
                   </div>
-                  <span className="font-medium text-sm">John Smith</span>
+                  <span className="font-medium text-sm">Vishal Tomar</span>
                 </div>
               </div>
             </header>
