@@ -1,27 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import ProductSkeleton from "./ProductSkeleton"
+
 import ProductCard from "./ProductCard"
+import ProductSkeleton from "./ProductSkeleton"
 import Pagination from "./Pagination"
-import ProductQuickView from "./QuickViewModal"
 
 const ITEMS_PER_PAGE = 12
 
 export default function ProductGrid({ products, isLoading }) {
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedProduct, setSelectedProduct] = useState(null)
-  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
 
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
   const currentProducts = products.slice(startIndex, endIndex)
-
-  const handleQuickView = (product) => {
-    setSelectedProduct(product)
-    setIsQuickViewOpen(true)
-  }
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
@@ -47,13 +40,13 @@ export default function ProductGrid({ products, isLoading }) {
           {products.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <h3 className="text-xl font-semibold mb-2">No products found</h3>
-              <p className="text-muted-foreground">Try adjusting your filters to find what you&apos;re looking for.</p>
+              <p className="text-muted-foreground">Try adjusting your filters to find what you're looking for.</p>
             </div>
           ) : (
             <>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {currentProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} onQuickView={handleQuickView} />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
 
@@ -65,14 +58,6 @@ export default function ProductGrid({ products, isLoading }) {
             </>
           )}
         </>
-      )}
-
-      {selectedProduct && (
-        <ProductQuickView
-          product={selectedProduct}
-          isOpen={isQuickViewOpen}
-          onClose={() => setIsQuickViewOpen(false)}
-        />
       )}
     </div>
   )

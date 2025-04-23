@@ -1,103 +1,102 @@
-// 👇 Step 1: Predefined image list per category
-const categoryImages = {
-  clothing: [
-    "https://imgs.search.brave.com/PnSCmT9CW0fPMCPkUgarjoGhFctrZQxcja8moJUkApk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/amxpbmRlYmVyZ3Vz/YS5jb20vY2RuL3No/b3AvZmlsZXMvR01T/VDExNDQ5X08xNDBf/Yy5qcGc_dj0xNzIw/Nzk2OTc2JndpZHRo/PTE0Njc"
-  ],
-  electronics: [
-    "https://imgs.search.brave.com/Mwkqy-YewhMiqC-xk70wUfpChD_XmZkn9bUXCjsnxdg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aWtlYS5jb20vdXMv/ZW4vaW1hZ2VzL3By/b2R1Y3RzL3ZhcHBl/YnktcG9ydGFibGUt/Ymx1ZXRvb3RoLXNw/ZWFrZXItd2F0ZXJw/cm9vZi1ibGFja19f/MTE2OTY1MV9wZTg5/MjUxN19zNS5qcGc_/Zj14eHM"
-  ],
-  furniture: [
-   
-  ],
-  books: [
-    
-  ],
-  beauty: [
-    
-  ],
-};
+// This is a mock data generator for the product listing page
+// In a real application, this would be replaced with API calls
 
-// 👇 Step 2: Product generator with predefined images
 export function generateProducts(count = 20) {
-  const categories = Object.keys(categoryImages);
-  const tags = ["new", "bestseller", "clearance", "limited", "sale"];
+  const categories = ["Electronics", "Clothing", "Home & Kitchen", "Books", "Beauty", "Sports"]
+  const subcategories = {
+    Electronics: ["Smartphones", "Laptops", "Audio", "Cameras", "Accessories"],
+    Clothing: ["Men", "Women", "Kids", "Footwear", "Accessories"],
+    "Home & Kitchen": ["Furniture", "Cookware", "Decor", "Bedding", "Storage"],
+    Books: ["Fiction", "Non-fiction", "Academic", "Children", "Comics"],
+    Beauty: ["Skincare", "Makeup", "Haircare", "Fragrance", "Tools"],
+    Sports: ["Fitness", "Outdoor", "Team Sports", "Cycling", "Swimming"],
+  }
 
-  return Array(count)
-    .fill(0)
-    .map((_, index) => {
-      const id = index + 1;
-      const category = categories[Math.floor(Math.random() * categories.length)];
-      const price = Math.floor(Math.random() * 9900) + 100;
-      const hasDiscount = Math.random() > 0.5;
-      const originalPrice = hasDiscount ? Math.floor(price * (1 + Math.random() * 0.5)) : null;
-      const rating = (Math.random() * 4 + 1).toFixed(1);
-      const ratingCount = Math.floor(Math.random() * 500) + 1;
-      const inStock = Math.random() > 0.2;
+  const tags = ["new", "bestseller", "sale", "limited", "exclusive"]
 
-      const productTags = [];
-      const tagCount = Math.floor(Math.random() * 3);
-      for (let i = 0; i < tagCount; i++) {
-        const randomTag = tags[Math.floor(Math.random() * tags.length)];
-        if (!productTags.includes(randomTag)) {
-          productTags.push(randomTag);
-        }
-      }
+  const products = []
 
-      // 👇 Get random image from the selected category
-      const images = categoryImages[category];
-      const image = images[Math.floor(Math.random() * images.length)];
+  for (let i = 1; i <= count; i++) {
+    const category = categories[Math.floor(Math.random() * categories.length)]
+    const subcategory = subcategories[category][Math.floor(Math.random() * subcategories[category].length)]
 
-      return {
-        id,
-        name: getProductName(category, id),
-        description: getProductDescription(category),
-        category,
-        price,
-        originalPrice,
-        image,
-        rating: Number.parseFloat(rating),
-        ratingCount,
-        inStock,
-        tags: productTags,
-        popularity: Math.floor(Math.random() * 100),
-        createdAt: getRandomDate(new Date(2023, 0, 1), new Date()),
-      };
-    });
+    const price = Math.floor(Math.random() * 9900) + 100 // Price between 100 and 10000
+    const hasDiscount = Math.random() > 0.5
+    const originalPrice = hasDiscount ? price + Math.floor(price * (Math.random() * 0.5 + 0.1)) : null
+
+    const randomTags = []
+    if (Math.random() > 0.7) randomTags.push(tags[Math.floor(Math.random() * tags.length)])
+    if (Math.random() > 0.8 && randomTags.length === 0) randomTags.push(tags[Math.floor(Math.random() * tags.length)])
+
+    const daysAgo = Math.floor(Math.random() * 100)
+    const date = new Date()
+    date.setDate(date.getDate() - daysAgo)
+
+    products.push({
+      id: `prod-${i}`,
+      name: `${category} ${subcategory} Product ${i}`,
+      description: `This is a high-quality ${subcategory.toLowerCase()} product in the ${category.toLowerCase()} category.`,
+      price,
+      originalPrice,
+      category,
+      subcategory,
+      rating: Math.random() * 3 + 2, // Rating between 2 and 5
+      ratingCount: Math.floor(Math.random() * 500) + 5,
+      inStock: Math.random() > 0.2,
+      popularity: Math.floor(Math.random() * 100),
+      tags: randomTags,
+      image: `/placeholder.svg?height=300&width=300&text=${encodeURIComponent(subcategory)}`,
+      createdAt: date.toISOString(),
+      images: [
+        `/placeholder.svg?height=600&width=600&text=${encodeURIComponent(subcategory + " 1")}`,
+        `/placeholder.svg?height=600&width=600&text=${encodeURIComponent(subcategory + " 2")}`,
+        `/placeholder.svg?height=600&width=600&text=${encodeURIComponent(subcategory + " 3")}`,
+        `/placeholder.svg?height=600&width=600&text=${encodeURIComponent(subcategory + " 4")}`,
+      ],
+      colors: ["Red", "Blue", "Black", "White"].slice(0, Math.floor(Math.random() * 4) + 1),
+      sizes: ["S", "M", "L", "XL"].slice(0, Math.floor(Math.random() * 4) + 1),
+      specifications: {
+        Material: ["Cotton", "Polyester", "Leather", "Metal", "Plastic"][Math.floor(Math.random() * 5)],
+        Weight: `${(Math.random() * 5).toFixed(2)} kg`,
+        Dimensions: `${Math.floor(Math.random() * 50) + 10}cm x ${Math.floor(Math.random() * 50) + 10}cm x ${Math.floor(Math.random() * 20) + 5}cm`,
+        Warranty: `${Math.floor(Math.random() * 24) + 6} months`,
+      },
+      reviews: Array(Math.floor(Math.random() * 10) + 2)
+        .fill()
+        .map((_, i) => ({
+          id: `review-${i}`,
+          user: `User${Math.floor(Math.random() * 1000)}`,
+          rating: Math.floor(Math.random() * 5) + 1,
+          comment: `This is review ${i + 1} for this product. ${Math.random() > 0.5 ? "I really liked it!" : "It was okay, but could be better."}`,
+          date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
+        })),
+    })
+  }
+
+  return products
 }
 
-// 👇 Helper for name
-function getProductName(category, id) {
-  const adjectives = ["Premium", "Deluxe", "Essential", "Classic", "Modern", "Elegant", "Professional", "Luxury"];
-  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+export function getProductById(id) {
+  // In a real app, this would fetch from an API
+  // For demo purposes, we'll generate a single product
+  const products = generateProducts(50)
+  const product = products.find((p) => p.id === id) || products[0]
 
-  const categoryNames = {
-    clothing: ["T-Shirt", "Jeans", "Dress", "Jacket", "Sweater", "Hoodie", "Shirt", "Skirt"],
-    electronics: ["Smartphone", "Headphones", "Laptop", "Tablet", "Camera", "Speaker", "Smartwatch", "TV"],
-    furniture: ["Chair", "Table", "Sofa", "Bed", "Desk", "Bookshelf", "Cabinet", "Dresser"],
-    books: ["Novel", "Cookbook", "Biography", "Self-Help Book", "History Book", "Science Book", "Fiction", "Non-Fiction"],
-    beauty: ["Moisturizer", "Serum", "Cleanser", "Shampoo", "Conditioner", "Perfume", "Makeup Kit", "Face Mask"],
-  };
+  // Ensure the first product has the requested ID
+  product.id = id
 
-  const items = categoryNames[category] || ["Product"];
-  const randomItem = items[Math.floor(Math.random() * items.length)];
-
-  return `${randomAdjective} ${randomItem} ${id}`;
+  return Promise.resolve(product)
 }
 
-// 👇 Helper for description
-function getProductDescription(category) {
-  const descriptions = {
-    clothing: "High-quality fabric with comfortable fit. Perfect for everyday wear or special occasions.",
-    electronics: "Cutting-edge technology with premium build quality. Latest innovations included.",
-    furniture: "Sturdy construction with elegant design. Built for comfort and durability.",
-    books: "Engaging content by acclaimed authors. Perfect for curious minds and book lovers.",
-    beauty: "Formulated with premium ingredients. Suitable for all skin types and daily use.",
-  };
+export function getRelatedProducts(category) {
+  // In a real app, this would fetch related products from an API
+  // For demo purposes, we'll generate some products
+  const products = generateProducts(8)
 
-  return descriptions[category] || "High-quality product with premium craftsmanship.";
-}
+  // Set the category for all products
+  products.forEach((product) => {
+    product.category = category
+  })
 
-// 👇 Random date helper
-function getRandomDate(start, end) {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  return Promise.resolve(products)
 }
