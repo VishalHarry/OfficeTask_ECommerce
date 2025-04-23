@@ -1,11 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react"
 import ConfirmationDialog from "../../ConfirmationDialog"
 
-
 export default function CartPage() {
+  // Add mounted state for handling theme
+  const [mounted, setMounted] = useState(false)
+  
+  // Use useEffect to handle mounting state
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Mock cart data
   const [cartItems, setCartItems] = useState([
     {
@@ -71,9 +78,9 @@ export default function CartPage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors duration-300">
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-6">Shopping Cart</h2>
+          <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white transition-colors duration-300">Shopping Cart</h2>
 
           {cartItems.length > 0 ? (
             <div className="flex flex-col lg:flex-row gap-6">
@@ -83,10 +90,10 @@ export default function CartPage() {
                   {cartItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex flex-col sm:flex-row border border-gray-200 rounded-lg p-4 gap-4"
+                      className="flex flex-col sm:flex-row border border-gray-200 dark:border-gray-700 rounded-lg p-4 gap-4 bg-white dark:bg-gray-800 transition-colors duration-300"
                     >
                       {/* Product Image */}
-                      <div className="w-full sm:w-24 h-24 bg-gray-100 rounded-md overflow-hidden flex-shrink-0 mx-auto sm:mx-0">
+                      <div className="w-full sm:w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden flex-shrink-0 mx-auto sm:mx-0 transition-colors duration-300">
                         <img
                           src={item.image || "/placeholder.svg"}
                           alt={item.name}
@@ -97,11 +104,11 @@ export default function CartPage() {
                       {/* Product Details */}
                       <div className="flex-1">
                         <div className="flex flex-col sm:flex-row sm:justify-between">
-                          <h3 className="font-medium mb-1">{item.name}</h3>
-                          <div className="font-semibold sm:text-right">${(item.price * item.quantity).toFixed(2)}</div>
+                          <h3 className="font-medium mb-1 text-gray-900 dark:text-white transition-colors duration-300">{item.name}</h3>
+                          <div className="font-semibold sm:text-right text-gray-900 dark:text-white transition-colors duration-300">${(item.price * item.quantity).toFixed(2)}</div>
                         </div>
 
-                        <div className="text-sm text-gray-600 mb-3">
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-3 transition-colors duration-300">
                           {item.color && <span>{item.color}</span>}
                           {item.color && item.size && <span> • </span>}
                           {item.size && <span>Size {item.size}</span>}
@@ -109,18 +116,20 @@ export default function CartPage() {
 
                         <div className="flex items-center justify-between">
                           {/* Quantity Selector */}
-                          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                          <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden transition-colors duration-300">
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
+                              className="px-2 py-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300"
                               disabled={item.quantity <= 1}
                             >
                               <Minus size={16} />
                             </button>
-                            <span className="px-3 py-1 border-x border-gray-300">{item.quantity}</span>
+                            <span className="px-3 py-1 border-x border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white transition-colors duration-300">
+                              {item.quantity}
+                            </span>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="px-2 py-1 text-gray-600 hover:bg-gray-100 transition-colors"
+                              className="px-2 py-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300"
                             >
                               <Plus size={16} />
                             </button>
@@ -129,7 +138,7 @@ export default function CartPage() {
                           {/* Remove Button */}
                           <button
                             onClick={() => confirmRemoveItem(item.id)}
-                            className="text-gray-500 hover:text-red-500 transition-colors flex items-center"
+                            className="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-300 flex items-center"
                           >
                             <Trash2 size={16} className="mr-1" />
                             <span className="text-sm">Remove</span>
@@ -143,32 +152,32 @@ export default function CartPage() {
 
               {/* Order Summary */}
               <div className="w-full lg:w-80 mt-6 lg:mt-0">
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-semibold mb-4">Order Summary</h3>
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 transition-colors duration-300">
+                  <h3 className="font-semibold mb-4 text-gray-900 dark:text-white transition-colors duration-300">Order Summary</h3>
 
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span className="text-gray-600 dark:text-gray-400 transition-colors duration-300">Subtotal</span>
+                      <span className="text-gray-900 dark:text-white transition-colors duration-300">${subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Shipping</span>
-                      <span>{shipping === 0 ? "Free" : `${shipping.toFixed(2)}`}</span>
+                      <span className="text-gray-600 dark:text-gray-400 transition-colors duration-300">Shipping</span>
+                      <span className="text-gray-900 dark:text-white transition-colors duration-300">{shipping === 0 ? "Free" : `${shipping.toFixed(2)}`}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Tax</span>
-                      <span>${tax.toFixed(2)}</span>
+                      <span className="text-gray-600 dark:text-gray-400 transition-colors duration-300">Tax</span>
+                      <span className="text-gray-900 dark:text-white transition-colors duration-300">${tax.toFixed(2)}</span>
                     </div>
                   </div>
 
-                  <div className="border-t border-gray-200 pt-2 mb-4">
+                  <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mb-4 transition-colors duration-300">
                     <div className="flex justify-between font-semibold">
-                      <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span className="text-gray-900 dark:text-white transition-colors duration-300">Total</span>
+                      <span className="text-gray-900 dark:text-white transition-colors duration-300">${total.toFixed(2)}</span>
                     </div>
                   </div>
 
-                  <button className="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center">
+                  <button className="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-300 flex items-center justify-center">
                     <ShoppingBag size={18} className="mr-2" />
                     Proceed to Checkout
                   </button>
@@ -177,12 +186,12 @@ export default function CartPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                <ShoppingBag size={24} className="text-gray-400" />
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center transition-colors duration-300">
+                <ShoppingBag size={24} className="text-gray-400 dark:text-gray-500 transition-colors duration-300" />
               </div>
-              <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
-              <p className="text-gray-500 mb-6">Looks like you haven't added any products to your cart yet</p>
-              <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
+              <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white transition-colors duration-300">Your cart is empty</h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6 transition-colors duration-300">Looks like you haven't added any products to your cart yet</p>
+              <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-300">
                 Continue Shopping
               </button>
             </div>

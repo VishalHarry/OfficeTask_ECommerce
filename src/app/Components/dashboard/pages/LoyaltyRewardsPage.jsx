@@ -1,9 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Award, Gift, Clock, Check } from "lucide-react"
 
 export default function LoyaltyRewardsPage() {
+  // Add mounted state for theme
+  const [mounted, setMounted] = useState(false)
+  
+  // Use useEffect to handle mounting state
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Mock loyalty data
   const [loyaltyData, setLoyaltyData] = useState({
     points: 1250,
@@ -87,12 +95,12 @@ export default function LoyaltyRewardsPage() {
   return (
     <div className="space-y-6">
       {/* Points Summary Card */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden transition-colors duration-300">
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h2 className="text-xl font-semibold mb-1">Loyalty & Rewards</h2>
-              <p className="text-gray-600">Earn points with every purchase and redeem exclusive rewards</p>
+              <h2 className="text-xl font-semibold mb-1 text-foreground">Loyalty & Rewards</h2>
+              <p className="text-muted-foreground">Earn points with every purchase and redeem exclusive rewards</p>
             </div>
             <div className="flex items-center bg-primary/10 text-primary rounded-lg px-4 py-2">
               <Award size={20} className="mr-2" />
@@ -100,21 +108,21 @@ export default function LoyaltyRewardsPage() {
             </div>
           </div>
 
-          <div className="mt-6 bg-gray-50 rounded-lg p-6">
+          <div className="mt-6 bg-muted rounded-lg p-6 transition-colors duration-300">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <div className="text-gray-600 mb-1">Available Points</div>
-                <div className="text-3xl font-bold">{loyaltyData.points}</div>
+                <div className="text-muted-foreground mb-1">Available Points</div>
+                <div className="text-3xl font-bold text-foreground">{loyaltyData.points}</div>
               </div>
               <div className="flex-1 max-w-xs">
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-sm mb-1 text-foreground">
                   <span>{loyaltyData.tier}</span>
                   <span>{loyaltyData.nextTier}</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-2 bg-secondary rounded-full overflow-hidden">
                   <div className="h-full bg-primary rounded-full" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className="text-xs text-muted-foreground mt-1">
                   {loyaltyData.pointsToNextTier} more points to reach {loyaltyData.nextTier}
                 </div>
               </div>
@@ -124,38 +132,38 @@ export default function LoyaltyRewardsPage() {
       </div>
 
       {/* Available Rewards */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden transition-colors duration-300">
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Available Rewards</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Available Rewards</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {rewards.map((reward) => (
               <div
                 key={reward.id}
-                className={`border rounded-lg overflow-hidden ${
+                className={`border rounded-lg overflow-hidden transition-all ${
                   reward.isAvailable && loyaltyData.points >= reward.pointsCost
-                    ? "border-gray-200 hover:border-primary hover:shadow-md"
-                    : "border-gray-200 opacity-70"
-                } transition-all`}
+                    ? "border-border hover:border-primary hover:shadow-md"
+                    : "border-border opacity-70"
+                }`}
               >
                 <div className="p-4">
                   <div className="flex items-center justify-center h-16 mb-3">
                     <img src={reward.image || "/placeholder.svg"} alt={reward.title} className="max-h-full" />
                   </div>
-                  <h3 className="font-medium text-center mb-1">{reward.title}</h3>
-                  <p className="text-sm text-gray-600 text-center mb-3">{reward.description}</p>
+                  <h3 className="font-medium text-center mb-1 text-foreground">{reward.title}</h3>
+                  <p className="text-sm text-muted-foreground text-center mb-3">{reward.description}</p>
                   <div className="flex justify-center items-center mb-3">
                     <Award size={16} className="text-primary mr-1" />
-                    <span className="font-semibold">{reward.pointsCost} points</span>
+                    <span className="font-semibold text-foreground">{reward.pointsCost} points</span>
                   </div>
                   <button
                     onClick={() => handleRedeemClick(reward)}
                     disabled={!reward.isAvailable || loyaltyData.points < reward.pointsCost}
-                    className={`w-full py-2 rounded-lg flex items-center justify-center ${
+                    className={`w-full py-2 rounded-lg flex items-center justify-center transition-colors ${
                       reward.isAvailable && loyaltyData.points >= reward.pointsCost
-                        ? "bg-primary text-white hover:bg-primary-dark"
-                        : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    } transition-colors`}
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                        : "bg-muted text-muted-foreground cursor-not-allowed"
+                    }`}
                   >
                     {reward.isAvailable && loyaltyData.points >= reward.pointsCost ? (
                       <>
@@ -177,27 +185,27 @@ export default function LoyaltyRewardsPage() {
       </div>
 
       {/* Points History */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden transition-colors duration-300">
         <div className="p-6">
-          <h2 className="text-xl font-semibold mb-4">Points History</h2>
+          <h2 className="text-xl font-semibold mb-4 text-foreground">Points History</h2>
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="py-3 px-4 text-left text-sm font-medium text-gray-500">Activity</th>
-                  <th className="py-3 px-4 text-left text-sm font-medium text-gray-500">Date</th>
-                  <th className="py-3 px-4 text-right text-sm font-medium text-gray-500">Points</th>
+                <tr className="border-b border-muted">
+                  <th className="py-3 px-4 text-left text-sm font-medium text-muted-foreground">Activity</th>
+                  <th className="py-3 px-4 text-left text-sm font-medium text-muted-foreground">Date</th>
+                  <th className="py-3 px-4 text-right text-sm font-medium text-muted-foreground">Points</th>
                 </tr>
               </thead>
               <tbody>
                 {loyaltyData.history.map((item) => (
-                  <tr key={item.id} className="border-b border-gray-100">
-                    <td className="py-3 px-4">{item.action}</td>
-                    <td className="py-3 px-4 text-gray-600">{item.date}</td>
+                  <tr key={item.id} className="border-b border-muted/50">
+                    <td className="py-3 px-4 text-foreground">{item.action}</td>
+                    <td className="py-3 px-4 text-muted-foreground">{item.date}</td>
                     <td
                       className={`py-3 px-4 text-right font-medium ${
-                        item.points >= 0 ? "text-green-600" : "text-red-600"
+                        item.points >= 0 ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"
                       }`}
                     >
                       {item.points >= 0 ? `+${item.points}` : item.points}
@@ -212,11 +220,11 @@ export default function LoyaltyRewardsPage() {
 
       {/* Redeem Modal */}
       {isRedeemModalOpen && selectedReward && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">Redeem Reward</h3>
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-lg shadow-lg max-w-md w-full p-6 animate-fade-in border border-border transition-colors duration-300">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">Redeem Reward</h3>
             <div className="flex items-center mb-4">
-              <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
+              <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mr-4 transition-colors duration-300">
                 <img
                   src={selectedReward.image || "/placeholder.svg"}
                   alt={selectedReward.title}
@@ -224,8 +232,8 @@ export default function LoyaltyRewardsPage() {
                 />
               </div>
               <div>
-                <h4 className="font-medium">{selectedReward.title}</h4>
-                <p className="text-sm text-gray-600">{selectedReward.description}</p>
+                <h4 className="font-medium text-foreground">{selectedReward.title}</h4>
+                <p className="text-sm text-muted-foreground">{selectedReward.description}</p>
                 <div className="flex items-center mt-1 text-primary">
                   <Award size={14} className="mr-1" />
                   <span className="font-medium">{selectedReward.pointsCost} points</span>
@@ -233,31 +241,31 @@ export default function LoyaltyRewardsPage() {
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-3 mb-4">
+            <div className="bg-muted rounded-lg p-3 mb-4 transition-colors duration-300">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Your current points:</span>
-                <span className="font-medium">{loyaltyData.points}</span>
+                <span className="text-muted-foreground">Your current points:</span>
+                <span className="font-medium text-foreground">{loyaltyData.points}</span>
               </div>
               <div className="flex justify-between items-center mt-1">
-                <span className="text-gray-600">Points to redeem:</span>
-                <span className="font-medium text-red-600">-{selectedReward.pointsCost}</span>
+                <span className="text-muted-foreground">Points to redeem:</span>
+                <span className="font-medium text-red-600 dark:text-red-500">-{selectedReward.pointsCost}</span>
               </div>
-              <div className="border-t border-gray-200 mt-2 pt-2 flex justify-between items-center">
-                <span className="font-medium">Remaining points:</span>
-                <span className="font-medium">{loyaltyData.points - selectedReward.pointsCost}</span>
+              <div className="border-t border-muted-foreground/20 mt-2 pt-2 flex justify-between items-center">
+                <span className="font-medium text-foreground">Remaining points:</span>
+                <span className="font-medium text-foreground">{loyaltyData.points - selectedReward.pointsCost}</span>
               </div>
             </div>
 
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setIsRedeemModalOpen(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-input rounded-lg bg-background hover:bg-accent text-foreground transition-colors duration-300"
               >
                 Cancel
               </button>
               <button
                 onClick={handleRedeemConfirm}
-                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors flex items-center"
               >
                 <Check size={16} className="mr-1" />
                 Confirm Redemption

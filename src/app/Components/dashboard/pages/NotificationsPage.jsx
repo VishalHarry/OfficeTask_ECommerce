@@ -1,11 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Bell, ShoppingBag, CreditCard, AlertCircle, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { useTheme } from "next-themes"
 
 export default function NotificationsPage() {
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  
+  // Ensure theme is only accessed after mounting to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -97,29 +106,34 @@ export default function NotificationsPage() {
       case "alert":
         return <AlertCircle className="h-5 w-5 text-red-500" />
       default:
-        return <Bell className="h-5 w-5 text-gray-500" />
+        return <Bell className="h-5 w-5 text-gray-500 dark:text-gray-400" />
     }
   }
 
   const unreadCount = notifications.filter((notification) => !notification.isRead).length
 
+  // If not mounted yet, don't render the UI to prevent hydration mismatch
+  if (!mounted) {
+    return null
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 transition-colors duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold">Notifications</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">Notifications</h1>
           {unreadCount > 0 && (
             <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">{unreadCount}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
           {unreadCount > 0 && (
-            <Button variant="outline" size="sm" onClick={handleMarkAllAsRead}>
+            <Button variant="outline" size="sm" onClick={handleMarkAllAsRead} className="border-gray-300 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors duration-300">
               Mark all as read
             </Button>
           )}
           {notifications.length > 0 && (
-            <Button variant="outline" size="sm" onClick={handleClearAll}>
+            <Button variant="outline" size="sm" onClick={handleClearAll} className="border-gray-300 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors duration-300">
               Clear all
             </Button>
           )}
@@ -127,33 +141,33 @@ export default function NotificationsPage() {
       </div>
 
       {notifications.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center transition-colors duration-300">
           <div className="flex justify-center mb-4">
-            <Bell className="h-12 w-12 text-gray-300" />
+            <Bell className="h-12 w-12 text-gray-300 dark:text-gray-600 transition-colors duration-300" />
           </div>
-          <h2 className="text-xl font-semibold mb-2">No notifications</h2>
-          <p className="text-gray-600">You're all caught up!</p>
+          <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white transition-colors duration-300">No notifications</h2>
+          <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">You're all caught up!</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="divide-y divide-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors duration-300">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {notifications.map((notification) => (
               <div
                 key={notification.id}
-                className={`p-4 hover:bg-gray-50 transition-colors cursor-pointer flex items-start gap-3 ${
-                  !notification.isRead ? "bg-blue-50/50" : ""
+                className={`p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer flex items-start gap-3 ${
+                  !notification.isRead ? "bg-blue-50/50 dark:bg-blue-900/20" : ""
                 }`}
                 onClick={() => handleViewNotification(notification)}
               >
                 <div className="mt-1">{getNotificationIcon(notification.type)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className={`font-medium ${!notification.isRead ? "font-semibold" : ""}`}>
+                    <h3 className={`font-medium ${!notification.isRead ? "font-semibold" : ""} text-gray-900 dark:text-white transition-colors duration-300`}>
                       {notification.title}
                     </h3>
-                    <span className="text-xs text-gray-500 whitespace-nowrap">{formatDate(notification.date)}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap transition-colors duration-300">{formatDate(notification.date)}</span>
                   </div>
-                  <p className="text-sm text-gray-600 line-clamp-2">{notification.message}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 transition-colors duration-300">{notification.message}</p>
                 </div>
                 {!notification.isRead && (
                   <button
@@ -161,10 +175,10 @@ export default function NotificationsPage() {
                       e.stopPropagation()
                       handleMarkAsRead(notification.id)
                     }}
-                    className="p-1 hover:bg-gray-200 rounded-full"
+                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full transition-colors duration-300"
                     aria-label="Mark as read"
                   >
-                    <Check className="h-4 w-4 text-gray-500" />
+                    <Check className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                   </button>
                 )}
               </div>
@@ -175,35 +189,35 @@ export default function NotificationsPage() {
 
       {/* Notification Detail Modal */}
       <Dialog open={!!selectedNotification} onOpenChange={(open) => !open && setSelectedNotification(null)}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-gray-900 dark:text-white transition-colors duration-300">
               {selectedNotification && getNotificationIcon(selectedNotification.type)}
               {selectedNotification?.title}
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            <p className="text-gray-600 mb-4">{selectedNotification?.message}</p>
-            <p className="text-xs text-gray-500">{selectedNotification && formatDate(selectedNotification.date)}</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-300">{selectedNotification?.message}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300">{selectedNotification && formatDate(selectedNotification.date)}</p>
           </div>
           <DialogFooter>
-            <Button onClick={() => setSelectedNotification(null)}>Close</Button>
+            <Button onClick={() => setSelectedNotification(null)} className="bg-primary hover:bg-primary/90 text-white transition-colors duration-300">Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Clear All Confirmation Dialog */}
       <Dialog open={confirmClearDialog} onOpenChange={setConfirmClearDialog}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <DialogHeader>
-            <DialogTitle>Clear All Notifications</DialogTitle>
+            <DialogTitle className="text-gray-900 dark:text-white transition-colors duration-300">Clear All Notifications</DialogTitle>
           </DialogHeader>
-          <p className="py-4">Are you sure you want to clear all notifications? This action cannot be undone.</p>
+          <p className="py-4 text-gray-600 dark:text-gray-300 transition-colors duration-300">Are you sure you want to clear all notifications? This action cannot be undone.</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setConfirmClearDialog(false)}>
+            <Button variant="outline" onClick={() => setConfirmClearDialog(false)} className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
               Cancel
             </Button>
-            <Button variant="destructive" onClick={confirmClear}>
+            <Button variant="destructive" onClick={confirmClear} className="transition-colors duration-300">
               Yes, clear all
             </Button>
           </DialogFooter>

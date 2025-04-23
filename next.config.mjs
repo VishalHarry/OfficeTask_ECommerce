@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: ['imgs.search.brave.com',
-          'cdn.mos.cms.futurecdn.net'
+          'cdn.mos.cms.futurecdn.net',
+          'fakestoreapi.com'
         ], 
       },
 };

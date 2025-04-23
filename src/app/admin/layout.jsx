@@ -60,7 +60,7 @@ export default function AdminLayout({ children }) {
           </button>
           <div className="flex items-center space-x-2">
             <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
-              SHOPIFY
+              EDUKAN
             </span>
             <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">Admin</span>
           </div>
@@ -88,7 +88,7 @@ export default function AdminLayout({ children }) {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-2">
                 <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
-                  SHOPIFY
+                  EDUKAN
                 </span>
                 <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">Admin</span>
               </div>
