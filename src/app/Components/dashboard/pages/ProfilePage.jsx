@@ -169,9 +169,10 @@ export default function ProfilePage() {
             </Button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 dark:border-gray-700" >
             {userData.addresses.map((address) => (
-              <div key={address.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 relative bg-gray-50 dark:bg-gray-750 transition-colors duration-300">
+             <div key={address.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 relative bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
+
                 {address.isDefault && (
                   <span className="absolute top-2 right-2 bg-primary text-white text-xs px-2 py-0.5 rounded-full">
                     Default

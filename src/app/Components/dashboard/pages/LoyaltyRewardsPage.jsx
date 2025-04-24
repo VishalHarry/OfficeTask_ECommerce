@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { Award, Gift, Clock, Check } from "lucide-react"
+import { useTheme } from "next-themes"
 
 export default function LoyaltyRewardsPage() {
-  // Add mounted state for theme
+  // Theme handling from DashboardHeader
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   
   // Use useEffect to handle mounting state
@@ -91,6 +93,11 @@ export default function LoyaltyRewardsPage() {
   // Calculate progress percentage
   const totalPointsForNextTier = loyaltyData.pointsToNextTier + loyaltyData.points
   const progressPercentage = (loyaltyData.points / totalPointsForNextTier) * 100
+
+  // Don't render anything until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div className="space-y-6">
