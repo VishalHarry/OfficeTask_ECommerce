@@ -224,26 +224,20 @@ export default function Header() {
             {/* Mobile Navigation - Individual links instead of map */}
             <nav className="flex flex-col space-y-1">
               <Link
-                href="/home"
+                href="/"
                 className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
-                href="/shop"
+                href="/product"
                 className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Shop
               </Link>
-              <Link
-                href="/categories"
-                className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Categories
-              </Link>
+
               <Link
                 href="/about"
                 className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
@@ -277,8 +271,9 @@ export default function Header() {
 
             {/* Login/Signup Button */}
             <Link
-              href="/"
-              className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+              href="/login" // or your desired route
+              className="w-full rounded-lg bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white text-center py-2 px-4 block"
+            >
               Login / Signup
             </Link>
           </div>

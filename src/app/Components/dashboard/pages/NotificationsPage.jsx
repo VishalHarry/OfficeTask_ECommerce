@@ -112,7 +112,7 @@ export default function NotificationsPage() {
 
   const unreadCount = notifications.filter((notification) => !notification.isRead).length
 
-  // If not mounted yet, don't render the UI to prevent hydration mismatch
+ 
   if (!mounted) {
     return null
   }
@@ -146,7 +146,7 @@ export default function NotificationsPage() {
             <Bell className="h-12 w-12 text-gray-300 dark:text-gray-600 transition-colors duration-300" />
           </div>
           <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white transition-colors duration-300">No notifications</h2>
-          <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">You're all caught up!</p>
+          <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">You&apos;re all caught up!</p>
         </div>
       ) : (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-colors duration-300">

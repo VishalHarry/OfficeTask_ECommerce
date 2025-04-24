@@ -5,11 +5,12 @@ import { Heart, ShoppingCart, Eye } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import Image from "next/image"
 
 export default function WishlistPage() {
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  
+
   // Use useEffect to handle mounting state
   useEffect(() => {
     setMounted(true)
@@ -99,7 +100,15 @@ export default function WishlistPage() {
               className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-300"
             >
               <div className="relative">
-                <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-full h-48 object-cover" />
+                <div className="relative w-full h-48">
+                  <Image
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.name}
+                    width={500}  // Adjust this width based on your layout
+                    height={192} // Adjust this height based on your layout
+                    className="object-cover"
+                  />
+                </div>
                 <div className="absolute top-3 right-3 flex space-x-2">
                   <button
                     onClick={() => handleRemoveItem(item.id)}
@@ -168,11 +177,15 @@ export default function WishlistPage() {
             </DialogHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <img
-                  src={quickViewItem.image || "/placeholder.svg"}
-                  alt={quickViewItem.name}
-                  className="w-full h-auto object-cover rounded-md"
-                />
+                <div className="relative w-full h-auto">
+                  <Image
+                    src={quickViewItem.image || "/placeholder.svg"}
+                    alt={quickViewItem.name}
+                    width={500} // Adjust this width based on your layout
+                    height={300} // Adjust this height based on your layout
+                    className="object-cover rounded-md"
+                  />
+                </div>
               </div>
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-300">{quickViewItem.name}</h2>

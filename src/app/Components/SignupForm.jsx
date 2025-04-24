@@ -112,7 +112,7 @@ export default function SignupForm() {
 
     if (formData.password !== formData.confirmPassword) {
       // Using browser alert since toast is not defined in the original code
-      alert("Passwords don't match. Please make sure your passwords match.")
+      alert("Passwords don&apos;t match. Please make sure your passwords match.")
       return
     }
 
@@ -251,7 +251,7 @@ export default function SignupForm() {
           </button>
         </div>
         {formData.confirmPassword && formData.password !== formData.confirmPassword && (
-          <p className="text-xs text-red-500 mt-1">Passwords don't match</p>
+          <p className="text-xs text-red-500 mt-1">Passwords don&apos;t match</p>
         )}
       </div>
 

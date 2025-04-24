@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react"
 import { Award, Gift, Clock, Check } from "lucide-react"
 import { useTheme } from "next-themes"
+import Image from "next/image"
 
 export default function LoyaltyRewardsPage() {
   // Theme handling from DashboardHeader
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  
+
   // Use useEffect to handle mounting state
   useEffect(() => {
     setMounted(true)
@@ -147,15 +148,22 @@ export default function LoyaltyRewardsPage() {
             {rewards.map((reward) => (
               <div
                 key={reward.id}
-                className={`border rounded-lg overflow-hidden transition-all ${
-                  reward.isAvailable && loyaltyData.points >= reward.pointsCost
-                    ? "border-border hover:border-primary hover:shadow-md"
-                    : "border-border opacity-70"
-                }`}
+                className={`border rounded-lg overflow-hidden transition-all ${reward.isAvailable && loyaltyData.points >= reward.pointsCost
+                  ? "border-border hover:border-primary hover:shadow-md"
+                  : "border-border opacity-70"
+                  }`}
               >
                 <div className="p-4">
                   <div className="flex items-center justify-center h-16 mb-3">
-                    <img src={reward.image || "/placeholder.svg"} alt={reward.title} className="max-h-full" />
+                    <div className="relative w-full h-auto max-h-full">
+                      <Image
+                        src={reward.image || "/placeholder.svg"}
+                        alt={reward.title}
+                        width={500} // Set an appropriate width
+                        height={300} // Set an appropriate height
+                        className="max-h-full object-contain"
+                      />
+                    </div>
                   </div>
                   <h3 className="font-medium text-center mb-1 text-foreground">{reward.title}</h3>
                   <p className="text-sm text-muted-foreground text-center mb-3">{reward.description}</p>
@@ -166,11 +174,10 @@ export default function LoyaltyRewardsPage() {
                   <button
                     onClick={() => handleRedeemClick(reward)}
                     disabled={!reward.isAvailable || loyaltyData.points < reward.pointsCost}
-                    className={`w-full py-2 rounded-lg flex items-center justify-center transition-colors ${
-                      reward.isAvailable && loyaltyData.points >= reward.pointsCost
-                        ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                        : "bg-muted text-muted-foreground cursor-not-allowed"
-                    }`}
+                    className={`w-full py-2 rounded-lg flex items-center justify-center transition-colors ${reward.isAvailable && loyaltyData.points >= reward.pointsCost
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "bg-muted text-muted-foreground cursor-not-allowed"
+                      }`}
                   >
                     {reward.isAvailable && loyaltyData.points >= reward.pointsCost ? (
                       <>
@@ -211,9 +218,8 @@ export default function LoyaltyRewardsPage() {
                     <td className="py-3 px-4 text-foreground">{item.action}</td>
                     <td className="py-3 px-4 text-muted-foreground">{item.date}</td>
                     <td
-                      className={`py-3 px-4 text-right font-medium ${
-                        item.points >= 0 ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"
-                      }`}
+                      className={`py-3 px-4 text-right font-medium ${item.points >= 0 ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"
+                        }`}
                     >
                       {item.points >= 0 ? `+${item.points}` : item.points}
                     </td>
@@ -232,11 +238,15 @@ export default function LoyaltyRewardsPage() {
             <h3 className="text-lg font-semibold mb-4 text-foreground">Redeem Reward</h3>
             <div className="flex items-center mb-4">
               <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mr-4 transition-colors duration-300">
-                <img
-                  src={selectedReward.image || "/placeholder.svg"}
-                  alt={selectedReward.title}
-                  className="max-h-full max-w-full"
-                />
+                <div className="relative w-full h-auto max-h-full max-w-full">
+                  <Image
+                    src={selectedReward.image || "/placeholder.svg"}
+                    alt={selectedReward.title}
+                    width={500} // Adjust width based on your layout
+                    height={300} // Adjust height based on your layout
+                    className="object-contain max-h-full max-w-full"
+                  />
+                </div>
               </div>
               <div>
                 <h4 className="font-medium text-foreground">{selectedReward.title}</h4>

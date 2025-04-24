@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import ConfirmationDialog from "../../ConfirmationDialog"
+import Image from "next/image"
 
 export default function ProfilePage() {
   const [isEditingProfile, setIsEditingProfile] = useState(false)
@@ -111,11 +112,15 @@ export default function ProfilePage() {
           <div className="relative w-24 h-24 mx-auto md:mx-0">
             <div className="w-full h-full rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden transition-colors duration-300">
               {userData.profileImage ? (
-                <img
+                <div className="relative w-full h-full">
+                <Image
                   src={userData.profileImage || "/placeholder.svg"}
                   alt="Profile"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
                 />
+              </div>
               ) : (
                 <span className="text-3xl font-semibold text-gray-400 dark:text-gray-300 transition-colors duration-300">{userData.name.charAt(0)}</span>
               )}

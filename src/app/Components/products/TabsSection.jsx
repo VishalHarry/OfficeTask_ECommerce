@@ -275,7 +275,7 @@ function FAQsContent() {
     {
       question: "Are there any warranties on products?",
       answer:
-        "Most products come with a manufacturer's warranty. The warranty period varies by product and brand. Extended warranty options are available for select items at checkout.",
+        "Most products come with a manufacturer&apos;s warranty. The warranty period varies by product and brand. Extended warranty options are available for select items at checkout.",
     },
   ]
 
@@ -382,7 +382,7 @@ function ShippingContent() {
             <div>
               <h4 className="font-medium">Return Process</h4>
               <p className="text-sm text-muted-foreground">
-                Initiate a return through your account dashboard. Once approved, you'll receive a return shipping label.
+                Initiate a return through your account dashboard. Once approved, you&apos;ll receive a return shipping label.
                 Refunds are processed within 5-7 business days after we receive the returned item.
               </p>
             </div>

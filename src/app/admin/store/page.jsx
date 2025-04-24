@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 export default function StoreControlPage() {
   const [isStoreOpen, setIsStoreOpen] = useState(true)
   const [showConfirmation, setShowConfirmation] = useState(false)
-  const [storeAction, setStoreAction] = useState(null) // 'open' or 'close'
+  const [storeAction, setStoreAction] = useState(null) 
   const [storeHours, setStoreHours] = useState({
     monday: { open: "09:00", close: "18:00", isOpen: true },
     tuesday: { open: "09:00", close: "18:00", isOpen: true },
@@ -107,7 +107,7 @@ export default function StoreControlPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
               <div>
                 <h3 className="text-lg font-medium mb-1">Store Status</h3>
-                <p className="text-sm text-muted-foreground">Toggle your store's availability to customers</p>
+                <p className="text-sm text-muted-foreground">Toggle your store&apos;s availability to customers</p>
               </div>
               <div className="flex items-center">
                 <div className="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 bg-muted">
@@ -245,7 +245,7 @@ export default function StoreControlPage() {
               <span className="font-semibold">{storeStats.activeVisitors}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Today's Orders</span>
+              <span className="text-sm font-medium">Today&apos;s Orders</span>
               <span className="font-semibold">{storeStats.todayOrders}</span>
             </div>
             <div className="flex items-center justify-between">
@@ -253,7 +253,7 @@ export default function StoreControlPage() {
               <span className="font-semibold">{storeStats.pendingOrders}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Today's Revenue</span>
+              <span className="text-sm font-medium">Today&apos;s Revenue</span>
               <span className="font-semibold">₹{storeStats.todayRevenue}</span>
             </div>
           </div>

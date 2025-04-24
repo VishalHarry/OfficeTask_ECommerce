@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react"
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react"
 import ConfirmationDialog from "../../ConfirmationDialog"
+import Image from "next/image"
 
 export default function CartPage() {
   // Add mounted state for handling theme
   const [mounted, setMounted] = useState(false)
-  
+
   // Use useEffect to handle mounting state
   useEffect(() => {
     setMounted(true)
@@ -94,11 +95,15 @@ export default function CartPage() {
                     >
                       {/* Product Image */}
                       <div className="w-full sm:w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden flex-shrink-0 mx-auto sm:mx-0 transition-colors duration-300">
-                        <img
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={item.image || "/placeholder.svg"}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="100vw"
+                          />
+                        </div>
                       </div>
 
                       {/* Product Details */}
@@ -190,7 +195,7 @@ export default function CartPage() {
                 <ShoppingBag size={24} className="text-gray-400 dark:text-gray-500 transition-colors duration-300" />
               </div>
               <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-white transition-colors duration-300">Your cart is empty</h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-6 transition-colors duration-300">Looks like you haven't added any products to your cart yet</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-6 transition-colors duration-300">Looks like you haven&apos;t added any products to your cart yet</p>
               <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-300">
                 Continue Shopping
               </button>

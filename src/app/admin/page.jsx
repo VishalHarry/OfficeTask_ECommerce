@@ -14,6 +14,7 @@ import {
 } from "lucide-react"
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 // Sample data for charts
 const salesData = [
@@ -299,11 +300,15 @@ export default function AdminDashboard() {
             {bestSellingProducts.map((product) => (
               <div key={product.id} className="p-4 flex items-center">
                 <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="w-full h-full relative">
+                    <Image
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                    />
+                  </div>
                 </div>
                 <div className="ml-4 flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{product.name}</p>
@@ -353,11 +358,11 @@ export default function AdminDashboard() {
                         className={cn(
                           "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium",
                           order.status === "completed" &&
-                            "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
+                          "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
                           order.status === "processing" &&
-                            "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+                          "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
                           order.status === "shipped" &&
-                            "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
+                          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
                         )}
                       >
                         {order.status.charAt(0).toUpperCase() + order.status.slice(1)}

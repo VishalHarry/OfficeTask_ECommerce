@@ -26,7 +26,7 @@ export default function SupportCenterPage() {
     {
       question: "How do I track my order?",
       answer:
-        "You can track your order by going to the Order History section in your account dashboard. Click on the specific order and you'll find the tracking information there.",
+        "You can track your order by going to the Order History section in your account dashboard. Click on the specific order and you&apos;ll find the tracking information there.",
     },
     {
       question: "What is your return policy?",
@@ -160,7 +160,7 @@ export default function SupportCenterPage() {
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white transition-colors duration-300">Contact Us</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors duration-300">
-            Can't find what you're looking for? Send us a message and we'll get back to you as soon as possible.
+            Can&apos;t find what you&apos;re looking for? Send us a message and we&apos;ll get back to you as soon as possible.
           </p>
 
           {isSubmitted ? (
@@ -183,7 +183,7 @@ export default function SupportCenterPage() {
                 </svg>
                 <div>
                   <h3 className="font-medium">Message Sent!</h3>
-                  <p className="text-sm">Thank you for contacting us. We'll respond to your inquiry shortly.</p>
+                  <p className="text-sm">Thank you for contacting us. We&apos;ll respond to your inquiry shortly.</p>
                 </div>
               </div>
             </div>

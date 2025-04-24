@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Search, Plus, Filter, Edit, Trash2, X, Upload, Check, AlertTriangle, Eye } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 // Sample product data
 const initialProducts = [
@@ -240,8 +241,7 @@ export default function ProductsPage() {
   }
 
   const handleImageChange = (e, index) => {
-    // In a real app, you would handle file upload to a server
-    // For this demo, we'll just use a placeholder
+
     if (editingProduct) {
       const newImages = [...(editingProduct.images || [null, null, null, null])]
       newImages[index] = "/placeholder.svg?height=80&width=80&text=New+Image"
@@ -409,11 +409,15 @@ export default function ProductsPage() {
                   <td className="py-3 px-4">
                     <div className="flex items-center">
                       <div className="w-10 h-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                        <img
-                          src={product.image || "/placeholder.svg"}
-                          alt={product.name}
-                          className="w-full h-full object-cover"
-                        />
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                            sizes="100vw"
+                          />
+                        </div>
                       </div>
                       <div className="ml-3">
                         <p className="font-medium text-sm">{product.name}</p>
@@ -498,7 +502,7 @@ export default function ProductsPage() {
             </div>
             <h3 className="text-lg font-medium mb-1">No products found</h3>
             <p className="text-muted-foreground">
-              Try adjusting your search or filter to find what you're looking for.
+              Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
           </div>
         )}
@@ -643,7 +647,7 @@ export default function ProductsPage() {
                     type="text"
                     id="attribute"
                     className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                    placeholder="Add attribute (e.g., 'Waterproof', 'Wireless')"
+                    placeholder="Add attribute (e.g., &apos;Waterproof&apos;, &apos;Wireless&apos;)"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault()
@@ -690,11 +694,14 @@ export default function ProductsPage() {
                     <div key={idx} className="border-2 border-dashed border-border rounded-md p-2">
                       <div className="aspect-square relative bg-muted rounded-md overflow-hidden">
                         {img ? (
-                          <img
+                          <Image
                             src={img || "/placeholder.svg"}
                             alt={`Product image ${idx + 1}`}
                             className="object-cover w-full h-full"
+                            width={500}  // Set the width based on your layout
+                            height={500} // Set the height based on your layout
                           />
+
                         ) : (
                           <div className="flex items-center justify-center h-full">
                             <Upload className="h-8 w-8 text-muted-foreground" />
@@ -856,7 +863,7 @@ export default function ProductsPage() {
                     type="text"
                     id="edit-attribute"
                     className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                    placeholder="Add attribute (e.g., 'Waterproof', 'Wireless')"
+                    placeholder="Add attribute (e.g., &apos;Waterproof&apos;, &apos;Wireless&apos;)"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault()
@@ -903,11 +910,14 @@ export default function ProductsPage() {
                     <div key={idx} className="border-2 border-dashed border-border rounded-md p-2">
                       <div className="aspect-square relative bg-muted rounded-md overflow-hidden">
                         {img ? (
-                          <img
-                            src={img || "/placeholder.svg"}
+                          <Image
+                            src={img || "/placeholder.svg"} // Fallback to placeholder if img is not available
                             alt={`Product image ${idx + 1}`}
                             className="object-cover w-full h-full"
+                            width={500}  // Set the width according to your layout
+                            height={500} // Set the height according to your layout
                           />
+
                         ) : (
                           <div className="flex items-center justify-center h-full">
                             <Upload className="h-8 w-8 text-muted-foreground" />
@@ -989,11 +999,14 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <div className="aspect-square relative rounded-md overflow-hidden bg-muted mb-4">
-                    <img
-                      src={viewProduct.image || "/placeholder.svg"}
-                      alt={viewProduct.name}
-                      className="object-cover w-full h-full"
+                    <Image
+                      src={viewProduct.image || "/placeholder.svg"}  // Fallback to placeholder if image is not available
+                      alt={viewProduct.name} // Use the product name as alt text for better SEO and accessibility
+                      className="object-cover w-full h-full" // Tailwind classes for responsive and cover behavior
+                      width={500} // Set a fixed width for the image
+                      height={500} // Set a fixed height for the image
                     />
+
                   </div>
                   {viewProduct.images && viewProduct.images.length > 0 && (
                     <div className="grid grid-cols-4 gap-2">
@@ -1001,11 +1014,15 @@ export default function ProductsPage() {
                         (img, idx) =>
                           img && (
                             <div key={idx} className="aspect-square relative rounded-md overflow-hidden bg-muted">
-                              <img
-                                src={img || "/placeholder.svg"}
-                                alt={`Product view ${idx + 1}`}
-                                className="object-cover w-full h-full"
-                              />
+                              <div className="relative w-full h-full">
+                                <Image
+                                  src={img || "/placeholder.svg"}
+                                  alt={`Product view ${idx + 1}`}
+                                  fill
+                                  className="object-cover"
+                                  sizes="100vw"
+                                />
+                              </div>
                             </div>
                           ),
                       )}

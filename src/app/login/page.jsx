@@ -5,6 +5,7 @@ export const metadata = {
 };
 
 
+import Image from "next/image";
 import LoginForms from "../Components/LoginForms";
 
 
@@ -15,11 +16,15 @@ export default function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <div className="h-24 w-24 mb-6 rounded-full bg-gradient-to-r from-primary to-purple-600 p-1">
-            <img
-              src="https://png.pngtree.com/template/20190927/ourmid/pngtree-e-commerce-logo-template-image_311731.jpg"
-              alt="Eduan Logo"
-              className="h-full w-full rounded-full object-cover"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src="/"
+                alt="Eduan Logo"
+                width={500}  // Adjust this width based on your layout
+                height={500} // Adjust this height based on your layout (to maintain a square shape for the rounded full effect)
+                className="object-cover rounded-full"
+              />
+            </div>
           </div>
 
 

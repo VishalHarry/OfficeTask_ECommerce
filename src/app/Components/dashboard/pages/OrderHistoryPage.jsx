@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react"
 import { ChevronDown, ChevronUp, RefreshCw, Truck, Package, CheckCircle, Clock, ShoppingBag } from "lucide-react"
 import { useTheme } from "next-themes"
+import Image from "next/image"
 
 export default function OrderHistoryPage() {
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  
+
   // Ensure theme is only accessed after mounting to prevent hydration mismatch
   useEffect(() => {
     setMounted(true)
@@ -102,7 +103,7 @@ export default function OrderHistoryPage() {
     console.log(`Reordering items from order ${orderId}`)
   }
 
-  // If not mounted yet, don't render the UI to prevent hydration mismatch
+
   if (!mounted) {
     return null
   }
@@ -154,11 +155,15 @@ export default function OrderHistoryPage() {
                           {order.items.map((item) => (
                             <div key={item.id} className="flex items-center gap-4">
                               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden flex-shrink-0 transition-colors duration-200">
-                                <img
-                                  src={item.image}
-                                  alt={item.name}
-                                  className="w-full h-full object-cover"
-                                />
+                                <div className="relative w-full h-full">
+                                  <Image
+                                    src={item.image}
+                                    alt={item.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="100vw"
+                                  />
+                                </div>
                               </div>
                               <div className="flex-1">
                                 <h4 className="font-medium text-gray-900 dark:text-white transition-colors duration-200">{item.name}</h4>
@@ -238,7 +243,7 @@ export default function OrderHistoryPage() {
               <div className="flex justify-center mb-4">
                 <ShoppingBag size={48} className="text-gray-300 dark:text-gray-600 transition-colors duration-200" />
               </div>
-              <p className="text-gray-500 dark:text-gray-400 mb-4 transition-colors duration-200">You haven't placed any orders yet.</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4 transition-colors duration-200">You haven&apos;t placed any orders yet.</p>
               <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200">
                 Start Shopping
               </button>

@@ -448,7 +448,7 @@ export default function OrdersPage() {
             </div>
             <h3 className="text-lg font-medium mb-1">No orders found</h3>
             <p className="text-muted-foreground">
-              Try adjusting your search or filter to find what you're looking for.
+              Try adjusting your search or filter to find what you&apos;re looking for.
             </p>
           </div>
         )}

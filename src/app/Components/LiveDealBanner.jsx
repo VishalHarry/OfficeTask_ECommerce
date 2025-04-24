@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { ArrowRight, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function LiveDealBanner() {
   const [timeLeft, setTimeLeft] = useState({
@@ -68,10 +69,14 @@ export default function LiveDealBanner() {
               {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
             </span>
           </span>
-          <Button variant="ghost" size="sm" className="ml-4 text-white hover:bg-white/20 rounded-full group">
+
+          <Link
+            href="/product" // Update this path to your actual shop route
+            className="ml-4 text-white hover:bg-white/20 rounded-full group text-sm px-3 py-1.5 inline-flex items-center transition-colors"
+          >
             Shop Now
             <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+          </Link>
         </div>
       </div>
     </div>
