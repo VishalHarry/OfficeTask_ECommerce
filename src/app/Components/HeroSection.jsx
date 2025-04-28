@@ -3,102 +3,87 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Heart } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
+
 export default function HeroSection() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [currentSlide, setCurrentSlide] = useState(0)
-const router=useRouter();
-  const slides = [
-    {
-      image: "https://img.freepik.com/premium-photo/top-view-online-shopping-concept-with-credit-card-smart-phone-computer-isolated-office-yellow-table-background_315337-3591.jpg?w=1380",
-      title: "Discover Your Style",
-      subtitle: "Premium quality products with free worldwide shipping and returns",
-      cta: "Explore Collection",
-    },
-    {
-      image: "https://img.freepik.com/free-photo/shopping-concept-close-up-portrait-young-beautiful-attractive-redhair-girl-smiling-looking-camera_1258-132679.jpg?t=st=1744770149~exp=1744773749~hmac=3493f5fdb13fe720b7c32b23b0519b6ce60c065c0dbd5151cee0fbc9bd84bf27&w=1380",
-      title: "Summer Essentials",
-      subtitle: "Beat the heat with our curated selection of summer must-haves",
-      cta: "Shop Now",
-    },
-    {
-      image: "https://img.freepik.com/premium-photo/world-sale-internet-sales-concept-supermarket-cart-with-earth-globe-blue-background-world-trade-delivery-purchases_90380-743.jpg?w=1380",
-      title: "New Arrivals",
-      subtitle: "Be the first to experience our latest products and designs",
-      cta: "View New Items",
-    },
-  ]
-
-  useEffect(() => {
-    setIsLoaded(true)
-
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 6000)
-
-    return () => clearInterval(interval)
-  }, [slides.length])
+  const router = useRouter()
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div className="relative w-full h-[70vh] min-h-[500px] overflow-hidden">
-      {/* Background Images with Zoom Effect */}
-      {slides.map((slide, index) => (
-        <div
-          key={index}
-          className={cn(
-            "absolute inset-0 bg-cover bg-center transition-all duration-1000",
-            isLoaded ? "scale-105" : "scale-100",
-            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0",
-          )}
-          style={{
-            backgroundImage: `url(${slide.image})`,
-          }}
-        />
-      ))}
-
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 z-20" />
-
-      {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex flex-col items-center justify-center text-center text-white z-30">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={cn(
-              "transition-all duration-700 absolute inset-0 flex flex-col items-center justify-center",
-              index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
-            )}
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">{slide.title}</h1>
-            <p className="text-lg md:text-xl max-w-2xl mb-8 text-white/90">{slide.subtitle}</p>
-            <Button size="lg" className="rounded-full text-lg px-8 group" onClick={()=>{router.push("/product")}}>
-              {slide.cta}
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+    <div className="relative w-full min-h-screen bg-gradient-to-r from-pink-30 to-pink-60">
+      {/* Main Content */}
+      <div className="container mx-auto h-screen flex items-center px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 bg-pink-100 px-4 py-2 rounded-full">
+              <Heart className="w-4 h-4 text-pink-500" />
+              <span className="text-pink-700 text-sm font-medium">Gentle Care for You</span>
+            </div>
+            
+            <h1 className="text-5xl lg:text-6xl font-serif font-bold text-pink-950 leading-tight">
+              Comfort & Confidence,{" "}
+              <span className="text-pink-700">Every Day</span>
+            </h1>
+            
+            <p className="text-lg text-pink-700/80 max-w-lg">
+              Explore our range of ultra-soft, rash-free sanitary pads designed with your comfort in mind.
+            </p>
+            
+            <Button 
+              size="lg"
+              className={cn(
+                "rounded-full text-lg px-8 py-6 bg-pink-600 hover:bg-pink-700 transition-all duration-300",
+                "group relative overflow-hidden",
+                isHovered && "shadow-lg shadow-pink-200"
+              )}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onClick={() => router.push("/product")}
+            >
+              <span className="relative z-10 flex items-center">
+                Explore Products
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </span>
+              <div className={cn(
+                "absolute inset-0 bg-pink-500 transform transition-transform duration-300",
+                isHovered ? "scale-x-100" : "scale-x-0",
+                "origin-left"
+              )} />
             </Button>
+
+            {/* Features */}
+            <div className="grid grid-cols-2 gap-4 mt-12">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 text-pink-800">
+                <div className="font-medium">Dermatologically Tested</div>
+                <div className="text-sm text-pink-600">Safe for sensitive skin</div>
+              </div>
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 text-pink-800">
+                <div className="font-medium">100% Cotton Top Layer</div>
+                <div className="text-sm text-pink-600">Ultimate comfort</div>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    
-      {/* Slide Indicators */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-30">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={cn(
-              "w-2 h-2 rounded-full transition-all",
-              index === currentSlide ? "bg-white w-8" : "bg-white/50 hover:bg-white/80",
-            )}
-            onClick={() => setCurrentSlide(index)}
-          />
-        ))}
+
+          {/* Right Content - Product Image */}
+          <div className="relative h-[600px] w-full hidden lg:block">
+            <div className="absolute inset-0 bg-pink-200/20 rounded-full blur-3xl transform -rotate-6" />
+            <Image
+              src="https://media.istockphoto.com/id/1392112338/vector/young-woman-holding-giant-feminine-sanitary-pad-concept-of-womens-health-and-hygiene-vector.jpg?s=2048x2048&w=is&k=20&c=5pThHUo9l5Qo6z3qiGQQJ_wSfhbQ2oce6Fd79iuPBc4="
+              alt="Premium Sanitary Pad"
+              fill
+              className="object-contain transform hover:scale-105 transition-transform duration-300"
+              priority
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Store Open Badge */}
-      <div className="absolute top-6 right-6 bg-green-500 text-white px-4 py-2 rounded-full flex items-center animate-pulse z-30">
-        <span className="h-2 w-2 bg-white rounded-full mr-2"></span>
-        <span className="text-sm font-medium">Store is Open</span>
-      </div>
+      {/* Decorative Elements */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-pink-100/50 rounded-bl-full -z-10" />
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-pink-100/50 rounded-tr-full -z-10" />
     </div>
   )
 }

@@ -51,7 +51,7 @@ export default function LiveDealBanner() {
   }
 
   return (
-    <div className="hidden sm:block w-full bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 text-white">
+    <div className="hidden sm:block w-full bg-gradient-to-r from-pink-100 via-pink-200 to-pink-100 text-pink-900">
       <div
         className={cn(
           "container mx-auto px-4 py-3 flex items-center justify-center text-center transition-transform duration-300",

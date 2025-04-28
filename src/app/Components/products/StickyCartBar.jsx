@@ -21,7 +21,7 @@ export default function StickyCartBar({ product, onAddToCart }) {
           {/* Product Info */}
           <div className="flex items-center gap-3">
             <div className="relative w-12 h-12 rounded-md overflow-hidden border">
-              <Image src={product.images[0] || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+              <Image src={product.image ?? "/placeholder.svg"} alt={product.name} fill className="object-cover" />
             </div>
             <div className="hidden sm:block">
               <h3 className="font-medium text-sm line-clamp-1">{product.name}</h3>

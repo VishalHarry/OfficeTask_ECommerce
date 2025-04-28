@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
          defaultTheme="system" 
          enableSystem
          disableTransitionOnChange>
-            {/* <Header/> */}
+            <Header/>
           {children}
           <Toaster/>
           {/* <Footer/> */}

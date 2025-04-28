@@ -10,14 +10,14 @@ export default function Breadcrumb({ paths }) {
 
           return (
             <li key={path.href} className="flex items-center">
-              {index > 0 && <ChevronRight size={14} className="mx-2 text-muted-foreground" />}
+              {index > 0 && <ChevronRight size={14} className="mx-2 text-pink-400" />}
 
               {isLast ? (
-                <span className="font-medium truncate max-w-[200px]" aria-current="page">
+                <span className="font-medium truncate max-w-[200px] text-pink-700" aria-current="page">
                   {path.name}
                 </span>
               ) : (
-                <Link href={path.href} className="text-muted-foreground hover:text-foreground truncate max-w-[150px]">
+                <Link href={path.href} className="text-pink-400 hover:text-pink-600 truncate max-w-[150px] transition-colors">
                   {path.name}
                 </Link>
               )}

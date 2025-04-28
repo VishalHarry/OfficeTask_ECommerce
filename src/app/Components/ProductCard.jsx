@@ -6,31 +6,21 @@ import Link from "next/link"
 import { Star, Heart, ShoppingCart, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-
 import { cn } from "@/lib/utils"
 
 export default function ProductCard({ product }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
-  // const { toast } = useToast()
 
   const handleAddToCart = (e) => {
-    e.preventDefault() // Prevent navigation when clicking the cart button
+    e.preventDefault()
     e.stopPropagation()
-    // toast({
-    //   title: "Added to cart",
-    //   description: `${product.name} has been added to your cart.`,
-    // })
   }
 
   const handleToggleWishlist = (e) => {
-    e.preventDefault() // Prevent navigation when clicking the wishlist button
+    e.preventDefault()
     e.stopPropagation()
     setIsWishlisted(!isWishlisted)
-    // toast({
-    //   title: isWishlisted ? "Removed from wishlist" : "Added to wishlist",
-    //   description: `${product.name} has been ${isWishlisted ? "removed from" : "added to"} your wishlist.`,
-    // })
   }
 
   const renderStars = (rating) => {
@@ -52,14 +42,13 @@ export default function ProductCard({ product }) {
     <Link href={`/productDetails/${product.id}`} passHref>
       <div
         className={cn(
-          "group bg-background border border-border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer",
-          isHovered ? "shadow-lg transform -translate-y-1" : "shadow-sm",
+          "group bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-900 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer hover:border-pink-200 dark:hover:border-pink-800",
+          isHovered ? "shadow-lg shadow-pink-100/50 dark:shadow-pink-900/30 transform -translate-y-1" : "shadow-sm"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Product Image */}
-        <div className="relative aspect-square overflow-hidden bg-muted">
+        <div className="relative aspect-square overflow-hidden bg-pink-50 dark:bg-pink-900/20">
           <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}
@@ -67,42 +56,47 @@ export default function ProductCard({ product }) {
             className={cn("object-cover transition-transform duration-500", isHovered ? "scale-110" : "scale-100")}
           />
 
-          {/* Tags */}
           <div className="absolute top-2 left-2 flex flex-col gap-1">
-            {product.tags?.includes("new") && <Badge className="bg-blue-500 hover:bg-blue-600">New</Badge>}
-            {product.tags?.includes("bestseller") && (
-              <Badge className="bg-amber-500 hover:bg-amber-600">Bestseller</Badge>
+            {product.tags?.includes("new") && (
+              <Badge className="bg-pink-500 hover:bg-pink-600 text-white">New</Badge>
             )}
-            {product.tags?.includes("sale") && <Badge className="bg-red-500 hover:bg-red-600">Sale</Badge>}
+            {product.tags?.includes("bestseller") && (
+              <Badge className="bg-purple-500 hover:bg-purple-600 text-white">Bestseller</Badge>
+            )}
+            {product.tags?.includes("sale") && (
+              <Badge className="bg-rose-500 hover:bg-rose-600 text-white">Sale</Badge>
+            )}
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="p-4">
           <div className="flex items-center gap-1 mb-1">
             {renderStars(product.rating)}
-            <span className="text-xs text-muted-foreground ml-1">({product.ratingCount})</span>
+            <span className="text-xs text-pink-600/70 dark:text-pink-300/70 ml-1">({product.ratingCount})</span>
           </div>
 
-          <h3 className="font-medium text-base mb-1 line-clamp-2 h-12">{product.name}</h3>
+          <h3 className="font-medium text-base mb-1 line-clamp-2 h-12 text-gray-900 dark:text-white">{product.name}</h3>
 
           <div className="flex items-center gap-2 mb-3">
-            <span className="font-semibold">₹{product.price.toLocaleString()}</span>
+            <span className="font-semibold text-pink-600 dark:text-pink-300">₹{product.price.toLocaleString()}</span>
             {product.originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
+              <span className="text-sm text-pink-400/70 dark:text-pink-500/70 line-through">
                 ₹{product.originalPrice.toLocaleString()}
               </span>
             )}
             {product.originalPrice && (
-              <span className="text-xs text-green-600 font-medium">
+              <span className="text-xs text-green-600 dark:text-green-400 font-medium">
                 {Math.round((1 - product.price / product.originalPrice) * 100)}% off
               </span>
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center gap-2">
-            <Button className="flex-1 gap-1" size="sm" onClick={handleAddToCart}>
+            <Button 
+              className="flex-1 gap-1 bg-pink-600 hover:bg-pink-700 text-white" 
+              size="sm" 
+              onClick={handleAddToCart}
+            >
               <ShoppingCart size={16} />
               Add to Cart
             </Button>
@@ -110,21 +104,20 @@ export default function ProductCard({ product }) {
               variant="outline"
               size="icon"
               className={cn(
-                "transition-colors",
-                isWishlisted && "text-red-500 border-red-200 hover:text-red-600 hover:border-red-300",
+                "transition-colors border-pink-200 dark:border-pink-800",
+                isWishlisted ? "text-rose-500 hover:text-rose-600" : "text-pink-600 hover:text-pink-700"
               )}
               onClick={handleToggleWishlist}
             >
-              <Heart size={16} className={cn("transition-all", isWishlisted && "fill-red-500")} />
+              <Heart size={16} className={cn("transition-all", isWishlisted && "fill-rose-500")} />
             </Button>
           </div>
 
-          {/* See Details Button */}
           <Button
             variant="secondary"
-            className="w-full mt-2 gap-1"
+            className="w-full mt-2 gap-1 bg-pink-50 hover:bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:hover:bg-pink-900/30 dark:text-pink-300"
             size="sm"
-            onClick={(e) => e.preventDefault()} // This is just to show the button interaction
+            onClick={(e) => e.preventDefault()}
           >
             <ExternalLink size={16} />
             See Details

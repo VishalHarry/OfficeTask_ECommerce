@@ -2,44 +2,44 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Shirt, Watch, Headphones, Laptop, Home, ShoppingBag } from "lucide-react"
+import { Shield, Leaf, Heart, Star, Moon, ShoppingBag } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const categories = [
   {
-    name: "Fashion",
-    icon: Shirt,
+    name: "Regular Pads",
+    icon: Shield,
     color: "bg-pink-100 dark:bg-pink-900/20",
     textColor: "text-pink-600 dark:text-pink-400",
-    href: "/shop/fashion",
+    href: "/shop/regular-pads",
   },
   {
-    name: "Electronics",
-    icon: Laptop,
-    color: "bg-blue-100 dark:bg-blue-900/20",
-    textColor: "text-blue-600 dark:text-blue-400",
-    href: "/shop/electronics",
-  },
-  {
-    name: "Audio",
-    icon: Headphones,
+    name: "Overnight Pads",
+    icon: Moon,
     color: "bg-purple-100 dark:bg-purple-900/20",
     textColor: "text-purple-600 dark:text-purple-400",
-    href: "/shop/audio",
+    href: "/shop/overnight-pads",
   },
   {
-    name: "Accessories",
-    icon: Watch,
-    color: "bg-amber-100 dark:bg-amber-900/20",
-    textColor: "text-amber-600 dark:text-amber-400",
-    href: "/shop/accessories",
-  },
-  {
-    name: "Home & Living",
-    icon: Home,
+    name: "Organic Pads",
+    icon: Leaf,
     color: "bg-green-100 dark:bg-green-900/20",
     textColor: "text-green-600 dark:text-green-400",
-    href: "/shop/home-living",
+    href: "/shop/organic-pads",
+  },
+  {
+    name: "Ultra Thin",
+    icon: Star,
+    color: "bg-amber-100 dark:bg-amber-900/20",
+    textColor: "text-amber-600 dark:text-amber-400",
+    href: "/shop/ultra-thin",
+  },
+  {
+    name: "Comfort Plus",
+    icon: Heart,
+    color: "bg-rose-100 dark:bg-rose-900/20",
+    textColor: "text-rose-600 dark:text-rose-400",
+    href: "/shop/comfort-plus",
   },
   {
     name: "All Products",

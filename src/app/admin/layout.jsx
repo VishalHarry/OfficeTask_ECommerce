@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils"
 export default function AdminLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isStoreOpen, setIsStoreOpen] = useState(true)
+ 
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
@@ -45,7 +45,7 @@ export default function AdminLayout({ children }) {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: Package },
     { name: "Sales Analysis", href: "/admin/sales", icon: BarChart3 },
-    { name: "Store Control", href: "/admin/store", icon: Store },
+
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ]
@@ -129,15 +129,7 @@ export default function AdminLayout({ children }) {
                     <div className="text-xs text-muted-foreground">Store Admin</div>
                   </div>
                 </div>
-                <div
-                  className={cn(
-                    "px-3 py-1.5 rounded-md text-sm flex items-center justify-between",
-                    isStoreOpen ? "bg-green-500/10 text-green-600" : "bg-red-500/10 text-red-600",
-                  )}
-                >
-                  <span>Store {isStoreOpen ? "Open" : "Closed"}</span>
-                  <span className="w-2 h-2 rounded-full bg-current"></span>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -216,10 +208,10 @@ export default function AdminLayout({ children }) {
                     <div
                       className={cn(
                         "px-3 py-1.5 rounded-md text-sm flex items-center justify-between",
-                        isStoreOpen ? "bg-green-500/10 text-green-600" : "bg-red-500/10 text-red-600",
+                        
                       )}
                     >
-                      <span>Store {isStoreOpen ? "Open" : "Closed"}</span>
+                     
                       <span className="w-2 h-2 rounded-full bg-current"></span>
                     </div>
                   </div>

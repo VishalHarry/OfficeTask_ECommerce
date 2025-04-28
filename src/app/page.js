@@ -7,6 +7,9 @@ import TrustSection from "./Components/TrustSection";
 import NewsletterSection from "./Components/NewsletterSection";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import WhyChooseUs from "./Components/WhyChooseUs";
+import AboutUs from "./Components/AboutUs";
+
 
 
 export default function Home() {
@@ -18,13 +21,15 @@ export default function Home() {
    
         
         <main className="flex-grow">
-          <Header/>
+          {/* <Header/> */}
           <HeroSection/>
           <LiveDealBanner/>
+          <WhyChooseUs/>
           <div className="container mx-auto px-4 py-12 space-y-24">
-           <FeaturedProducts/>
            <CategoryGrid/>
+           <FeaturedProducts/>
            <TrustSection/>
+           <AboutUs/>
            <NewsletterSection/>
            <Footer/>
           </div>

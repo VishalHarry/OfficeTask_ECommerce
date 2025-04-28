@@ -27,12 +27,12 @@ export default function MobileFilterDrawer({ isOpen, onClose, filters, onFilterC
       <div className="absolute inset-0" onClick={onClose}></div>
 
       <div
-        className="absolute right-0 top-0 h-full w-[85%] max-w-md bg-background shadow-xl animate-in slide-in-from-right duration-300"
+        className="absolute right-0 top-0 h-full w-[85%] max-w-md bg-white shadow-xl animate-in slide-in-from-right duration-300"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="font-semibold text-lg">Filters</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+        <div className="flex items-center justify-between p-4 border-b border-pink-100">
+          <h2 className="font-semibold text-lg text-pink-950">Filters</h2>
+          <Button variant="ghost" size="icon" className="text-pink-600 hover:text-pink-700 hover:bg-pink-50" onClick={onClose}>
             <X size={20} />
           </Button>
         </div>

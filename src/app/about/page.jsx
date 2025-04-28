@@ -1,192 +1,116 @@
 
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, CheckCircle } from "lucide-react"
-import Link from "next/link"
+"use client"
 
-export const metadata = {
-  title: "About Us | EDUKAN",
-  description: "Learn more about our company, mission, and the team behind SHOPIFY.",
-}
+import { Heart, Shield, Leaf, Users, Globe } from "lucide-react"
 
 export default function AboutPage() {
-
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/10 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">We&apos;re Redefining Online Shopping</h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-            At EDUKAN, we&apos;re passionate about delivering exceptional products and experiences that make everyday life
-            better.
+      <div className="text-center mb-16">
+        <h1 className="text-4xl md:text-5xl font-bold text-pink-950 mb-4">About Us</h1>
+        <p className="text-lg text-pink-600/70 max-w-2xl mx-auto">
+          Empowering women through comfort, care, and sustainable feminine hygiene solutions.
+        </p>
+      </div>
+
+      {/* Mission & Vision */}
+      <div className="grid md:grid-cols-2 gap-12 mb-20">
+        <div className="bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-8 border border-pink-100 dark:border-pink-800">
+          <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-100 mb-4">Our Mission</h2>
+          <p className="text-pink-600/70 dark:text-pink-300/70">
+            To provide high-quality, eco-friendly feminine care products that prioritize both personal comfort and 
+            environmental sustainability, ensuring every woman has access to safe and reliable menstrual care solutions.
           </p>
-          <Link
-            href="/product"
-            className="inline-flex items-center rounded-full bg-blue-500 text-white text-lg px-6 py-2 group transition-all"
-          >
-            Our Products
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
         </div>
-      </section>
-
-      {/* Our Story Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Our Story</h2>
-              <p className="text-muted-foreground mb-6">
-                Founded in 2015, EDUKAN began with a simple mission: to create a better way to shop online. What
-                started as a small team working out of a tiny office has grown into a thriving e-commerce platform
-                serving customers worldwide.
-              </p>
-              <p className="text-muted-foreground mb-6">
-                Our journey hasn&apos;t always been easy, but our commitment to quality, innovation, and customer
-                satisfaction has never wavered. We&apos;ve learned, adapted, and evolved to become the company we are today.
-              </p>
-              <p className="text-muted-foreground">
-                As we continue to grow, we remain dedicated to our core values and the customers who have supported us
-                along the way. We&apos;re excited about the future and the opportunity to keep serving you better.
-              </p>
-            </div>
-            <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-lg">
-              <Image
-                src="/placeholder.svg?height=600&width=800&text=Our+Story"
-                alt="Our story"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+        <div className="bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-8 border border-pink-100 dark:border-pink-800">
+          <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-100 mb-4">Our Vision</h2>
+          <p className="text-pink-600/70 dark:text-pink-300/70">
+            To revolutionize feminine care by creating innovative, sustainable products while breaking taboos and 
+            promoting menstrual health education worldwide.
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* Mission & Values Section */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Our Mission & Values</h2>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              We&apos;re guided by a set of principles that define who we are and how we operate. These values shape our
-              decisions, influence our actions, and drive our commitment to excellence.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-background p-8 rounded-lg border border-border shadow-sm">
-              <div className="bg-primary/10 p-3 inline-flex rounded-full mb-6">
-                <CheckCircle className="h-6 w-6 text-primary" />
+      {/* Core Values */}
+      <div className="mb-20">
+        <h2 className="text-3xl font-bold text-pink-950 dark:text-pink-100 text-center mb-12">Our Core Values</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            {
+              icon: Heart,
+              title: "Care & Comfort",
+              description: "Prioritizing your comfort and well-being with premium quality products."
+            },
+            {
+              icon: Shield,
+              title: "Safety First",
+              description: "Rigorous testing and quality control for your peace of mind."
+            },
+            {
+              icon: Leaf,
+              title: "Sustainability",
+              description: "Eco-friendly products and packaging to protect our planet."
+            },
+            {
+              icon: Globe,
+              title: "Accessibility",
+              description: "Making quality feminine care accessible to all."
+            }
+          ].map((value, index) => (
+            <div key={index} className="text-center">
+              <div className="w-12 h-12 mx-auto mb-4 bg-pink-100 dark:bg-pink-900/20 rounded-full flex items-center justify-center">
+                <value.icon className="w-6 h-6 text-pink-600 dark:text-pink-400" />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Customer First</h3>
-              <p className="text-muted-foreground">
-                We believe in putting our customers at the center of everything we do. Your satisfaction is our top
-                priority, and we&apos;re committed to exceeding your expectations at every turn.
-              </p>
+              <h3 className="text-xl font-semibold text-pink-950 dark:text-pink-100 mb-2">{value.title}</h3>
+              <p className="text-pink-600/70 dark:text-pink-300/70">{value.description}</p>
             </div>
-
-            <div className="bg-background p-8 rounded-lg border border-border shadow-sm">
-              <div className="bg-primary/10 p-3 inline-flex rounded-full mb-6">
-                <CheckCircle className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4">Quality & Innovation</h3>
-              <p className="text-muted-foreground">
-                We&apos;re dedicated to offering high-quality products and continuously innovating to improve our offerings.
-                We never settle for good enough when we can strive for excellence.
-              </p>
-            </div>
-
-            <div className="bg-background p-8 rounded-lg border border-border shadow-sm">
-              <div className="bg-primary/10 p-3 inline-flex rounded-full mb-6">
-                <CheckCircle className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4">Sustainability</h3>
-              <p className="text-muted-foreground">
-                We&apos;re committed to sustainable practices throughout our business. From eco-friendly packaging to
-                responsible sourcing, we strive to minimize our environmental impact and create a better future.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
 
       {/* Team Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
-            <p className="text-muted-foreground max-w-3xl mx-auto">
-              The passionate individuals behind EDUKAN are dedicated to creating the best shopping experience for you.
-              Our diverse team brings together expertise from various fields.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Aanya Sharma",
-                role: "Founder & CEO",
-                image: "/placeholder.svg?height=400&width=400&text=AS",
-              },
-              {
-                name: "Raj Patel",
-                role: "Chief Product Officer",
-                image: "/placeholder.svg?height=400&width=400&text=RP",
-              },
-              {
-                name: "Priya Mehta",
-                role: "Head of Design",
-                image: "/placeholder.svg?height=400&width=400&text=PM",
-              },
-              {
-                name: "Vikram Singh",
-                role: "Tech Lead",
-                image: "/placeholder.svg?height=400&width=400&text=VS",
-              },
-            ].map((member, index) => (
-              <div
-                key={index}
-                className="bg-background rounded-lg border border-border overflow-hidden shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="aspect-square relative">
-                  <Image src={member.image || "/placeholder.svg"} alt={member.name} fill className="object-cover" />
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="font-semibold text-lg">{member.name}</h3>
-                  <p className="text-muted-foreground">{member.role}</p>
-                </div>
+      <div className="mb-20">
+        <h2 className="text-3xl font-bold text-pink-950 dark:text-pink-100 text-center mb-12">Our Team</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            {
+              name: "Sarah Johnson",
+              role: "Founder & CEO",
+              image: "/placeholder.svg"
+            },
+            {
+              name: "Dr. Emily Chen",
+              role: "Product Development Head",
+              image: "/placeholder.svg"
+            },
+            {
+              name: "Lisa Patel",
+              role: "Sustainability Director",
+              image: "/placeholder.svg"
+            }
+          ].map((member, index) => (
+            <div key={index} className="text-center">
+              <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-pink-100 dark:bg-pink-900/20">
+                <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
               </div>
-            ))}
-          </div>
+              <h3 className="text-xl font-semibold text-pink-950 dark:text-pink-100 mb-1">{member.name}</h3>
+              <p className="text-pink-600/70 dark:text-pink-300/70">{member.role}</p>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary/10 via-purple-500/10 to-primary/10 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Join Our Journey</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            We&apos;re always looking for talented individuals to join our team. If you&apos;re passionate about e-commerce and
-            want to make a difference, we&apos;d love to hear from you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/"
-               className="inline-flex items-center rounded-full bg-blue-500 text-white text-lg px-6 py-2 group transition-all">
-              View Careers
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/contact"
-               className="inline-flex items-center rounded-full bg-blue-500 text-white text-lg px-6 py-2 group transition-all"
-              variant="outline" >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Contact Section */}
+      <div className="text-center bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-12 border border-pink-100 dark:border-pink-800">
+        <h2 className="text-3xl font-bold text-pink-950 dark:text-pink-100 mb-4">Get in Touch</h2>
+        <p className="text-pink-600/70 dark:text-pink-300/70 mb-6">
+          Have questions or feedback? We'd love to hear from you.
+        </p>
+        <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium transition-colors">
+          Contact Us
+        </button>
+      </div>
     </div>
   )
 }
