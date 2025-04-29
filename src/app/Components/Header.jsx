@@ -107,6 +107,12 @@ export default function Header() {
               Contact
               <span className={navLinkSpanClass}></span>
             </Link>
+            <Link href="/blogsSection" className={navLinkClass}>
+              Blogs
+              <span className={navLinkSpanClass}></span>
+            </Link>
+           
+           
           </nav>
 
           {/* Search Bar with updated styling */}
@@ -265,6 +271,13 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Contact
+                </Link>
+                <Link
+                  href="/blogsSection"
+                  className="text-foreground/80 hover:text-foreground py-3 px-4 rounded-lg hover:bg-muted flex items-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Blogs
                 </Link>
               </nav>
 
