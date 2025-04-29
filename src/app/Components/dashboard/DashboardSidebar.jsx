@@ -23,7 +23,7 @@ export default function DashboardSidebar({ activePage, setActivePage, isMobileMe
     { id: "shipping", label: "Shipping Info", icon: Truck },
     { id: "settings", label: "Account Settings", icon: Settings },
     { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "rewards", label: "Loyalty & Rewards", icon: Gift },
+   
     { id: "support", label: "Support Center", icon: HelpCircle },
   ]
 

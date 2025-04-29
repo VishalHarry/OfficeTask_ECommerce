@@ -144,6 +144,139 @@ export default function AdminDashboard() {
 
       {/* Sales Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm text-pink-600/70 dark:text-pink-300/70">Total Sales Today</p>
+              <h3 className="text-2xl font-bold mt-1 text-pink-950 dark:text-pink-50">₹12,500</h3>
+            </div>
+            <div className="p-2 bg-pink-500/10 rounded-full">
+              <DollarSign className="h-5 w-5 text-pink-500" />
+            </div>
+          </div>
+          <div className="flex items-center mt-4">
+            <div className="flex items-center text-green-500 text-sm">
+              <ArrowUp className="h-3 w-3 mr-1" />
+              <span>12.5%</span>
+            </div>
+            <span className="text-xs text-pink-600/70 dark:text-pink-300/70 ml-2">vs. yesterday</span>
+          </div>
+        </div>
+
+        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm text-pink-600/70 dark:text-pink-300/70">Weekly Revenue</p>
+              <h3 className="text-2xl font-bold mt-1 text-pink-950 dark:text-pink-50">₹78,350</h3>
+            </div>
+            <div className="p-2 bg-pink-500/10 rounded-full">
+              <ShoppingBag className="h-5 w-5 text-pink-500" />
+            </div>
+          </div>
+          <div className="flex items-center mt-4">
+            <div className="flex items-center text-green-500 text-sm">
+              <ArrowUp className="h-3 w-3 mr-1" />
+              <span>8.2%</span>
+            </div>
+            <span className="text-xs text-pink-600/70 dark:text-pink-300/70 ml-2">vs. last week</span>
+          </div>
+        </div>
+
+        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm sm:col-span-2 lg:col-span-1">
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="text-sm text-pink-600/70 dark:text-pink-300/70">Monthly Revenue</p>
+              <h3 className="text-2xl font-bold mt-1 text-pink-950 dark:text-pink-50">₹325,800</h3>
+            </div>
+            <div className="p-2 bg-pink-500/10 rounded-full">
+              <Users className="h-5 w-5 text-pink-500" />
+            </div>
+          </div>
+          <div className="flex items-center mt-4">
+            <div className="flex items-center text-red-500 text-sm">
+              <ArrowDown className="h-3 w-3 mr-1" />
+              <span>3.1%</span>
+            </div>
+            <span className="text-xs text-pink-600/70 dark:text-pink-300/70 ml-2">vs. last month</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Sales Chart */}
+        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-pink-950 dark:text-pink-50">Sales Overview</h2>
+            <div className="flex border border-pink-100 dark:border-pink-800 rounded-lg overflow-hidden">
+              <button
+                className={cn(
+                  "px-3 py-1 text-sm",
+                  activeChart === "weekly"
+                    ? "bg-pink-600 text-white"
+                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20",
+                )}
+                onClick={() => setActiveChart("weekly")}
+              >
+                Weekly
+              </button>
+              <button
+                className={cn(
+                  "px-3 py-1 text-sm",
+                  activeChart === "monthly"
+                    ? "bg-pink-600 text-white"
+                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20",
+                )}
+                onClick={() => setActiveChart("monthly")}
+              >
+                Monthly
+              </button>
+            </div>
+          </div>
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={salesData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#9ca3af" />
+                <YAxis stroke="#9ca3af" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "white",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "0.5rem",
+                  }}
+                />
+                <Line type="monotone" dataKey="sales" stroke="#ec4899" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Category Chart */}
+        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
+          <h2 className="text-lg font-semibold mb-4 text-pink-950 dark:text-pink-50">Sales by Category</h2>
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={categoryData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#9ca3af" />
+                <YAxis stroke="#9ca3af" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "white",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "0.5rem",
+                  }}
+                />
+                <Bar dataKey="value" fill="#ec4899" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Best Selling Products & Recent Orders
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
@@ -200,186 +333,7 @@ export default function AdminDashboard() {
             <span className="text-xs text-muted-foreground ml-2">vs. last month</span>
           </div>
         </div>
-      </div>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-background border border-border rounded-lg p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="font-semibold">Sales Analytics</h3>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setActiveChart("weekly")}
-                className={cn(
-                  "px-3 py-1 text-sm rounded-md",
-                  activeChart === "weekly"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:text-foreground",
-                )}
-              >
-                Weekly
-              </button>
-              <button
-                onClick={() => setActiveChart("monthly")}
-                className={cn(
-                  "px-3 py-1 text-sm rounded-md",
-                  activeChart === "monthly"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-muted-foreground hover:text-foreground",
-                )}
-              >
-                Monthly
-              </button>
-            </div>
-          </div>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#888" strokeOpacity={0.2} />
-                <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis
-                  stroke="#888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `₹${value}`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "var(--background)",
-                    borderColor: "var(--border)",
-                    borderRadius: "0.5rem",
-                    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  }}
-                  formatter={(value) => [`₹${value}`, "Sales"]}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="var(--primary)"
-                  strokeWidth={2}
-                  dot={{ r: 4, strokeWidth: 2 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
-          <h3 className="font-semibold mb-6">Sales by Category</h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={categoryData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#888" strokeOpacity={0.2} />
-                <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "var(--background)",
-                    borderColor: "var(--border)",
-                    borderRadius: "0.5rem",
-                    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  }}
-                  formatter={(value) => [`${value}%`, "Percentage"]}
-                />
-                <Bar dataKey="value" fill="var(--primary)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
-
-      {/* Best Selling Products & Recent Orders */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-background border border-border rounded-lg shadow-sm">
-          <div className="p-5 border-b border-border">
-            <h3 className="font-semibold">Best Selling Products</h3>
-          </div>
-          <div className="divide-y divide-border">
-            {bestSellingProducts.map((product) => (
-              <div key={product.id} className="p-4 flex items-center">
-                <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                  <div className="w-full h-full relative">
-                    <Image
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                    />
-                  </div>
-                </div>
-                <div className="ml-4 flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">{product.name}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{product.sold} sold</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-semibold">₹{product.revenue.toLocaleString()}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="p-4 border-t border-border">
-            <button className="text-sm text-primary flex items-center justify-center w-full">
-              View All Products
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </button>
-          </div>
-        </div>
-
-        <div className="lg:col-span-2 bg-background border border-border rounded-lg shadow-sm">
-          <div className="p-5 border-b border-border flex justify-between items-center">
-            <h3 className="font-semibold">Recent Orders</h3>
-            <button className="text-sm text-primary">View All</button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="text-xs text-muted-foreground bg-muted/50">
-                  <th className="font-medium text-left py-3 px-4">Order ID</th>
-                  <th className="font-medium text-left py-3 px-4">Customer</th>
-                  <th className="font-medium text-left py-3 px-4">Product</th>
-                  <th className="font-medium text-left py-3 px-4">Date</th>
-                  <th className="font-medium text-left py-3 px-4">Status</th>
-                  <th className="font-medium text-left py-3 px-4">Total</th>
-                  <th className="font-medium text-left py-3 px-4"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-muted/50 transition-colors">
-                    <td className="py-3 px-4 text-sm">{order.id}</td>
-                    <td className="py-3 px-4 text-sm">{order.user}</td>
-                    <td className="py-3 px-4 text-sm max-w-[200px] truncate">{order.product}</td>
-                    <td className="py-3 px-4 text-sm">{order.date}</td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={cn(
-                          "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium",
-                          order.status === "completed" &&
-                          "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-                          order.status === "processing" &&
-                          "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-                          order.status === "shipped" &&
-                          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
-                        )}
-                      >
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <button className="text-muted-foreground hover:text-foreground">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      </div> */}
 
       {/* Product Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

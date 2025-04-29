@@ -15,7 +15,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <div className="h-24 w-24 mb-6 rounded-full bg-gradient-to-r from-primary to-purple-600 p-1">
+          <div className="h-24 w-24 mb-6 rounded-full bg-gradient-to-r from-primary to-pink-400 p-1">
             <div className="relative w-full h-full">
               <Image
                 src="/"
@@ -29,8 +29,8 @@ export default function LoginPage() {
 
 
         </div>
-        <h1 className="text-center text-3xl font-bold tracking-tight">Welcome back</h1>
-        <p className="mt-2 text-center text-sm text-muted-foreground">Sign in to your account to continue</p>
+        <h1 className="text-center text-3xl font-bold tracking-tight text-pink-600">Welcome back</h1>
+        <p className="mt-2 text-center text-sm text-muted-foreground text-pink-400">Sign in to your account to continue</p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

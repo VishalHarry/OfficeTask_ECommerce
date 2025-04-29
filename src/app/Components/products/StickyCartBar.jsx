@@ -15,7 +15,7 @@ export default function StickyCartBar({ product, onAddToCart }) {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t shadow-lg z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t border-pink-100 dark:border-pink-800 shadow-lg z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Product Info */}
@@ -64,7 +64,7 @@ export default function StickyCartBar({ product, onAddToCart }) {
                 +
               </button>
             </div>
-            <Button size="sm" className="gap-1" onClick={handleAddToCart} disabled={!product.inStock}>
+            <Button size="sm" className="gap-1 bg-pink-600 hover:bg-pink-700" onClick={handleAddToCart} disabled={!product.inStock}>
               Add to Cart
             </Button>
             <Button size="sm" className="gap-1 bg-amber-500 hover:bg-amber-600" disabled={!product.inStock}>

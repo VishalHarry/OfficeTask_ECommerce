@@ -76,8 +76,8 @@ export default function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled 
-          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md" 
+        isScrolled
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md"
           : "bg-white dark:bg-gray-900"
       )}
     >
@@ -170,24 +170,30 @@ export default function Header() {
             )}
 
             {/* Wishlist - Hidden on mobile */}
-            <Button variant="ghost" size="icon" className="rounded-full relative hidden md:flex">
+            <Link
+              href="/dashboard"
+              className="h-10 w-10 rounded-full relative hidden md:flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
               <Heart size={20} />
               <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 2
               </span>
-            </Button>
+            </Link>
 
             {/* Cart */}
-            <Button variant="ghost" size="icon" className="rounded-full relative hidden md:flex">
+            <Link
+              href="/dashboard" // or your target page
+              className="h-10 w-10 rounded-full relative hidden md:flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
               <ShoppingCart size={20} />
               <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 3
               </span>
-            </Button>
+            </Link>
 
             {/* User Account - Hidden on mobile */}
             <Link
-              href="/admin"
+              href="/dashboard"
               variant="ghost"
               size="icon"
               className="hidden md:flex items-center justify-center rounded-full"

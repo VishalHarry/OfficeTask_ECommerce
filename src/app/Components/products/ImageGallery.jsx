@@ -20,9 +20,9 @@ export default function ImageGallery({ product }) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 shadow-sm transition-colors duration-300">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-pink-100 dark:border-pink-800 p-4 shadow-sm transition-colors duration-300">
       <div 
-        className="relative aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden mb-4 cursor-zoom-in"
+        className="relative aspect-square bg-pink-50 dark:bg-pink-900/20 rounded-lg overflow-hidden mb-4 cursor-zoom-in"
         onMouseEnter={() => setIsZoomed(true)}
         onMouseLeave={() => setIsZoomed(false)}
         onMouseMove={handleMouseMove}
@@ -43,13 +43,13 @@ export default function ImageGallery({ product }) {
             priority
           />
         ) : (
-          <div className="w-full h-full bg-gray-200 dark:bg-gray-600 animate-pulse flex items-center justify-center">
-            <span className="text-gray-600 dark:text-gray-300 text-sm font-medium px-4 py-2 rounded-lg bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm">
+          <div className="w-full h-full bg-pink-100 dark:bg-pink-900/30 animate-pulse flex items-center justify-center">
+            <span className="text-pink-700 dark:text-pink-300 text-sm font-medium px-4 py-2 rounded-lg bg-white/50 dark:bg-pink-900/50 backdrop-blur-sm">
               {product?.name ? `${product.name} image` : 'Product image coming soon'}
             </span>
           </div>
         )}
-        <div className="absolute top-4 right-4 bg-black/60 text-white p-2 rounded-full">
+        <div className="absolute top-4 right-4 bg-pink-600/80 text-white p-2 rounded-full hover:bg-pink-700/80 transition-colors">
           <ZoomIn size={20} />
         </div>
       </div>

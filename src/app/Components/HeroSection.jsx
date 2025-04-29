@@ -71,7 +71,7 @@ export default function HeroSection() {
           <div className="relative h-[600px] w-full hidden lg:block">
             <div className="absolute inset-0 bg-pink-200/20 rounded-full blur-3xl transform -rotate-6" />
             <Image
-              src="https://media.istockphoto.com/id/1392112338/vector/young-woman-holding-giant-feminine-sanitary-pad-concept-of-womens-health-and-hygiene-vector.jpg?s=2048x2048&w=is&k=20&c=5pThHUo9l5Qo6z3qiGQQJ_wSfhbQ2oce6Fd79iuPBc4="
+              src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExem51eW5jczQ2c2theGpjM2g0MHBhZnZlaDU4enN0N2Fkdm5jcHpqbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Co3dKAAI4ZGEBMD2DI/giphy.gif"
               alt="Premium Sanitary Pad"
               fill
               className="object-contain transform hover:scale-105 transition-transform duration-300"

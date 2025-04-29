@@ -20,6 +20,8 @@ export default function SignupForm() {
     score: 0,
     message: ""
   })
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false)
+  const [isEmailVerified, setIsEmailVerified] = useState(false)
   
   // Check password strength whenever password changes
   useEffect(() => {
@@ -136,6 +138,19 @@ export default function SignupForm() {
     return "bg-green-600"
   }
 
+  const handleVerifyEmail = async () => {
+    if (!formData.email) {
+      alert("Please enter an email address first")
+      return
+    }
+
+    setIsVerifyingEmail(true)
+    // Simulate email verification
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setIsVerifyingEmail(false)
+    setIsEmailVerified(true)
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
@@ -157,18 +172,45 @@ export default function SignupForm() {
         <label htmlFor="email" className="block text-sm font-medium">
           Email address
         </label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          value={formData.email}
-          onChange={handleChange}
-          className="transition-all focus-visible:ring-primary/30"
-        />
+        <div className="flex gap-2">
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+            className="transition-all focus-visible:ring-pink-300/30 border-pink-200 dark:border-pink-800"
+          />
+          <Button
+            type="button"
+            onClick={handleVerifyEmail}
+            disabled={isVerifyingEmail || isEmailVerified}
+            className="bg-pink-600 hover:bg-pink-700 text-white"
+          >
+            {isVerifyingEmail ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                Verifying...
+              </>
+            ) : isEmailVerified ? (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Verified
+              </>
+            ) : (
+              'Verify Email'
+            )}
+          </Button>
+        </div>
+        {isEmailVerified && (
+          <p className="text-sm text-green-600 dark:text-green-400 flex items-center gap-1 mt-1">
+            <Check className="h-4 w-4" />
+            Email verified successfully
+          </p>
+        )}
       </div>
-
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <label htmlFor="password" className="block text-sm font-medium">
@@ -258,8 +300,8 @@ export default function SignupForm() {
       <div>
         <Button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 flex items-center justify-center gap-2"
+          disabled={isSubmitting || !isEmailVerified}
+          className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>

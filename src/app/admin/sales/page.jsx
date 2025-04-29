@@ -92,20 +92,21 @@ export default function SalesAnalysisPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h1 className="text-2xl font-bold">Sales Analysis</h1>
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-pink-100 dark:border-pink-800">
+        <h1 className="text-2xl font-bold text-pink-950 dark:text-pink-100">Sales Analysis</h1>
         <div className="flex items-center space-x-2">
           <div className="relative">
             <button
               onClick={() => setShowDatePicker(!showDatePicker)}
-              className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted"
+              className="inline-flex items-center justify-center rounded-md border border-pink-200 dark:border-pink-800 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-colors"
             >
-              <Calendar className="mr-2 h-4 w-4" />
+              <Calendar className="mr-2 h-4 w-4 text-pink-600 dark:text-pink-400" />
               {dateRange}
-              <ChevronDown className="ml-2 h-4 w-4" />
+              <ChevronDown className="ml-2 h-4 w-4 text-pink-600 dark:text-pink-400" />
             </button>
             {showDatePicker && (
-              <div className="absolute right-0 z-10 mt-2 w-56 rounded-md border border-border bg-background shadow-lg">
+              <div className="absolute right-0 z-10 mt-2 w-56 rounded-md border border-pink-200 dark:border-pink-800 bg-white dark:bg-gray-800 shadow-lg">
                 <div className="py-1">
                   {["Today", "Yesterday", "This Week", "Last Week", "This Month", "Last Month", "This Year"].map(
                     (range) => (
@@ -113,7 +114,9 @@ export default function SalesAnalysisPage() {
                         key={range}
                         className={cn(
                           "block w-full px-4 py-2 text-left text-sm",
-                          dateRange === range ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                          dateRange === range 
+                            ? "bg-pink-600 text-white" 
+                            : "text-pink-950 dark:text-pink-100 hover:bg-pink-50 dark:hover:bg-pink-900/20"
                         )}
                         onClick={() => {
                           setDateRange(range)
@@ -122,15 +125,12 @@ export default function SalesAnalysisPage() {
                       >
                         {range}
                       </button>
-                    ),
+                    )
                   )}
-                  <div className="border-t border-border my-1"></div>
+                  <div className="border-t border-pink-200 dark:border-pink-800 my-1"></div>
                   <button
-                    className="block w-full px-4 py-2 text-left text-sm hover:bg-muted"
-                    onClick={() => {
-                      // In a real app, this would open a date range picker
-                      setShowDatePicker(false)
-                    }}
+                    className="block w-full px-4 py-2 text-left text-sm text-pink-950 dark:text-pink-100 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                    onClick={() => setShowDatePicker(false)}
                   >
                     Custom Range...
                   </button>
@@ -138,7 +138,7 @@ export default function SalesAnalysisPage() {
               </div>
             )}
           </div>
-          <button className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted">
+          <button className="inline-flex items-center justify-center rounded-md border border-pink-200 dark:border-pink-800 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium shadow-sm hover:bg-pink-50 dark:hover:bg-pink-900/20 text-pink-950 dark:text-pink-100 transition-colors">
             <Download className="mr-2 h-4 w-4" />
             Export
           </button>
@@ -146,13 +146,13 @@ export default function SalesAnalysisPage() {
       </div>
 
       {/* Time Range Tabs */}
-      <div className="flex border-b border-border">
+      <div className="flex border-b border-pink-200 dark:border-pink-800 bg-white dark:bg-gray-800 rounded-t-lg">
         <button
           className={cn(
-            "px-4 py-2 text-sm font-medium border-b-2 -mb-px",
+            "px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors",
             timeRange === "daily"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground",
+              ? "border-pink-600 text-pink-600 dark:text-pink-400"
+              : "border-transparent text-pink-600/70 dark:text-pink-400/70 hover:text-pink-950 dark:hover:text-pink-100"
           )}
           onClick={() => setTimeRange("daily")}
         >
@@ -160,10 +160,10 @@ export default function SalesAnalysisPage() {
         </button>
         <button
           className={cn(
-            "px-4 py-2 text-sm font-medium border-b-2 -mb-px",
+            "px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors",
             timeRange === "weekly"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground",
+              ? "border-pink-600 text-pink-600 dark:text-pink-400"
+              : "border-transparent text-pink-600/70 dark:text-pink-400/70 hover:text-pink-950 dark:hover:text-pink-100"
           )}
           onClick={() => setTimeRange("weekly")}
         >
@@ -171,10 +171,10 @@ export default function SalesAnalysisPage() {
         </button>
         <button
           className={cn(
-            "px-4 py-2 text-sm font-medium border-b-2 -mb-px",
+            "px-6 py-3 text-sm font-medium border-b-2 -mb-px transition-colors",
             timeRange === "monthly"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground",
+              ? "border-pink-600 text-pink-600 dark:text-pink-400"
+              : "border-transparent text-pink-600/70 dark:text-pink-400/70 hover:text-pink-950 dark:hover:text-pink-100"
           )}
           onClick={() => setTimeRange("monthly")}
         >
@@ -184,127 +184,75 @@ export default function SalesAnalysisPage() {
 
       {/* Sales Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-muted-foreground">Total Sales</p>
-              <h3 className="text-2xl font-bold mt-1">₹{totalSales.toLocaleString()}</h3>
+              <p className="text-sm text-pink-600/70 dark:text-pink-400/70">Total Sales</p>
+              <h3 className="text-2xl font-bold mt-1 text-pink-950 dark:text-pink-100">₹{totalSales.toLocaleString()}</h3>
             </div>
           </div>
-          <div className="mt-4 text-xs text-muted-foreground">For the selected period</div>
+          <div className="mt-4 text-xs text-pink-600/70 dark:text-pink-400/70">For the selected period</div>
         </div>
 
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
+        {/* Add similar styling to other cards */}
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-muted-foreground">Average Sales</p>
+              <p className="text-sm text-muted-foreground text-pink-600/70 dark:text-pink-400/70">Average Sales</p>
               <h3 className="text-2xl font-bold mt-1">₹{Math.round(averageSales).toLocaleString()}</h3>
             </div>
           </div>
-          <div className="mt-4 text-xs text-muted-foreground">
+          <div className="mt-4 text-xs text-muted-foreground text-pink-600/70 dark:text-pink-400/70 ">
             Per {timeRange === "daily" ? "day" : timeRange === "weekly" ? "week" : "month"}
           </div>
         </div>
 
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-muted-foreground">Highest Sales</p>
+              <p className="text-sm text-muted-foreground text-pink-600/70 dark:text-pink-400/70">Highest Sales</p>
               <h3 className="text-2xl font-bold mt-1">₹{highestSales.toLocaleString()}</h3>
             </div>
           </div>
-          <div className="mt-4 text-xs text-muted-foreground">Peak performance</div>
+          <div className="mt-4 text-xs text-muted-foreground text-pink-600/70 dark:text-pink-400/70">Peak performance</div>
         </div>
 
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-muted-foreground">Lowest Sales</p>
+              <p className="text-sm text-muted-foreground text-pink-600/70 dark:text-pink-400/70">Lowest Sales</p>
               <h3 className="text-2xl font-bold mt-1">₹{lowestSales.toLocaleString()}</h3>
             </div>
           </div>
-          <div className="mt-4 text-xs text-muted-foreground">Minimum performance</div>
+          <div className="mt-4 text-xs text-muted-foreground text-pink-600/70 dark:text-pink-400/70">Minimum performance</div>
         </div>
       </div>
 
-      {/* Main Chart */}
-      <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="font-semibold">Sales Trend</h3>
-          <div className="flex items-center space-x-2">
-            <select
-              className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-            >
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold mb-4 text-pink-950 dark:text-pink-100">Sales Trend</h3>
+          <div className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={getChartData()}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="name" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "white",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "0.5rem",
+                  }}
+                />
+                <Line type="monotone" dataKey="sales" stroke="#ec4899" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
-        <div className="h-[400px]">
-          <ResponsiveContainer width="100%" height="100%">
-            {timeRange === "monthly" ? (
-              <BarChart data={getChartData()}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#888" strokeOpacity={0.2} />
-                <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis
-                  stroke="#888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `₹${value / 1000}k`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "var(--background)",
-                    borderColor: "var(--border)",
-                    borderRadius: "0.5rem",
-                    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  }}
-                  formatter={(value) => [`₹${value.toLocaleString()}`, "Sales"]}
-                />
-                <Bar dataKey="sales" fill="var(--primary)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            ) : (
-              <LineChart data={getChartData()}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#888" strokeOpacity={0.2} />
-                <XAxis dataKey="name" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis
-                  stroke="#888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `₹${value / 1000}k`}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "var(--background)",
-                    borderColor: "var(--border)",
-                    borderRadius: "0.5rem",
-                    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  }}
-                  formatter={(value) => [`₹${value.toLocaleString()}`, "Sales"]}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="var(--primary)"
-                  strokeWidth={2}
-                  dot={{ r: 4, strokeWidth: 2 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
-                />
-              </LineChart>
-            )}
-          </ResponsiveContainer>
-        </div>
-      </div>
 
-      {/* Additional Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
-          <h3 className="font-semibold mb-6">Sales by Category</h3>
+        <div className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-800 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold mb-4 text-pink-950 dark:text-pink-100">Category Distribution</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -312,74 +260,18 @@ export default function SalesAnalysisPage() {
                   data={categoryData}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
                   outerRadius={100}
-                  fill="#8884d8"
+                  fill="#ec4899"
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label
                 >
                   {categoryData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "var(--background)",
-                    borderColor: "var(--border)",
-                    borderRadius: "0.5rem",
-                    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                  }}
-                  formatter={(value) => [`${value}%`, "Percentage"]}
-                />
+                <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-background border border-border rounded-lg p-5 shadow-sm">
-          <h3 className="font-semibold mb-6">Sales Summary</h3>
-          <div className="space-y-6">
-            <div className="flex items-start">
-              <div className="p-2 bg-green-500/10 rounded-full mr-4">
-                <Info className="h-5 w-5 text-green-500" />
-              </div>
-              <div>
-                <h4 className="font-medium mb-1">Performance Analysis</h4>
-                <p className="text-sm text-muted-foreground">
-                  {timeRange === "daily"
-                    ? "Your daily sales show a positive trend with an average increase of 8.2% compared to last week. Weekend sales are particularly strong."
-                    : timeRange === "weekly"
-                      ? "Weekly sales have been consistent with a slight upward trend. Week 4 shows the highest performance with a 9.4% increase over Week 3."
-                      : "Monthly sales have grown steadily throughout the year with a notable 20% increase in Q4 compared to Q3. December shows the highest sales volume."}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <div className="p-2 bg-blue-500/10 rounded-full mr-4">
-                <Info className="h-5 w-5 text-blue-500" />
-              </div>
-              <div>
-                <h4 className="font-medium mb-1">Category Insights</h4>
-                <p className="text-sm text-muted-foreground">
-                  Electronics continues to be your top-performing category at 35% of total sales, followed by Clothing
-                  at 25%. Consider expanding your Home category which shows growing demand.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start">
-              <div className="p-2 bg-purple-500/10 rounded-full mr-4">
-                <Info className="h-5 w-5 text-purple-500" />
-              </div>
-              <div>
-                <h4 className="font-medium mb-1">Recommendations</h4>
-                <p className="text-sm text-muted-foreground">
-                  Based on current trends, consider running promotions during lower-performing periods. Increasing
-                  inventory for top-selling categories before peak seasons could further boost sales.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

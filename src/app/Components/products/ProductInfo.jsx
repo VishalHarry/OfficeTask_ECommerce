@@ -215,7 +215,7 @@ export default function ProductInfo({ product, onAddToCart }) {
 
       {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <Button className="flex-1 gap-2 h-12 text-base" onClick={handleAddToCart} disabled={!product.inStock}>
+        <Button className="flex-1 gap-2 h-12 text-base bg-pink-600 hover:bg-pink-700" onClick={handleAddToCart} disabled={!product.inStock}>
           🛒 Add to Cart
         </Button>
         <Button

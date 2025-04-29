@@ -1,11 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Heart, ShoppingCart, Eye } from "lucide-react"
+import { Heart, ShoppingCart, Eye, ExternalLink } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function WishlistPage() {
   const { theme } = useTheme()
@@ -79,68 +81,68 @@ export default function WishlistPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">My Wishlist</h1>
-        <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">{wishlistItems.length} items</p>
+        <h1 className="text-2xl font-bold text-pink-950 dark:text-pink-100">My Wishlist</h1>
+        <p className="text-pink-600/70 dark:text-pink-300/70">{wishlistItems.length} items</p>
       </div>
 
       {wishlistItems.length === 0 ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 text-center transition-colors duration-300">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-pink-100 dark:border-pink-800 p-8 text-center">
           <div className="flex justify-center mb-4">
-            <Heart className="h-12 w-12 text-gray-300 dark:text-gray-600 transition-colors duration-300" />
+            <Heart className="h-12 w-12 text-pink-300 dark:text-pink-600" />
           </div>
-          <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white transition-colors duration-300">Your wishlist is empty</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors duration-300">Items added to your wishlist will appear here</p>
-          <Button>Continue Shopping</Button>
+          <h2 className="text-xl font-semibold mb-2 text-pink-950 dark:text-pink-100">Your wishlist is empty</h2>
+          <p className="text-pink-600/70 dark:text-pink-300/70 mb-6">Items added to your wishlist will appear here</p>
+          <Button className="bg-pink-600 hover:bg-pink-700 text-white">Continue Shopping</Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlistItems.map((item) => (
             <div
               key={item.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-300"
+              className="group bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-900 rounded-lg overflow-hidden transition-all duration-300 cursor-pointer hover:border-pink-200 dark:hover:border-pink-800 hover:shadow-lg hover:shadow-pink-100/50 dark:hover:shadow-pink-900/30 transform hover:-translate-y-1"
             >
-              <div className="relative">
-                <div className="relative w-full h-48">
-                  <Image
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.name}
-                    width={500}  // Adjust this width based on your layout
-                    height={192} // Adjust this height based on your layout
-                    className="object-cover"
-                  />
+              <div className="relative aspect-square overflow-hidden bg-pink-50 dark:bg-pink-900/20">
+                <Image
+                  src={item.image || "/placeholder.svg"}
+                  alt={item.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute top-2 left-2">
+                  {!item.inStock && (
+                    <Badge className="bg-rose-500 hover:bg-rose-600 text-white">Out of Stock</Badge>
+                  )}
                 </div>
-                <div className="absolute top-3 right-3 flex space-x-2">
-                  <button
-                    onClick={() => handleRemoveItem(item.id)}
-                    className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
-                    aria-label="Remove from wishlist"
-                  >
-                    <Heart className="h-5 w-5 text-red-500 fill-red-500" />
-                  </button>
-                  <button
-                    onClick={() => handleQuickView(item)}
-                    className="p-2 bg-white dark:bg-gray-700 rounded-full shadow-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300"
-                    aria-label="Quick view"
-                  >
-                    <Eye className="h-5 w-5 text-gray-600 dark:text-gray-400 transition-colors duration-300" />
-                  </button>
-                </div>
-                {!item.inStock && (
-                  <div className="absolute top-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                    Out of Stock
-                  </div>
-                )}
               </div>
+
               <div className="p-4">
-                <h3 className="font-semibold mb-1 text-gray-900 dark:text-white transition-colors duration-300">{item.name}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 transition-colors duration-300">{item.category}</p>
-                <div className="flex items-center justify-between">
-                  <p className="font-semibold text-gray-900 dark:text-white transition-colors duration-300">${item.price.toFixed(2)}</p>
-                  <Button size="sm" disabled={!item.inStock} className="flex items-center gap-1">
-                    <ShoppingCart className="h-4 w-4" />
-                    <span>Add to Cart</span>
+                <h3 className="font-medium text-base mb-1 line-clamp-2 h-12 text-pink-950 dark:text-pink-100">{item.name}</h3>
+                <p className="text-sm text-pink-600/70 dark:text-pink-300/70 mb-3">{item.category}</p>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="font-semibold text-pink-600 dark:text-pink-300">${item.price.toFixed(2)}</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="text-rose-500 hover:text-rose-600 border-pink-200 dark:border-pink-800"
+                    onClick={() => handleRemoveItem(item.id)}
+                  >
+                    <Heart size={16} className="fill-rose-500" />
                   </Button>
                 </div>
+
+                <Button
+                  variant="secondary"
+                  className="w-full mt-2 gap-1 bg-pink-50 hover:bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:hover:bg-pink-900/30 dark:text-pink-300"
+                  size="sm"
+                  onClick={() => handleQuickView(item)}
+                >
+                  <ExternalLink size={16} />
+                  See Details
+                </Button>
               </div>
             </div>
           ))}
@@ -198,9 +200,7 @@ export default function WishlistPage() {
                   <p className="text-gray-700 dark:text-gray-300 transition-colors duration-300">{quickViewItem.inStock ? "In Stock" : "Out of Stock"}</p>
                 </div>
                 <div className="pt-4 space-y-2">
-                  <Button className="w-full" disabled={!quickViewItem.inStock}>
-                    Add to Cart
-                  </Button>
+                 
                   <Button variant="outline" className="w-full" onClick={() => handleRemoveItem(quickViewItem.id)}>
                     Remove from Wishlist
                   </Button>

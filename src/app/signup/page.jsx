@@ -10,8 +10,8 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h1 className="text-center text-3xl font-bold tracking-tight">Create an account</h1>
-        <p className="mt-2 text-center text-sm text-muted-foreground">Join us and start shopping today</p>
+        <h1 className="text-center text-3xl font-bold tracking-tight text-pink-600">Create an account</h1>
+        <p className="mt-2 text-center text-sm text-muted-foreground text-pink-400">Join us and start shopping today</p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

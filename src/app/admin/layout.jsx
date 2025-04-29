@@ -52,17 +52,17 @@ export default function AdminLayout({ children }) {
 
   return (
     <div >
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-border">
-          <button onClick={toggleMobileMenu} className="p-2 rounded-md hover:bg-muted">
+        <div className="lg:hidden flex items-center justify-between p-4 border-b border-pink-100 dark:border-pink-800">
+          <button onClick={toggleMobileMenu} className="p-2 rounded-md hover:bg-pink-50 dark:hover:bg-pink-900/20">
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           <div className="flex items-center space-x-2">
-            <span className="font-bold text-xl bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
+            <span className="font-bold text-xl bg-gradient-to-r from-pink-500 to-pink-600 text-transparent bg-clip-text">
               EDUKAN
             </span>
-            <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">Admin</span>
+            <span className="text-xs px-2 py-1 rounded-full bg-pink-100 dark:bg-pink-900/20 text-pink-600 dark:text-pink-300">Admin</span>
           </div>
           <div className="flex items-center">
             <button className="p-2 rounded-md hover:bg-muted relative">
@@ -136,11 +136,11 @@ export default function AdminLayout({ children }) {
         </div>
 
         {/* Desktop Layout */}
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
           {/* Sidebar */}
           <aside
             className={cn(
-              "hidden lg:block border-r border-border bg-background transition-all duration-300 ease-in-out",
+              "hidden lg:block border-r border-pink-100 dark:border-pink-800 bg-white dark:bg-gray-800 transition-all duration-300 ease-in-out",
               isSidebarOpen ? "w-64" : "w-20",
             )}
           >
@@ -181,7 +181,7 @@ export default function AdminLayout({ children }) {
                         href={item.href}
                         className={cn(
                           "flex items-center space-x-3 px-3 py-2 rounded-md transition-colors",
-                          isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                          isActive ? "bg-pink-600 text-white" : "hover:bg-pink-50 dark:hover:bg-pink-900/20 text-gray-700 dark:text-gray-200",
                           !isSidebarOpen && "justify-center px-2",
                         )}
                       >

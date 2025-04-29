@@ -83,12 +83,12 @@ export default function TabsSection({ product }) {
 
   return (
     <Tabs defaultValue="description" className="w-full">
-      <TabsList className="grid grid-cols-5 w-full">
-        <TabsTrigger value="description">Description</TabsTrigger>
-        <TabsTrigger value="specifications">Specifications</TabsTrigger>
-        <TabsTrigger value="reviews">Reviews ({product.reviews?.length || 0})</TabsTrigger>
-        <TabsTrigger value="faqs">FAQs</TabsTrigger>
-        <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
+      <TabsList className="grid grid-cols-5 w-full bg-pink-50 dark:bg-pink-900/20">
+        <TabsTrigger value="description" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white">Description</TabsTrigger>
+        <TabsTrigger value="specifications" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white">Specifications</TabsTrigger>
+        <TabsTrigger value="reviews" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white">Reviews ({product.reviews?.length || 0})</TabsTrigger>
+        <TabsTrigger value="faqs" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white">FAQs</TabsTrigger>
+        <TabsTrigger value="shipping" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white">Shipping & Returns</TabsTrigger>
       </TabsList>
 
       <TabsContent value="description" className="mt-6">
