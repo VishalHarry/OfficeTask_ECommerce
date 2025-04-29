@@ -5,42 +5,42 @@ import { Calendar, Clock, ArrowRight, Heart, BookOpen, Search } from "lucide-rea
 import Image from "next/image"
 import Link from "next/link"
 
+const allBlogs = [
+  {
+    id: 1,
+    title: "Understanding Your Menstrual Cycle: A Complete Guide",
+    excerpt: "Learn about the different phases of your menstrual cycle and how to take care of yourself during each phase.",
+    image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
+    date: "March 15, 2024",
+    readTime: "5 min read",
+    category: "Health & Wellness"
+  },
+  {
+    id: 2,
+    title: "Sustainable Period Products: Making the Switch",
+    excerpt: "Discover eco-friendly alternatives to traditional period products and their impact on the environment.",
+    image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
+    date: "March 10, 2024",
+    readTime: "4 min read",
+    category: "Sustainability"
+  },
+  {
+    id: 3,
+    title: "Breaking Taboos: Let's Talk About Periods",
+    excerpt: "Join the conversation about menstrual health and breaking down societal stigmas around periods.",
+    image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
+    date: "March 5, 2024",
+    readTime: "6 min read",
+    category: "Social Impact"
+  }
+]
+
 export default function BlogsSection() {
   const [activeFilter, setActiveFilter] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredBlogs, setFilteredBlogs] = useState([])
   const [isHoveredId, setIsHoveredId] = useState(null)
   const [email, setEmail] = useState("")
-
-  const allBlogs = [
-    {
-      id: 1,
-      title: "Understanding Your Menstrual Cycle: A Complete Guide",
-      excerpt: "Learn about the different phases of your menstrual cycle and how to take care of yourself during each phase.",
-      image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
-      date: "March 15, 2024",
-      readTime: "5 min read",
-      category: "Health & Wellness"
-    },
-    {
-      id: 2,
-      title: "Sustainable Period Products: Making the Switch",
-      excerpt: "Discover eco-friendly alternatives to traditional period products and their impact on the environment.",
-      image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
-      date: "March 10, 2024",
-      readTime: "4 min read",
-      category: "Sustainability"
-    },
-    {
-      id: 3,
-      title: "Breaking Taboos: Let's Talk About Periods",
-      excerpt: "Join the conversation about menstrual health and breaking down societal stigmas around periods.",
-      image: "https://media.istockphoto.com/id/1521121093/photo/young-indian-woman-holding-sanitary-pad-in-hand-standing-with-other-traditional-women.jpg?s=2048x2048&w=is&k=20&c=ZJ9N53u1UraENRUEPx8GG7qBbeFhdafz5aPxnn3qO3s=",
-      date: "March 5, 2024",
-      readTime: "6 min read",
-      category: "Social Impact"
-    }
-  ]
 
   const categories = ["All", "Health & Wellness", "Sustainability", "Social Impact", "Nutrition", "Technology"]
 

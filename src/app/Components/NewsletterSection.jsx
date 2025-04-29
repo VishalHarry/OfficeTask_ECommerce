@@ -32,7 +32,7 @@ export default function NewsletterSection() {
       setIsSubmitting(false)
       setEmail("")
       toast.success("Welcome to our newsletter! Check your email for your special discount code.", {
-        description: "You've successfully subscribed to our newsletter."
+        description: "You&apos;ve successfully subscribed to our newsletter."
       })
     }, 1500)
   }
@@ -90,7 +90,7 @@ export default function NewsletterSection() {
                 </Button>
                 <p className="text-xs text-pink-600/80 text-center mt-4">
                   By subscribing, you agree to our Terms of Service and Privacy Policy.
-                  <br />Your privacy is our priority - we'll never share your information.
+                  <br />Your privacy is our priority - we&apos;ll never share your information.
                 </p>
               </form>
             </div>

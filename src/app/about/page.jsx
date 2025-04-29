@@ -2,6 +2,7 @@
 "use client"
 
 import { Heart, Shield, Leaf, Users, Globe } from "lucide-react"
+import Image from "next/image"
 
 export default function AboutPage() {
   return (
@@ -19,14 +20,14 @@ export default function AboutPage() {
         <div className="bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-8 border border-pink-100 dark:border-pink-800">
           <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-100 mb-4">Our Mission</h2>
           <p className="text-pink-600/70 dark:text-pink-300/70">
-            To provide high-quality, eco-friendly feminine care products that prioritize both personal comfort and 
+            To provide high-quality, eco-friendly feminine care products that prioritize both personal comfort and
             environmental sustainability, ensuring every woman has access to safe and reliable menstrual care solutions.
           </p>
         </div>
         <div className="bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-8 border border-pink-100 dark:border-pink-800">
           <h2 className="text-2xl font-bold text-pink-950 dark:text-pink-100 mb-4">Our Vision</h2>
           <p className="text-pink-600/70 dark:text-pink-300/70">
-            To revolutionize feminine care by creating innovative, sustainable products while breaking taboos and 
+            To revolutionize feminine care by creating innovative, sustainable products while breaking taboos and
             promoting menstrual health education worldwide.
           </p>
         </div>
@@ -92,7 +93,14 @@ export default function AboutPage() {
           ].map((member, index) => (
             <div key={index} className="text-center">
               <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-pink-100 dark:bg-pink-900/20">
-                <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                  width={500} // You can adjust these
+                  height={500}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
               <h3 className="text-xl font-semibold text-pink-950 dark:text-pink-100 mb-1">{member.name}</h3>
               <p className="text-pink-600/70 dark:text-pink-300/70">{member.role}</p>
@@ -105,7 +113,7 @@ export default function AboutPage() {
       <div className="text-center bg-pink-50 dark:bg-pink-900/10 rounded-2xl p-12 border border-pink-100 dark:border-pink-800">
         <h2 className="text-3xl font-bold text-pink-950 dark:text-pink-100 mb-4">Get in Touch</h2>
         <p className="text-pink-600/70 dark:text-pink-300/70 mb-6">
-          Have questions or feedback? We'd love to hear from you.
+          Have questions or feedback? We&apos;d love to hear from you.
         </p>
         <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium transition-colors">
           Contact Us

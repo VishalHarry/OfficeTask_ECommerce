@@ -10,7 +10,7 @@ const testimonials = [
     id: 1,
     name: "Sarah Johnson",
     avatar: "https://imgs.search.brave.com/IWDG_BAcwyiEU7wWC9IyPXv5dlxTUjuacphRIOTDAow/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9waG90/b3N6b25lLm5ldC93/cC1jb250ZW50L3Vw/bG9hZHMvZ2lybC1k/cC1waG90bzEyLmpw/Zw",
-    review: "These pads are incredibly soft and comfortable. I love how they're eco-friendly too! Best decision I've made for my monthly care.",
+    review: "These pads are incredibly soft and comfortable. I love how they&apos;re eco-friendly too! Best decision I&apos;ve made for my monthly care.",
     rating: 5,
     role: "Verified Buyer"
   },
@@ -18,7 +18,7 @@ const testimonials = [
     id: 2,
     name: "Emily Chen",
     avatar: "https://imgs.search.brave.com/mANU7E6Nl5kkEMd5aPHKRaujW7xVWsIMlPuh220gXNc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9wb3J0cmFpdC1n/aXJsLXdpbnRlci1j/b2F0LXN0YW5kaW5n/LWFtaWRzdC1mb3Jl/c3RfMTA0ODk0NC04/NTI3NDQ3LmpwZz9z/ZW10PWFpc19oeWJy/aWQmdz03NDA",
-    review: "Finally found pads that don't cause irritation! The overnight protection is amazing, and I feel confident throughout my cycle.",
+    review: "Finally found pads that don&apos;t cause irritation! The overnight protection is amazing, and I feel confident throughout my cycle.",
     rating: 5,
     role: "Regular Customer"
   },
@@ -26,7 +26,7 @@ const testimonials = [
     id: 3,
     name: "Maria Garcia",
     avatar: "https://imgs.search.brave.com/7ozfl20ClEBsauRzrmMSFJd6nZ60RudPivfaz2gjYM4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9t/b2Rlcm4tY2l0eS1w/YXBlci1wcmV0dHkt/d2Fsa2luZy1jYXN1/YWxfMTMwMy0zMjUy/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDA",
-    review: "The breathable design makes such a difference. These are the most comfortable pads I've ever used. Highly recommend!",
+    review: "The breathable design makes such a difference. These are the most comfortable pads I&apos;ve ever used. Highly recommend!",
     rating: 4,
     role: "Verified Buyer"
   }
@@ -85,8 +85,8 @@ export default function TestimonialsSection() {
           <h2 className="text-3xl font-serif font-bold text-pink-950 mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-pink-700/80 max-w-2xl mx-auto">
-            Real experiences from real customers
+          <p className="text-pink-600/70 dark:text-pink-300/70">
+            &ldquo;Our commitment to quality and sustainability isn&apos;t just a promise&mdash;it&apos;s our foundation.&rdquo;
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 <p className="italic text-gray-600 mb-4 line-clamp-3">
-                  "{testimonial.review}"
+                  &ldquo;{testimonial.review}&rdquo;
                 </p>
 
                 <div className="flex gap-1">

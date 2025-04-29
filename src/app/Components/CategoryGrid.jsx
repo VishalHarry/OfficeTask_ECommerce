@@ -69,7 +69,7 @@ export default function CategoryGrid() {
           return (
             <Link
               key={index}
-              href={category.href}
+              href="/product"
               className={cn(
                 "flex flex-col items-center justify-center p-6 rounded-lg transition-all duration-300 border border-transparent",
                 category.color,

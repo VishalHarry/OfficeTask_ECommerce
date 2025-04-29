@@ -92,9 +92,9 @@ export default function ProductCard({ product }) {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button 
-              className="flex-1 gap-1 bg-pink-600 hover:bg-pink-700 text-white" 
-              size="sm" 
+            <Button
+              className="flex-1 gap-1 bg-pink-600 hover:bg-pink-700 text-white"
+              size="sm"
               onClick={handleAddToCart}
             >
               <ShoppingCart size={16} />
@@ -113,15 +113,7 @@ export default function ProductCard({ product }) {
             </Button>
           </div>
 
-          <Button
-            variant="secondary"
-            className="w-full mt-2 gap-1 bg-pink-50 hover:bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:hover:bg-pink-900/30 dark:text-pink-300"
-            size="sm"
-            onClick={(e) => e.preventDefault()}
-          >
-            <ExternalLink size={16} />
-            See Details
-          </Button>
+          
         </div>
       </div>
     </Link>

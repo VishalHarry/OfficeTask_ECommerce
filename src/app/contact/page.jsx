@@ -50,7 +50,7 @@ export default function ContactPage() {
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-pink-950 mb-4">Contact Us</h1>
         <p className="text-lg text-pink-600/70 max-w-2xl mx-auto">
-          We're here to help! Reach out to us with any questions or concerns.
+          We&apos;re here to help! Reach out to us with any questions or concerns.
         </p>
       </div>
 
@@ -105,7 +105,7 @@ export default function ContactPage() {
                 <MessageSquare className="w-5 h-5" />
                 <span className="font-medium">Message sent successfully!</span>
               </div>
-              <p className="mt-1 text-sm">We'll get back to you as soon as possible.</p>
+              <p className="mt-1 text-sm">We&apos;ll get back to you as soon as possible.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">

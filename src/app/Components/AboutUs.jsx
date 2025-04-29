@@ -28,10 +28,10 @@ export default function AboutUs() {
                 At [Your Brand], we believe that every woman deserves a comfortable and worry-free period experience. Our journey began with a simple mission: to create feminine care products that prioritize both your health and the environment.
               </p>
               <p>
-                We understand that comfort during your period isn't just about the products – it's about feeling confident, supported, and empowered. That's why we've developed our range using the finest organic cotton and innovative technology that ensures maximum protection while being gentle on your skin.
+                We understand that comfort during your period isn&apos;t just about the products – it&apos;s about feeling confident, supported, and empowered. That&apos;s why we&apos;ve developed our range using the finest organic cotton and innovative technology that ensures maximum protection while being gentle on your skin.
               </p>
               <p>
-                Our commitment goes beyond just creating quality products. We're dedicated to breaking taboos around menstruation and fostering an open, supportive community where every woman feels heard and understood.
+                Our commitment goes beyond just creating quality products. We&apos;re dedicated to breaking taboos around menstruation and fostering an open, supportive community where every woman feels heard and understood.
               </p>
             </div>
           </motion.div>
