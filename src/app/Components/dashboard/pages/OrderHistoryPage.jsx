@@ -17,34 +17,34 @@ export default function OrderHistoryPage() {
   // Mock order data
   const [orders, setOrders] = useState([
     {
-      id: "ORD-12345",
-      date: "April 15, 2023",
-      total: 129.99,
+      id: "ORD-10001",
+      date: "May 10, 2023",
+      total: 59.99,
       status: "Delivered",
       items: [
-        { id: 1, name: "Premium T-Shirt", price: 29.99, quantity: 2, image: "/api/placeholder/80/80" },
-        { id: 2, name: "Designer Jeans", price: 69.99, quantity: 1, image: "/api/placeholder/80/80" },
+        { id: 1, name: "Organic Cotton Pads", price: 19.99, quantity: 2, image: "/api/placeholder/80/80" },
+        { id: 2, name: "Biodegradable Panty Liners", price: 9.99, quantity: 2, image: "/api/placeholder/80/80" },
       ],
       shipping: {
-        address: "123 Main St, New York, NY 10001",
+        address: "456 Elm St, Los Angeles, CA 90001",
         method: "Standard Shipping",
         tracking: "TRK123456789",
       },
       payment: {
         method: "Credit Card",
-        last4: "4242",
+        last4: "5678",
       },
     },
     {
-      id: "ORD-12344",
-      date: "March 28, 2023",
-      total: 89.97,
+      id: "ORD-10002",
+      date: "April 22, 2023",
+      total: 39.97,
       status: "Shipped",
       items: [
-        { id: 3, name: "Running Shoes", price: 89.97, quantity: 1, image: "/api/placeholder/80/80" },
+        { id: 3, name: "Reusable Menstrual Cup", price: 39.97, quantity: 1, image: "/api/placeholder/80/80" },
       ],
       shipping: {
-        address: "123 Main St, New York, NY 10001",
+        address: "789 Maple Ave, San Francisco, CA 94101",
         method: "Express Shipping",
         tracking: "TRK987654321",
       },
@@ -54,23 +54,21 @@ export default function OrderHistoryPage() {
       },
     },
     {
-      id: "ORD-12343",
-      date: "February 12, 2023",
-      total: 45.5,
+      id: "ORD-10003",
+      date: "March 15, 2023",
+      total: 25.5,
       status: "Delivered",
       items: [
-        { id: 4, name: "Winter Scarf", price: 19.99, quantity: 1, image: "/api/placeholder/80/80" },
-        { id: 5, name: "Beanie Hat", price: 12.99, quantity: 1, image: "/api/placeholder/80/80" },
-        { id: 6, name: "Wool Socks", price: 12.52, quantity: 1, image: "/api/placeholder/80/80" },
+        { id: 4, name: "Herbal Sanitary Pads", price: 12.75, quantity: 2, image: "/api/placeholder/80/80" },
       ],
       shipping: {
-        address: "123 Main St, New York, NY 10001",
+        address: "123 Oak St, Chicago, IL 60601",
         method: "Standard Shipping",
         tracking: "TRK543216789",
       },
       payment: {
         method: "Credit Card",
-        last4: "1234",
+        last4: "4321",
       },
     },
   ])

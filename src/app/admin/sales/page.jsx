@@ -20,43 +20,42 @@ import { cn } from "@/lib/utils"
 
 // Sample data for charts
 const dailySalesData = [
-  { name: "Mon", sales: 4000 },
-  { name: "Tue", sales: 3000 },
-  { name: "Wed", sales: 5000 },
+  { name: "Mon", sales: 3000 },
+  { name: "Tue", sales: 3500 },
+  { name: "Wed", sales: 4000 },
   { name: "Thu", sales: 4500 },
-  { name: "Fri", sales: 6000 },
+  { name: "Fri", sales: 5000 },
   { name: "Sat", sales: 5500 },
-  { name: "Sun", sales: 7000 },
+  { name: "Sun", sales: 6000 },
 ]
 
 const weeklySalesData = [
-  { name: "Week 1", sales: 25000 },
-  { name: "Week 2", sales: 32000 },
-  { name: "Week 3", sales: 28000 },
+  { name: "Week 1", sales: 20000 },
+  { name: "Week 2", sales: 25000 },
+  { name: "Week 3", sales: 30000 },
   { name: "Week 4", sales: 35000 },
 ]
 
 const monthlySalesData = [
-  { name: "Jan", sales: 95000 },
+  { name: "Jan", sales: 80000 },
   { name: "Feb", sales: 85000 },
-  { name: "Mar", sales: 110000 },
-  { name: "Apr", sales: 105000 },
-  { name: "May", sales: 120000 },
-  { name: "Jun", sales: 130000 },
-  { name: "Jul", sales: 125000 },
-  { name: "Aug", sales: 140000 },
-  { name: "Sep", sales: 135000 },
-  { name: "Oct", sales: 150000 },
-  { name: "Nov", sales: 160000 },
-  { name: "Dec", sales: 180000 },
+  { name: "Mar", sales: 90000 },
+  { name: "Apr", sales: 95000 },
+  { name: "May", sales: 100000 },
+  { name: "Jun", sales: 105000 },
+  { name: "Jul", sales: 110000 },
+  { name: "Aug", sales: 115000 },
+  { name: "Sep", sales: 120000 },
+  { name: "Oct", sales: 125000 },
+  { name: "Nov", sales: 130000 },
+  { name: "Dec", sales: 135000 },
 ]
 
 const categoryData = [
-  { name: "Electronics", value: 35 },
-  { name: "Clothing", value: 25 },
-  { name: "Home", value: 20 },
-  { name: "Beauty", value: 15 },
-  { name: "Other", value: 5 },
+  { name: "Feminine Hygiene", value: 40 },
+  { name: "Electronics", value: 30 },
+  { name: "Clothing", value: 20 },
+  { name: "Home", value: 10 },
 ]
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"]
