@@ -18,10 +18,10 @@ export default function LoginPage() {
           <div className="h-24 w-24 mb-6 rounded-full bg-gradient-to-r from-primary to-pink-400 p-1">
             <div className="relative w-full h-full">
               <Image
-                src="/"
+                src="https://imgs.search.brave.com/NjICzQ4MDRp4utGI3eyM3lV9vNcQCP5Z4tDbDC1hY3U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9zYW5pdGFyeS1w/YWQtd2l0aC1nZXJi/ZXJhLXBpbmstc3Vy/ZmFjZV8xODUxOTMt/MTIxNTAuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MA"
                 alt="Eduan Logo"
-                width={500}  // Adjust this width based on your layout
-                height={500} // Adjust this height based on your layout (to maintain a square shape for the rounded full effect)
+                width={1000}  // Adjust this width based on your layout
+                height={1000} // Adjust this height based on your layout (to maintain a square shape for the rounded full effect)
                 className="object-cover rounded-full"
               />
             </div>

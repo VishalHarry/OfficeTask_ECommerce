@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, Filter, Edit, Trash2, X, Upload, Check, AlertTriangle, Eye } from "lucide-react"
+import { Search, Plus, Filter, Edit, Trash2, X, Upload, Check, AlertTriangle, Eye, Download, FileUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-// Sample product data
+// Sample product data with enhanced attributes for sanitary products
 const initialProducts = [
   {
     id: 1,
@@ -13,10 +13,38 @@ const initialProducts = [
     image: "/placeholder.svg?height=80&width=80",
     price: 19.99,
     stock: 100,
-    category: "Feminine Hygiene",
+    category: "Sanitary Pads",
     status: "active",
     images: [null, null, null, null],
-    attributes: [],
+    variants: [
+      {
+        size: "Regular",
+        absorbency: "Medium",
+        count: "10 pads",
+        price: 19.99,
+        stock: 50
+      },
+      {
+        size: "Large",
+        absorbency: "Heavy",
+        count: "10 pads",
+        price: 21.99,
+        stock: 50
+      }
+    ],
+    attributes: {
+      material: "100% Organic Cotton",
+      type: "Disposable",
+      wings: "Yes",
+      packaging: "Biodegradable"
+    },
+    description: "Eco-friendly organic cotton pads with superior absorption",
+    reorderPoint: 20,
+    discount: {
+      type: "percentage",
+      value: 10,
+      validUntil: "2024-12-31"
+    }
   },
   {
     id: 2,
@@ -64,8 +92,11 @@ const initialProducts = [
   },
 ]
 
-// Categories
-const categories = ["All Categories", "Feminine Hygiene", "Electronics", "Clothing", "Home", "Accessories", "Furniture"]
+// Enhanced categories and attributes
+const categories = ["All Categories", "Sanitary Pads", "Tampons", "Menstrual Cups", "Panty Liners", "Period Underwear"]
+const absorbencyLevels = ["Light", "Medium", "Heavy", "Super Heavy"]
+const sizes = ["Small", "Regular", "Large", "Extra Large"]
+const packagingSizes = ["8 pads", "10 pads", "12 pads", "14 pads", "16 pads"]
 
 export default function ProductsPage() {
   const [products, setProducts] = useState(initialProducts)
@@ -73,16 +104,56 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All Categories")
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
+  const [showVariantForm, setShowVariantForm] = useState(false)
+  const [selectedVariant, setSelectedVariant] = useState(null)
+  const [bulkImportModal, setBulkImportModal] = useState(false)
+  const [discountForm, setDiscountForm] = useState(false)
+
+  const handleBulkExport = () => {
+    // Convert products data to CSV format
+    const headers = ["ID", "Name", "Category", "Price", "Stock", "Status"]
+    const productsData = products.map(product => [
+      product.id,
+      product.name,
+      product.category,
+      product.price,
+      product.stock,
+      product.status
+    ])
+
+    const csvContent = [
+      headers.join(","),
+      ...productsData.map(row => row.join(","))
+    ].join("\n")
+
+    // Create blob and download file
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const link = document.createElement("a")
+    const url = URL.createObjectURL(blob)
+    link.setAttribute("href", url)
+    link.setAttribute("download", `products_export_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
     stock: "",
-    category: "Electronics",
-    customCategory: "",
-    description: "",
-    attributes: [],
+    category: "Sanitary Pads",
     images: [null, null, null, null],
-    image: null,
+    variants: [],
+    attributes: {
+      material: "",
+      type: "",
+      wings: "No",
+      packaging: ""
+    },
+    description: "",
+    reorderPoint: 20,
+    discount: null
   })
   const [showFilters, setShowFilters] = useState(false)
   const [priceRange, setPriceRange] = useState([0, 300])
@@ -157,27 +228,33 @@ export default function ProductsPage() {
     if (editingProduct) {
       setEditingProduct({
         ...editingProduct,
-        attributes: [...(editingProduct.attributes || []), attribute],
+        attributes: {
+          ...editingProduct.attributes,
+          ...attribute
+        }
       })
     } else {
       setNewProduct({
         ...newProduct,
-        attributes: [...newProduct.attributes, attribute],
+        attributes: {
+          ...newProduct.attributes,
+          ...attribute
+        }
       })
     }
   }
 
-  const handleRemoveAttribute = (index) => {
+  const handleRemoveAttribute = (key) => {
     if (editingProduct) {
-      const newAttributes = [...(editingProduct.attributes || [])]
-      newAttributes.splice(index, 1)
+      const newAttributes = { ...editingProduct.attributes }
+      delete newAttributes[key]
       setEditingProduct({
         ...editingProduct,
         attributes: newAttributes,
       })
     } else {
-      const newAttributes = [...newProduct.attributes]
-      newAttributes.splice(index, 1)
+      const newAttributes = { ...newProduct.attributes }
+      delete newAttributes[key]
       setNewProduct({
         ...newProduct,
         attributes: newAttributes,
@@ -228,13 +305,29 @@ export default function ProductsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-bold">Product Management</h1>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add Product
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setBulkImportModal(true)}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted"
+          >
+            <FileUp className="mr-2 h-4 w-4" />
+            Import
+          </button>
+          <button
+            onClick={handleBulkExport}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-muted"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Export
+          </button>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="inline-flex items-center justify-center rounded-md bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Product
+          </button>
+        </div>
       </div>
 
       {/* Search and Filters */}
@@ -574,15 +667,18 @@ export default function ProductsPage() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Product Attributes</label>
                 <div className="flex flex-wrap gap-2 mb-2">
-                  {newProduct.attributes.map((attr, idx) => (
-                    <div key={idx} className="flex items-center bg-muted px-2 py-1 rounded-md">
-                      <span className="text-xs mr-1">{attr}</span>
+                  {Object.entries(newProduct.attributes).map(([key, value], idx) => (
+                    <div key={idx} className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
+                      <div>
+                        <span className="font-medium capitalize">{key}: </span>
+                        <span>{value}</span>
+                      </div>
                       <button
                         type="button"
-                        onClick={() => handleRemoveAttribute(idx)}
-                        className="text-muted-foreground hover:text-foreground"
+                        onClick={() => handleRemoveAttribute(key)}
+                        className="text-red-500 hover:text-red-600"
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-4 w-4" />
                       </button>
                     </div>
                   ))}

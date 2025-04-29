@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Package,
   BarChart3,
+  Tag,
   Store,
   ShoppingCart,
   Settings,
@@ -17,6 +18,13 @@ import {
   Moon,
   Bell,
   Search,
+  BookOpen,
+  Phone,
+  LineChart,
+  Users,
+  Boxes,
+  LayoutTemplate, // Add this import
+  MessageSquareText
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
@@ -45,9 +53,17 @@ export default function AdminLayout({ children }) {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: Package },
     { name: "Sales Analysis", href: "/admin/sales", icon: BarChart3 },
-
+    { name: "Product Analysis", href: "/admin/product-analysis", icon: LineChart },
+    { name: "Blogs", href: "/admin/blogs", icon: BookOpen },
+    { name: "Contact Info", href: "/admin/contact", icon: Phone },
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Settings", href: "/admin/settings", icon: Settings },
+    { name: "Customar Management", href: "/admin/customar", icon: Users },
+    { name: "Inventory Management", href: "/admin/inventory", icon: Boxes },
+    { name: "Analytics & Reports", href: "/admin/analytics", icon: LineChart },
+    { name: "Promotions & Discounts", href: "/admin/promotions", icon: Tag },
+    { name: "Content Management", href: "/admin/contentManagement", icon: LayoutTemplate },
+    { name: "Reviews & Ratings", href: "/admin/review&Rating", icon: MessageSquareText },  // Changed from Tag to LayoutTemplate
   ]
 
   return (

@@ -22,8 +22,8 @@ export default function OrderHistoryPage() {
       total: 59.99,
       status: "Delivered",
       items: [
-        { id: 1, name: "Organic Cotton Pads", price: 19.99, quantity: 2, image: "/api/placeholder/80/80" },
-        { id: 2, name: "Biodegradable Panty Liners", price: 9.99, quantity: 2, image: "/api/placeholder/80/80" },
+        { id: 1, name: "Organic Cotton Pads", price: 19.99, quantity: 2, image: "https://imgs.search.brave.com/tHQDwZGTAKUve7PXALUXEhIg0bgzEKpXu4cjQzHu4XE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Z2V0cmFlbC5jb20v/Y2RuL3Nob3AvZmls/ZXMvT1JHQU5JQ19D/T1RUT05fQ09WRVJf/UEFEU19SQUVMLVJH/LTAyX0RUQ19SRUdV/TEFSXzI4X0NPVU5U/X1BPTFlfRlJPTlRf/N2E3OTUyOTQtMjJi/NS00NGQzLTk4ZjMt/NGE4NzA4OGQ0OGY4/LndlYnA_dj0xNzM4/Nzk5OTU4JndpZHRo/PTIwNDg" },
+        { id: 2, name: "Biodegradable Panty Liners", price: 9.99, quantity: 2, image: "https://imgs.search.brave.com/hMmda1MJQwnuK-HXMvMjedjxXCzgiMcKZrhqApjm1zA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cGVlc2FmZS5jb20v/Y2RuL3Nob3AvZmls/ZXMvQm9pZGVncmFk/YWJsZV9QYW50eV9M/aW5lcnNfMTVfbGlu/ZXJzLmpwZz92PTE3/NDQwMzIwOTkmd2lk/dGg9MjEwMA" },
       ],
       shipping: {
         address: "456 Elm St, Los Angeles, CA 90001",
@@ -41,7 +41,7 @@ export default function OrderHistoryPage() {
       total: 39.97,
       status: "Shipped",
       items: [
-        { id: 3, name: "Reusable Menstrual Cup", price: 39.97, quantity: 1, image: "/api/placeholder/80/80" },
+        { id: 3, name: "Reusable Menstrual Cup", price: 39.97, quantity: 1, image: "https://imgs.search.brave.com/P9_VeD5JeGhUq4b-KjNg2CYxA-NHybwVb7fZ9cXHtC8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wZXJp/b2Quc2hvcC9jZG4v/c2hvcC9maWxlcy9k/aXZhY3VwLW1vZGVs/LTAuanBnP3Y9MTY4/Mzc0MDk2MiZ3aWR0/aD01MzM" },
       ],
       shipping: {
         address: "789 Maple Ave, San Francisco, CA 94101",
@@ -59,7 +59,7 @@ export default function OrderHistoryPage() {
       total: 25.5,
       status: "Delivered",
       items: [
-        { id: 4, name: "Herbal Sanitary Pads", price: 12.75, quantity: 2, image: "/api/placeholder/80/80" },
+        { id: 4, name: "Herbal Sanitary Pads", price: 12.75, quantity: 2, image: "https://imgs.search.brave.com/RJ5YxuzKOaYC4aofmYJ24OtENBcFBWtacdeCFz0yejY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90YXJn/ZXQuc2NlbmU3LmNv/bS9pcy9pbWFnZS9U/YXJnZXQvR1VFU1Rf/N2FmMjFmMzgtOWVj/Mi00Y2Q5LTkxMzct/ZmI1YzIyYmRhYzkz/P3dpZD04MDAmaGVp/PTgwMCZxbHQ9ODAm/Zm10PXBqcGVn" },
       ],
       shipping: {
         address: "123 Oak St, Chicago, IL 60601",

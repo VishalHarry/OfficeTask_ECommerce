@@ -78,17 +78,17 @@ export default function AboutPage() {
             {
               name: "Sarah Johnson",
               role: "Founder & CEO",
-              image: "/placeholder.svg"
+              image: "https://imgs.search.brave.com/NY4pkhHb3WWCSbaCSPddGk-UQVcTbc9JKUCvPpzllVg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9i/dXNpbmVzcy1vd25l/ci13b3JraW5nLXRo/ZWlyLXN0cmF0ZWd5/XzIzLTIxNDkyNDEz/MTguanBnP3NlbXQ9/YWlzX2h5YnJpZCZ3/PTc0MA"
             },
             {
               name: "Dr. Emily Chen",
               role: "Product Development Head",
-              image: "/placeholder.svg"
+              image: "https://imgs.search.brave.com/Ncpm9NKsiST09aV1tpDr73N9AkgBF7h6R7uTYLm-clM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNDc5/Mzc4Nzk4L3Bob3Rv/L3BvcnRyYWl0LW9m/LWZlbWFsZS1kb2N0/b3IuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPVAtVzhLU0pC/WWhZajJSU3gxWmhm/ZjZGQ0d2dFJEQzNB/QXpveDhkZU1tZXc9"
             },
             {
               name: "Lisa Patel",
               role: "Sustainability Director",
-              image: "/placeholder.svg"
+              image: "https://imgs.search.brave.com/9X0EkCvobAXSpcJ1QCRwynYYVj7vbAj_0stvPy0cMqg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM1/NjM4NjI5Ny9waG90/by9wb3J0cmFpdC1v/Zi1hLW1pZC1hZHVs/dC13b21hbi1hdC13/b3JrLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1VeGxIdGIy/X1pxVmlPNmZvNWpi/ODJITndVRzVFLUdu/elJxdkRBYXdPVGI4/PQ"
             }
           ].map((member, index) => (
             <div key={index} className="text-center">
