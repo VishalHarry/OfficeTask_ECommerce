@@ -14,19 +14,7 @@ import {
   LogOut,
 } from "lucide-react"
 
-export default function DashboardSidebar({ activePage, setActivePage, isMobileMenuOpen, setIsMobileMenuOpen }) {
-  const navItems = [
-    { id: "profile", label: "My Profile", icon: User },
-    { id: "orders", label: "Order History", icon: ShoppingBag },
-    { id: "wishlist", label: "My Wishlist", icon: Heart },
-    { id: "cart", label: "Shopping Cart", icon: ShoppingCart },
-    { id: "shipping", label: "Shipping Info", icon: Truck },
-    { id: "settings", label: "Account Settings", icon: Settings },
-    { id: "notifications", label: "Notifications", icon: Bell },
-   
-    { id: "support", label: "Support Center", icon: HelpCircle },
-  ]
-
+export default function DashboardSidebar({ activePage, setActivePage, isMobileMenuOpen, setIsMobileMenuOpen, navItems }) {
   return (
     <>
       {/* Mobile Sidebar Overlay */}

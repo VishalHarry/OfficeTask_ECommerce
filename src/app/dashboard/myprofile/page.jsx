@@ -13,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import ConfirmationDialog from "../../ConfirmationDialog"
 import Image from "next/image"
+import ConfirmationDialog from "@/app/Components/ConfirmationDialog"
 
 export default function ProfilePage() {
   const [isEditingProfile, setIsEditingProfile] = useState(false)

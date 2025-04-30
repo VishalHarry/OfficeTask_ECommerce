@@ -177,7 +177,7 @@ export default function Header() {
 
             {/* Wishlist - Hidden on mobile */}
             <Link
-              href="/dashboard"
+              href="/dashboard/wishList"
               className="h-10 w-10 rounded-full relative hidden md:flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               <Heart size={20} />
@@ -188,7 +188,7 @@ export default function Header() {
 
             {/* Cart */}
             <Link
-              href="/dashboard" // or your target page
+              href="/dashboard/cart" // or your target page
               className="h-10 w-10 rounded-full relative hidden md:flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               <ShoppingCart size={20} />

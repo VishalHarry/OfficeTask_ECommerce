@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react"
-import ConfirmationDialog from "../../ConfirmationDialog"
+
 import Image from "next/image"
+import ConfirmationDialog from "@/app/Components/ConfirmationDialog"
 
 export default function CartPage() {
   // Add mounted state for handling theme
