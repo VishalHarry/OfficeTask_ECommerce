@@ -38,7 +38,7 @@ export default function DashboardPage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Link href="/dashboard/orders" 
+        <Link href="/dashboard/orderHistory" 
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 
           hover:border-pink-200 dark:hover:border-pink-700 hover:shadow-md transition-all duration-200 group">
           <div className="flex items-center">
@@ -53,7 +53,7 @@ export default function DashboardPage() {
         </Link>
 
         {/* Similar updates for other stat cards */}
-        <Link href="/dashboard/wishlist" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
+        <Link href="/dashboard/wishList" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
           <div className="flex items-center">
             <Heart className="h-8 w-8 text-pink-600" />
             <div className="ml-4">
@@ -63,7 +63,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/dashboard/rewards" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
+        <Link href="/dashboard/loyaltyRewardsPage" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
           <div className="flex items-center">
             <Gift className="h-8 w-8 text-pink-600" />
             <div className="ml-4">
@@ -73,7 +73,7 @@ export default function DashboardPage() {
           </div>
         </Link>
 
-        <Link href="/dashboard/orders" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
+        <Link href="/dashboard/orderHistory" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-colors">
           <div className="flex items-center">
             <TrendingUp className="h-8 w-8 text-pink-600" />
             <div className="ml-4">
@@ -89,7 +89,7 @@ export default function DashboardPage() {
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Recent Orders</h2>
-            <Link href="/dashboard/orders" 
+            <Link href="/dashboard/orderHistory" 
               className="text-sm text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300 
               flex items-center hover:bg-pink-50 dark:hover:bg-pink-900/20 px-3 py-1 rounded-full transition-all">
               View All <ChevronRight className="h-4 w-4 ml-1" />

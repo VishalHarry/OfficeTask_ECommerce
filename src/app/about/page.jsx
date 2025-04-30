@@ -3,6 +3,7 @@
 
 import { Heart, Shield, Leaf, Users, Globe } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function AboutPage() {
   return (
@@ -115,9 +116,12 @@ export default function AboutPage() {
         <p className="text-pink-600/70 dark:text-pink-300/70 mb-6">
           Have questions or feedback? We&apos;d love to hear from you.
         </p>
-        <button className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium transition-colors">
+        <Link
+          href="/contact"
+          className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium transition-colors"
+        >
           Contact Us
-        </button>
+        </Link>
       </div>
     </div>
   )

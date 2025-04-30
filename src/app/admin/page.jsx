@@ -6,27 +6,48 @@ import {
   ArrowDown,
   DollarSign,
   ShoppingBag,
-  Users,
   Package,
   AlertTriangle,
   MoreHorizontal,
   ChevronRight,
   Clock,
-  TrendingUp
+  TrendingUp,
+  Calendar,
+  Users
 } from "lucide-react"
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-// Sample data for charts
-const salesData = [
-  { name: "Jan", sales: 4000 },
-  { name: "Feb", sales: 3000 },
-  { name: "Mar", sales: 5000 },
-  { name: "Apr", sales: 4500 },
-  { name: "May", sales: 6000 },
-  { name: "Jun", sales: 5500 },
-  { name: "Jul", sales: 7000 },
+// Sample data for daily sales
+const dailySalesData = [
+  { hour: "00:00", sales: 1200 },
+  { hour: "04:00", sales: 800 },
+  { hour: "08:00", sales: 2500 },
+  { hour: "12:00", sales: 3800 },
+  { hour: "16:00", sales: 2800 },
+  { hour: "20:00", sales: 2000 },
+]
+
+// Sample data for weekly sales
+const weeklySalesData = [
+  { day: "Mon", sales: 12500 },
+  { day: "Tue", sales: 15800 },
+  { day: "Wed", sales: 14200 },
+  { day: "Thu", sales: 18900 },
+  { day: "Fri", sales: 21500 },
+  { day: "Sat", sales: 25800 },
+  { day: "Sun", sales: 19200 },
+]
+
+// Sample data for monthly sales
+const monthlySalesData = [
+  { month: "Jan", sales: 285000 },
+  { month: "Feb", sales: 320000 },
+  { month: "Mar", sales: 350000 },
+  { month: "Apr", sales: 410000 },
+  { month: "May", sales: 389000 },
+  { month: "Jun", sales: 425000 },
 ]
 
 const categoryData = [
@@ -127,45 +148,73 @@ const productStats = {
 }
 
 export default function AdminDashboard() {
-  const [activeChart, setActiveChart] = useState("weekly")
-  const [timeRange, setTimeRange] = useState("7days")
+  const [activeChart, setActiveChart] = useState("daily")
+  const [timeRange, setTimeRange] = useState("today")
+
+  // Function to get chart data based on active chart type
+  const getChartData = () => {
+    switch(activeChart) {
+      case "daily":
+        return dailySalesData
+      case "weekly":
+        return weeklySalesData
+      case "monthly":
+        return monthlySalesData
+      default:
+        return dailySalesData
+    }
+  }
+
+  // Function to get x-axis key based on active chart type
+  const getXAxisKey = () => {
+    switch(activeChart) {
+      case "daily":
+        return "hour"
+      case "weekly":
+        return "day"
+      case "monthly":
+        return "month"
+      default:
+        return "hour"
+    }
+  }
 
   return (
     <div className="space-y-6">
+      {/* Header with Time Range Selector */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-pink-950 dark:text-pink-50">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-pink-950 dark:text-pink-50">Dashboard Overview</h1>
         <div className="flex items-center space-x-2">
           <select 
-            className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            className="h-9 rounded-md border border-pink-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-pink-300"
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
           >
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
             <option value="7days">Last 7 days</option>
             <option value="30days">Last 30 days</option>
             <option value="90days">Last 90 days</option>
-            <option value="year">This year</option>
           </select>
         </div>
       </div>
 
       {/* Sales Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-pink-100 dark:border-pink-800">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm text-pink-600/70 dark:text-pink-300/70">Total Sales Today</p>
+              <p className="text-sm text-pink-600/70 dark:text-pink-300/70">Daily Sales</p>
               <h3 className="text-2xl font-bold mt-1 text-pink-950 dark:text-pink-50">₹12,500</h3>
             </div>
-            <div className="p-2 bg-pink-500/10 rounded-full">
-              <DollarSign className="h-5 w-5 text-pink-500" />
+            <div className="p-3 rounded-lg bg-pink-50 dark:bg-pink-900/20">
+              <Calendar className="h-5 w-5 text-pink-600" />
             </div>
           </div>
           <div className="flex items-center mt-4">
-            <div className="flex items-center text-green-500 text-sm">
-              <ArrowUp className="h-3 w-3 mr-1" />
-              <span>12.5%</span>
-            </div>
-            <span className="text-xs text-pink-600/70 dark:text-pink-300/70 ml-2">vs. yesterday</span>
+            <ArrowUp className="h-4 w-4 text-green-500" />
+            <span className="text-green-500 text-sm ml-1">12.5%</span>
+            <span className="text-pink-600/70 text-sm ml-2">vs. yesterday</span>
           </div>
         </div>
 
@@ -211,16 +260,27 @@ export default function AdminDashboard() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sales Chart */}
-        <div className="bg-background border border-pink-100 dark:border-pink-800 rounded-lg p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-pink-950 dark:text-pink-50">Sales Overview</h2>
-            <div className="flex border border-pink-100 dark:border-pink-800 rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-pink-100 dark:border-pink-800">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-pink-950 dark:text-pink-50">Sales Summary</h2>
+            <div className="flex border border-pink-100 rounded-lg overflow-hidden">
               <button
                 className={cn(
-                  "px-3 py-1 text-sm",
+                  "px-4 py-2 text-sm transition-colors",
+                  activeChart === "daily"
+                    ? "bg-pink-600 text-white"
+                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                )}
+                onClick={() => setActiveChart("daily")}
+              >
+                Daily
+              </button>
+              <button
+                className={cn(
+                  "px-4 py-2 text-sm transition-colors",
                   activeChart === "weekly"
                     ? "bg-pink-600 text-white"
-                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20",
+                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20"
                 )}
                 onClick={() => setActiveChart("weekly")}
               >
@@ -228,10 +288,10 @@ export default function AdminDashboard() {
               </button>
               <button
                 className={cn(
-                  "px-3 py-1 text-sm",
+                  "px-4 py-2 text-sm transition-colors",
                   activeChart === "monthly"
                     ? "bg-pink-600 text-white"
-                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20",
+                    : "hover:bg-pink-50 dark:hover:bg-pink-900/20"
                 )}
                 onClick={() => setActiveChart("monthly")}
               >
@@ -239,20 +299,37 @@ export default function AdminDashboard() {
               </button>
             </div>
           </div>
-          <div className="h-[300px]">
+          <div className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="name" stroke="#9ca3af" />
-                <YAxis stroke="#9ca3af" />
+              <LineChart data={getChartData()}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <XAxis 
+                  dataKey={getXAxisKey()} 
+                  stroke="#9ca3af"
+                  tick={{ fill: '#6b7280' }}
+                />
+                <YAxis 
+                  stroke="#9ca3af"
+                  tick={{ fill: '#6b7280' }}
+                  tickFormatter={(value) => `₹${value.toLocaleString()}`}
+                />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "white",
                     border: "1px solid #e5e7eb",
                     borderRadius: "0.5rem",
+                    padding: "12px",
                   }}
+                  formatter={(value) => [`₹${value.toLocaleString()}`, "Sales"]}
                 />
-                <Line type="monotone" dataKey="sales" stroke="#ec4899" strokeWidth={2} />
+                <Line 
+                  type="monotone" 
+                  dataKey="sales" 
+                  stroke="#ec4899" 
+                  strokeWidth={2}
+                  dot={{ fill: "#ec4899" }}
+                  activeDot={{ r: 8 }}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -355,7 +432,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Low Stock Alerts */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-pink-100 dark:border-pink-800">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-pink-100 dark:border-pink-800">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-pink-950 dark:text-pink-50">Low Stock Alerts</h2>
           <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-red-900/20 dark:text-red-400">
