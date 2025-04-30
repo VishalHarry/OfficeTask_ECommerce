@@ -125,6 +125,14 @@ export default function WishlistPage() {
 
                 <div className="flex items-center gap-2">
                   <Button
+                    className="flex-1 gap-1 bg-pink-600 hover:bg-pink-700 text-white"
+                    size="sm"
+                    disabled={!item.inStock}
+                  >
+                    <ShoppingCart size={16} />
+                    Add to Cart
+                  </Button>
+                  <Button
                     variant="outline"
                     size="icon"
                     className="text-rose-500 hover:text-rose-600 border-pink-200 dark:border-pink-800"
@@ -134,15 +142,16 @@ export default function WishlistPage() {
                   </Button>
                 </div>
 
-                <Button
-                  variant="secondary"
-                  className="w-full mt-2 gap-1 bg-pink-50 hover:bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:hover:bg-pink-900/30 dark:text-pink-300"
-                  size="sm"
-                  onClick={() => handleQuickView(item)}
-                >
-                  <ExternalLink size={16} />
-                  See Details
-                </Button>
+                <Link href={`/productDetails/${item.id}`}>
+                  <Button
+                    variant="secondary"
+                    className="w-full mt-2 gap-1 bg-pink-50 hover:bg-pink-100 text-pink-600 dark:bg-pink-900/20 dark:hover:bg-pink-900/30 dark:text-pink-300"
+                    size="sm"
+                  >
+                    <ExternalLink size={16} />
+                    See Details
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
@@ -213,3 +222,5 @@ export default function WishlistPage() {
     </div>
   )
 }
+
+// Remove the Quick View Modal section completely (the Dialog component at the bottom of the file)

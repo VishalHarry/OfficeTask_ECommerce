@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MessageSquare, FileText, Phone, Send, ExternalLink } from "lucide-react"
+import { MessageSquare, FileText, Phone, Send, ExternalLink, Mail } from "lucide-react"
 
 export default function SupportCenterPage() {
   const [mounted, setMounted] = useState(false)
@@ -97,17 +97,14 @@ export default function SupportCenterPage() {
 
             <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center hover:border-primary hover:shadow-md transition-all dark:bg-gray-800 dark:text-white">
               <div className="w-12 h-12 bg-primary/10 dark:bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-3">
-                <MessageSquare size={24} />
+                <Mail size={24} />
               </div>
-              <h3 className="font-medium mb-2">Live Chat</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 transition-colors duration-300">Chat with our support team for immediate assistance</p>
-              <button
-                onClick={() => setIsLiveChatOpen(true)}
-                className="text-primary hover:underline inline-flex items-center"
-              >
-                Start Chat
-                <MessageSquare size={14} className="ml-1" />
-              </button>
+              <h3 className="font-medium mb-2">Email Support</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 transition-colors duration-300">Send us an email and we&apos;ll respond within 24 hours</p>
+              <a href="mailto:support@edukan.com" className="text-primary hover:underline inline-flex items-center">
+                Send Email
+                <Mail size={14} className="ml-1" />
+              </a>
             </div>
 
             <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center hover:border-primary hover:shadow-md transition-all dark:bg-gray-800 dark:text-white">

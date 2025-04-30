@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronDown, ChevronUp, RefreshCw, Truck, Package, CheckCircle, Clock, ShoppingBag } from "lucide-react"
+import { ChevronDown, ChevronUp, RefreshCw, Truck, Package, CheckCircle, Clock, ShoppingBag, FileText } from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 
@@ -201,6 +201,27 @@ export default function OrderHistoryPage() {
                           </div>
                         </div>
 
+                        {/* Order Actions */}
+                        <div>
+                          <h3 className="font-medium mb-2 text-gray-900 dark:text-white transition-colors duration-200">Order Actions</h3>
+                          <div className="flex flex-col gap-2">
+                            <button
+                              onClick={() => handleReorder(order.id)}
+                              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-pink-600 rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200"
+                            >
+                              <RefreshCw size={16} />
+                              Reorder
+                            </button>
+                            <button
+                              onClick={() => window.print()}
+                              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-pink-600 bg-pink-50 rounded-md hover:bg-pink-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200"
+                            >
+                              <FileText size={16} />
+                              Download Invoice
+                            </button>
+                          </div>
+                        </div>
+
                         {/* Order Summary */}
                         <div>
                           <h3 className="font-medium mb-2 text-gray-900 dark:text-white transition-colors duration-200">Order Summary</h3>
@@ -221,16 +242,7 @@ export default function OrderHistoryPage() {
                         </div>
                       </div>
 
-                      {/* Actions */}
-                      <div className="mt-6 flex justify-end">
-                        <button
-                          onClick={() => handleReorder(order.id)}
-                          className="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors duration-200"
-                        >
-                          <RefreshCw size={16} className="mr-2" />
-                          Reorder
-                        </button>
-                      </div>
+                      {/* Remove the duplicate Actions section */}
                     </div>
                   )}
                 </div>

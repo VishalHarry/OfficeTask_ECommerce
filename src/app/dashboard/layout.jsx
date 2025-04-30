@@ -30,12 +30,12 @@ export default function DashboardLayout({ children }) {
     { name: "Orders History", href: "/dashboard/orderHistory", icon: Clock },
     { name: "Cart", href: "/dashboard/cart", icon: ShoppingCart },
     { name: "Wishlist", href: "/dashboard/wishList", icon: Heart },
-    { name: "Address", href: "/dashboard/shipping", icon: Truck },
+    // { name: "Address", href: "/dashboard/shipping", icon: Truck },
+    { name: "Spending", href: "/dashboard/spending", icon: CreditCard },
 
     { name: "Notifications", href: "/dashboard/notification", icon: Bell },
-    { name: "Loyalty", href: "/dashboard/loyaltyRewardsPage", icon: Gift },
     { name: "Support", href: "/dashboard/support", icon: MessageSquare },
-    { name: "Settings", href: "/dashboard/setting", icon: Settings },
+  
   ]
 
   return (

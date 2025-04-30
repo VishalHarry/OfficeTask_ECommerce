@@ -1,14 +1,17 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react"
-
+import { Trash2, Plus, Minus, ShoppingBag, FileText } from "lucide-react"
 import Image from "next/image"
 import ConfirmationDialog from "@/app/Components/ConfirmationDialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function CartPage() {
   // Add mounted state for handling theme
   const [mounted, setMounted] = useState(false)
+  const [isPreInvoiceOpen, setIsPreInvoiceOpen] = useState(false)
 
   // Use useEffect to handle mounting state
   useEffect(() => {
@@ -183,7 +186,10 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <button className="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-300 flex items-center justify-center">
+                  <button 
+                    onClick={() => setIsPreInvoiceOpen(true)}
+                    className="w-full py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-300 flex items-center justify-center"
+                  >
                     <ShoppingBag size={18} className="mr-2" />
                     Proceed to Checkout
                   </button>
@@ -204,6 +210,84 @@ export default function CartPage() {
           )}
         </div>
       </div>
+
+      {/* Pre-Invoice Dialog */}
+      <Dialog open={isPreInvoiceOpen} onOpenChange={setIsPreInvoiceOpen}>
+        <DialogContent className="sm:max-w-[600px] bg-white dark:bg-gray-800">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+              Order Summary
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="py-4">
+            {/* Items List */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-3 text-gray-900 dark:text-white">Items</h3>
+              <div className="space-y-3">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden">
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="100vw"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-gray-900 dark:text-white">{item.name}</p>
+                        <p className="text-gray-500 dark:text-gray-400">Qty: {item.quantity}</p>
+                      </div>
+                    </div>
+                    <span className="text-gray-900 dark:text-white font-medium">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Summary */}
+            <div className="space-y-2 border-t pt-4">
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
+                <span className="text-gray-900 dark:text-white">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-400">Shipping</span>
+                <span className="text-gray-900 dark:text-white">Free</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600 dark:text-gray-400">Tax (8%)</span>
+                <span className="text-gray-900 dark:text-white">${tax.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between font-semibold text-lg pt-2 border-t">
+                <span className="text-gray-900 dark:text-white">Total</span>
+                <span className="text-gray-900 dark:text-white">${total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="space-x-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsPreInvoiceOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Link href="/checkout">
+              <Button className="bg-primary hover:bg-primary-dark text-white">
+                Proceed to Payment
+              </Button>
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Remove from Cart Confirmation */}
       <ConfirmationDialog
