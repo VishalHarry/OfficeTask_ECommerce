@@ -55,7 +55,7 @@ export default function FeaturedProducts() {
     <section>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold">Featured Products</h2>
+          <h2 className="text-2xl md:text-3xl font-bold">Feature Product</h2>
           <p className="text-muted-foreground mt-1">Handpicked for your comfort</p>
         </div>
       </div>

@@ -28,6 +28,8 @@ export default function Home() {
           <div className="container mx-auto px-4 py-12 space-y-24">
            <CategoryGrid/>
            <FeaturedProducts/>
+           <FeaturedProducts/>
+           <FeaturedProducts/>
            <TrustSection/>
            <AboutUs/>
            <NewsletterSection/>
